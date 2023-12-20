@@ -10,6 +10,7 @@ function App() {
 
   return (
     <Canvas shadows camera={{position:[50,50,120],fov:30}}>
+      {/* <fog attach="fog" args={["#16a04b",12,30]} /> */}
       <Experience/>
     </Canvas>
   )
