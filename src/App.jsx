@@ -9,7 +9,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <Canvas>
+    <Canvas shadows camera={{position:[50,50,120],fov:30}}>
       <Experience/>
     </Canvas>
   )
