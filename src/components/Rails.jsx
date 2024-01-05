@@ -6,26 +6,25 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
 export function Rails(props) {
-  const { nodes, materials } = useGLTF("/models/rails.glb");
+  const { nodes, materials } = useGLTF("/models/trainRails.glb");
   return (
     <group {...props} dispose={null}>
-      <group position={[-9.14, 0, 0]}>
+      <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Cube549.geometry}
-          material={materials["Material.002"]}
+          geometry={nodes.RailwayTrack_Straight_1.geometry}
+          material={materials.Steel}
         />
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Cube549_1.geometry}
-          material={materials.Atlas}
+          geometry={nodes.RailwayTrack_Straight_2.geometry}
+          material={materials.Wood}
         />
       </group>
-     
     </group>
   );
 }
 
-useGLTF.preload("/models/rails.glb");
+useGLTF.preload("/models/trainRails.glb");
