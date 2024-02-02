@@ -22,7 +22,14 @@ import {
 
 function App() {
   const [count, setCount] = useState(0)
-
+  function Plane() {
+    return (
+        <mesh receiveShadow position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} >
+            <boxGeometry attach="geometry" args={[100, 100]} />
+            <meshStandardMaterial color={"f2d4c2"} />
+        </mesh>
+    )
+}
   
   return (
     <Canvas shadows 
@@ -33,6 +40,8 @@ function App() {
       {/* Drei perspective camera  */}
       <PerspectiveCamera  position={[-30,10,22]} fov={50} near={1} far={150} makeDefault />
       {/* <CameraHelper/> */}
+      {/* <Plane/> */}
+
       <Stats/>
     </Canvas>
   )
