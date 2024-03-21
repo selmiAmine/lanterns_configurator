@@ -16,6 +16,7 @@ import {
     PerspectiveCamera,
     Stats
 } from '@react-three/drei'
+import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
 
 
@@ -39,9 +40,22 @@ function classNames(...classes) {
 
 export default function Testimonials() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [varPath, setVarPath] = useState("")
     // let transformControlMode = "translate"
     let [transformControlMode, setTransformControlMode] = useState("translate");
 
+
+    const [file, setFile] = useState()
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        console.log({files: event.target['file-upload'].files[0].name})
+        // setFile(event.target.files[0])
+        // setVarPath(event.target.files[0].name)
+        // console.log(varPath)
+        // console.log(file)
+        // console.log(event.target.files[0])
+    }
 
     return (
         <>
@@ -277,45 +291,49 @@ export default function Testimonials() {
 
                 <main className="lg:pl-72">
                     <div className="xl:pl-96">
-                        <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6 bg-red-200 h-screen relative">{/* Main area */}
-                            <Canvas shadows
+                        <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6  h-screen relative">{/* Main area */}
+
+
+                            <Canvas
+                                shadows
                                 camera={{ position: [50, 50, 120], fov: 30 }}
                             >
                                 <fog attach="fog" near={60} far={160} args={["#1e1f1e"]} />
-                                <Experience transformControlMode={transformControlMode}/>
+                                <Experience transformControlMode={transformControlMode} />
                                 {/* Drei perspective camera  */}
                                 <PerspectiveCamera position={[-30, 10, 22]} fov={50} near={1} far={150} makeDefault />
                                 {/* <CameraHelper/> */}
                                 {/* <Plane/> */}
 
                                 {/* <Stats /> */}
-                                
+
                             </Canvas>
+
                             <div className="buttonGroup absolute left-0 top-0">
-                                    <span className="isolate inline-flex rounded-md shadow-sm">
-                                        <button
+                                <span className="isolate inline-flex rounded-md shadow-sm">
+                                    <button
                                         onClick={() => { setTransformControlMode("translate") }}
-                                            type="button"
-                                            className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                                        >
-                                            Translate
-                                        </button>
-                                        <button
-                                            onClick={() => { setTransformControlMode("scale") }}
-                                            type="button"
-                                            className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                                        >
-                                            Scale
-                                        </button>
-                                        <button
-                                            onClick={() => { setTransformControlMode("rotate") }}
-                                            type="button"
-                                            className="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                                        >
-                                            Rotate
-                                        </button>
-                                    </span>
-                                </div>
+                                        type="button"
+                                        className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                                    >
+                                        Translate
+                                    </button>
+                                    <button
+                                        onClick={() => { setTransformControlMode("scale") }}
+                                        type="button"
+                                        className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                                    >
+                                        Scale
+                                    </button>
+                                    <button
+                                        onClick={() => { setTransformControlMode("rotate") }}
+                                        type="button"
+                                        className="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                                    >
+                                        Rotate
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </main>
@@ -323,7 +341,40 @@ export default function Testimonials() {
                 <aside className="fixed inset-y-0 left-72 hidden w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
                     {/* Secondary column (hidden on smaller screens) */}
                     {/* Section for multiple options */}
-
+                    <form onSubmit={handleSubmit}>
+                        <div className="col-span-full">
+                            <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                Upload model
+                            </label>
+                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                <div className="text-center">
+                                    <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                        <label
+                                            htmlFor="file-upload"
+                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                        >
+                                            <span>Upload a file</span>
+                                            <input id="file-upload" name="file-upload" type="file"  className="sr-only" />
+                                        </label>
+                                        <p className="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-6 flex items-center justify-end gap-x-6">
+                            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </form>
                 </aside>
             </div>
         </>

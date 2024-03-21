@@ -11,11 +11,17 @@ import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { TrainFront } from "./TrainFront";
 import ButterFly from "./Butterfly";
 import { Mountains } from "./Moutains";
+import { useLoader } from '@react-three/fiber'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export const Experience = (props) => {
     const ref = useRef();
     const { transformControlMode } = props;
+    const gltf = useLoader(GLTFLoader, './models/TrainFront.glb')
 
+    function Scene() {
+        return <primitive object={gltf.scene} />
+      }
 
     useEffect(() => { console.log(transformControlMode) } ,[transformControlMode])
     
@@ -34,7 +40,7 @@ export const Experience = (props) => {
 
 
             <TransformControls mode={transformControlMode}>
-                <TrainFront />
+                <Scene />
             </TransformControls>
 
 
