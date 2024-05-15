@@ -17,6 +17,8 @@ import {
     Stats
 } from '@react-three/drei'
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { CustomizationProvider } from './contexts/Customization'
+import { ConfiguratorSetting } from './components/ConfiguratorSetting'
 
 
 
@@ -49,7 +51,7 @@ export default function Testimonials() {
 
     function handleSubmit(event) {
         event.preventDefault()
-        console.log({files: event.target['file-upload'].files[0].name})
+        console.log({ files: event.target['file-upload'].files[0].name })
         // setFile(event.target.files[0])
         // setVarPath(event.target.files[0].name)
         // console.log(varPath)
@@ -112,11 +114,11 @@ export default function Testimonials() {
                                     {/* Sidebar component, swap this element with another sidebar if you like */}
                                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
                                         <div className="flex h-16 shrink-0 items-center">
-                                            <img
+                                            {/* <img
                                                 className="h-8 w-auto"
                                                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                                                 alt="Your Company"
-                                            />
+                                            /> */}
                                         </div>
                                         <nav className="flex flex-1 flex-col">
                                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -190,11 +192,11 @@ export default function Testimonials() {
                     {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
                         <div className="flex h-16 shrink-0 items-center">
-                            <img
+                            {/* <img
                                 className="h-8 w-auto"
                                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                                 alt="Your Company"
-                            />
+                            /> */}
                         </div>
                         <nav className="flex flex-1 flex-col">
                             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -294,20 +296,26 @@ export default function Testimonials() {
                         <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6  h-screen relative">{/* Main area */}
 
 
-                            <Canvas
-                                shadows
-                                camera={{ position: [50, 50, 120], fov: 30 }}
-                            >
-                                <fog attach="fog" near={60} far={160} args={["#1e1f1e"]} />
-                                <Experience transformControlMode={transformControlMode} />
-                                {/* Drei perspective camera  */}
-                                <PerspectiveCamera position={[-30, 10, 22]} fov={50} near={1} far={150} makeDefault />
-                                {/* <CameraHelper/> */}
-                                {/* <Plane/> */}
 
-                                {/* <Stats /> */}
+                            <CustomizationProvider>
+                                <Canvas
+                                    shadows
+                                    camera={{ position: [50, 50, 120], fov: 30 }}
+                                >
+                                    <fog attach="fog" near={60} far={160} args={["#1e1f1e"]} />
+                                    <Experience transformControlMode={transformControlMode} />
+                                    {/* Drei perspective camera  */}
+                                    <PerspectiveCamera position={[-30, 10, 22]} fov={50} near={1} far={150} makeDefault />
+                                    {/* <CameraHelper/> */}
+                                    {/* <Plane/> */}
 
-                            </Canvas>
+                                    {/* <Stats /> */}
+
+                                </Canvas>
+                                <ConfiguratorSetting/>
+                                
+                            </CustomizationProvider>
+
 
                             <div className="buttonGroup absolute left-0 top-0">
                                 <span className="isolate inline-flex rounded-md shadow-sm">
@@ -355,7 +363,7 @@ export default function Testimonials() {
                                             className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                         >
                                             <span>Upload a file</span>
-                                            <input id="file-upload" name="file-upload" type="file"  className="sr-only" />
+                                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
                                         </label>
                                         <p className="pl-1">or drag and drop</p>
                                     </div>

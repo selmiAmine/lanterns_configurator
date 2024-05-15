@@ -4,8 +4,12 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { useLoader, Canvas } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import Chair from "../Chair";
+import { ConfiguratorSetting } from "../ConfiguratorSetting";
+import { CustomizationProvider } from "../../contexts/Customization";
 
 export const ModelPreview = (props) => {
+    
     const ref = useRef();
     const { transformControlMode } = props;
     const gltf = useLoader(GLTFLoader, './models/scene.gltf')
@@ -19,8 +23,9 @@ export const ModelPreview = (props) => {
     return (
         <>
             <div className="wrapper flex">
-                <div className="canvasWrapper" style={{ height: '100vh', width: '70vw' }}
+                <div className="canvasWrapper" style={{ height: '100vh', width: '100vw' }}
                 >
+                     <CustomizationProvider>
                     <Canvas className="canvasModelPreview"
                         shadows
                         camera={{ position: [50, 50, 120], fov: 30 }}
@@ -40,12 +45,13 @@ export const ModelPreview = (props) => {
                         {/* <fog attach="fog" args={["#213547", 10, 20]} /> */}
 
                         <Stage environment="city" intensity={0.6} castShadow={true}>
-                            <Scene />
+                            {/* <Scene /> */}
+                            <Chair/>
                         </Stage>
                         {/* <TransformControls mode={transformControlMode}>
                 </TransformControls> */}
 
-                        <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={-1}>
+                        <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={-2}>
                             <planeGeometry args={[170, 170]} />
                             <MeshReflectorMaterial
                                 blur={[300, 100]}
@@ -68,14 +74,17 @@ export const ModelPreview = (props) => {
 
                         {/* <Sky distance={100} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
                     </Canvas>
+                    <ConfiguratorSetting/>
+                    Hello world
+                    </CustomizationProvider>
                 </div>
 
-                <div className="optionsWrapper bg-[#f8f8f8] w-[30vw] p-12">
+                {/* <div className="optionsWrapper bg-[#f8f8f8] w-[30vw] p-12">
                     <div className="content bg-[#ffffff] rounded-3xl h-full p-4 shadow-lg">
                         <h1 className="text-xl font-bold  text-[#18322f]">Pick your options</h1>
                         
                     </div>
-                </div>
+                </div> */}
             </div>
             <Stats />
 
