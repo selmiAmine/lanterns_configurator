@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'Fugaz': ["Fugaz One", "sans-serif"],
+        'Archivo': ["Archivo", "sans-serif"],
+        'Ubuntu': ["Ubuntu Sans Mono", "monospace"],
+
+      },
+    },
   },
   plugins: [],
 }
