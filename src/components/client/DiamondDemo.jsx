@@ -23,17 +23,12 @@ export const DiamondDemo = (props) => {
     function Scene() {
         return <primitive object={gltf.scene} />
     }
-
-
-
-
-    useEffect(() => { console.log(transformControlMode) }, [transformControlMode])
-
+    // useEffect(() => { console.log(transformControlMode) }, [transformControlMode])
     return (
         <>
             <div className="wrapper heroSection">
 
-                <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-red-100 to-red-200 ">
+                <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
 
                     <Canvas className="canvasModelPreview "
                         shadows
@@ -85,12 +80,12 @@ export const DiamondDemo = (props) => {
                     position={[0, 0, 0]} scale={[1, 1]} opacity={.8} /> */}
 
                         {/* <Sky distance={100} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
-                        <AccumulativeShadows temporal frames={100} color="#08f9b7" colorBlend={6} toneMapped={true} alphaTest={0.8} opacity={1} scale={12} position={[0, -1.1, 0]}>
+                        <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, -1.1, 0]} rotation={[0,4,0]} >
                             <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
                         </AccumulativeShadows>
                         <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
                         <EffectComposer>
-                            <Bloom luminanceThreshold={1} intensity={1} levels={1} mipmapBlur />
+                            <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
                         </EffectComposer>
                         <Stats />
                     </Canvas>
