@@ -32,6 +32,7 @@ export const DiamondDemo = (props) => {
             <CustomerLoader className="z-[99] absolute h-screen w-screen"/>
             <div className="wrapper heroSection overflow-hidden">
                 <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
+                <Suspense fallback={null}>
 
                     <Canvas className="canvasModelPreview"
                         shadows
@@ -84,13 +85,11 @@ export const DiamondDemo = (props) => {
                         {/* <Sky distance={100} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
 
 
-                        <Suspense fallback={null}>
                             {/* <FaceRing scale={400} /> */}
                             <Ring/>
                             <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, -1.1, 0]} rotation={[0, 4, 0]} >
                                 <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
                             </AccumulativeShadows>
-                        </Suspense>
 
 
                         <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
@@ -99,8 +98,7 @@ export const DiamondDemo = (props) => {
                         </EffectComposer>
                         <Stats />
                     </Canvas>
-                    <Loader />
-
+</Suspense>
                 </div>
 
                 {/* Header */}
