@@ -1,5 +1,5 @@
-import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial } from "@react-three/drei"
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader } from "@react-three/drei"
+import { Suspense, useEffect, useLayoutEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { useLoader, Canvas } from '@react-three/fiber'
@@ -12,6 +12,8 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SpeakerWaveIcon, BeakerIcon } from '@heroicons/react/24/solid'
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import CustomerLoader from "./CustomerLoader";
+import { FaceRing } from "../FaceRing";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,11 +28,12 @@ export const DiamondDemo = (props) => {
     // useEffect(() => { console.log(transformControlMode) }, [transformControlMode])
     return (
         <>
-            <div className="wrapper heroSection">
 
+            <CustomerLoader className="z-[99] absolute h-screen w-screen"/>
+            <div className="wrapper heroSection overflow-hidden">
                 <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
 
-                    <Canvas className="canvasModelPreview "
+                    <Canvas className="canvasModelPreview"
                         shadows
                         camera={{ position: [50, 50, 120], fov: 30 }}
                         style={{ height: '100%', width: '100%' }}
@@ -52,7 +55,6 @@ export const DiamondDemo = (props) => {
 
                         {/* <Stage environment="city" intensity={0.6} castShadow={true}> */}
                         {/* <Scene /> */}
-                        <Ring />
 
                         {/* </Stage> */}
                         {/* <TransformControls mode={transformControlMode}>
@@ -80,15 +82,24 @@ export const DiamondDemo = (props) => {
                     position={[0, 0, 0]} scale={[1, 1]} opacity={.8} /> */}
 
                         {/* <Sky distance={100} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
-                        <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, -1.1, 0]} rotation={[0,4,0]} >
-                            <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
-                        </AccumulativeShadows>
+
+
+                        <Suspense fallback={null}>
+                            {/* <FaceRing scale={400} /> */}
+                            <Ring/>
+                            <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, -1.1, 0]} rotation={[0, 4, 0]} >
+                                <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
+                            </AccumulativeShadows>
+                        </Suspense>
+
+
                         <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
                         <EffectComposer>
                             <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
                         </EffectComposer>
                         <Stats />
                     </Canvas>
+                    <Loader />
 
                 </div>
 
