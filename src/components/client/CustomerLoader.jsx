@@ -15,7 +15,11 @@ export const CustomerLoader = (props) => {
                     Start    - {progress}            
 
                 </button>
-    
+
+            <div className={`w-${width}`}>
+                
+            </div>
+
             </div>
 
         </>
