@@ -15,6 +15,8 @@ import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import CustomerLoader from "./CustomerLoader";
 import { FaceRing } from "../FaceRing";
 
+const audio = new Audio("./sounds/music_loop.mp3")
+
 gsap.registerPlugin(ScrollTrigger)
 
 export const DiamondDemo = (props) => {
@@ -24,6 +26,13 @@ export const DiamondDemo = (props) => {
     const gltf = useLoader(GLTFLoader, './models/scene.gltf')
     const [start, setStart] = useState(false)
 
+
+    useEffect(() => {
+        if (start){
+            audio.play()
+            console.log(audio)
+        }
+    }, [start])
 
     function Scene() {
         return <primitive object={gltf.scene} />
