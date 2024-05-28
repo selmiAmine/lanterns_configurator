@@ -1,5 +1,5 @@
 import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader } from "@react-three/drei"
-import { Suspense, useEffect, useLayoutEffect, useRef } from "react";
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { useLoader, Canvas } from '@react-three/fiber'
@@ -22,6 +22,9 @@ export const DiamondDemo = (props) => {
     const ref = useRef();
     const { transformControlMode } = props;
     const gltf = useLoader(GLTFLoader, './models/scene.gltf')
+    const [start, setStart] = useState(false)
+
+
     function Scene() {
         return <primitive object={gltf.scene} />
     }
@@ -29,39 +32,38 @@ export const DiamondDemo = (props) => {
     return (
         <>
 
-            <CustomerLoader className="z-[99] absolute h-screen w-screen"/>
+            <CustomerLoader started={start} onStarted={() => setStart(true)}  className="z-[99] absolute h-screen w-screen"/>
             <div className="wrapper heroSection overflow-hidden">
                 <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
-                <Suspense fallback={null}>
+                    <Suspense fallback={null}>
+                        <Canvas className="canvasModelPreview"
+                            shadows
+                            camera={{ position: [50, 50, 120], fov: 30 }}
+                            style={{ height: '100%', width: '100%' }}
+                        >
+                            {/* <color attach="background" args={["#000000"]} /> */}
+                            <OrbitControls
+                                enableZoom={false}
+                                makeDefault
+                                maxAzimuthAngle={40}
+                                minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
+                            />
+                            {/* <ambientLight intensity={.3} /> */}
+                            {/* <directionalLight position={[4, 5, 6]} intensity={0.8} color={'#08f9b7'} /> */}
+                            {/* <directionalLight position={[4, 5, 6]} intensity={0.8} color={'#931cff'} /> */}
+                            {/* <Environment blur={4} files="./autumn_field_2k.hdr" intensity={.6} castShadow={true} /> */}
 
-                    <Canvas className="canvasModelPreview"
-                        shadows
-                        camera={{ position: [50, 50, 120], fov: 30 }}
-                        style={{ height: '100%', width: '100%' }}
-                    >
-                        {/* <color attach="background" args={["#000000"]} /> */}
-                        <OrbitControls
-                            enableZoom={false}
-                            makeDefault
-                            maxAzimuthAngle={40}
-                            minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
-                        />
-                        {/* <ambientLight intensity={.3} /> */}
-                        {/* <directionalLight position={[4, 5, 6]} intensity={0.8} color={'#08f9b7'} /> */}
-                        {/* <directionalLight position={[4, 5, 6]} intensity={0.8} color={'#931cff'} /> */}
-                        {/* <Environment blur={4} files="./autumn_field_2k.hdr" intensity={.6} castShadow={true} /> */}
+                            {/* <gridHelper args={[200, 200, 200]} opacity={.1} /> */}
+                            {/* <fog attach="fog" args={["#213547", 10, 20]} /> */}
 
-                        {/* <gridHelper args={[200, 200, 200]} opacity={.1} /> */}
-                        {/* <fog attach="fog" args={["#213547", 10, 20]} /> */}
+                            {/* <Stage environment="city" intensity={0.6} castShadow={true}> */}
+                            {/* <Scene /> */}
 
-                        {/* <Stage environment="city" intensity={0.6} castShadow={true}> */}
-                        {/* <Scene /> */}
-
-                        {/* </Stage> */}
-                        {/* <TransformControls mode={transformControlMode}>
+                            {/* </Stage> */}
+                            {/* <TransformControls mode={transformControlMode}>
                 </TransformControls> */}
 
-                        {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={-3}>
+                            {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={-3}>
                             <planeGeometry args={[10, 10]} />
                             <MeshReflectorMaterial
                                 blur={[300, 100]}
@@ -76,33 +78,33 @@ export const DiamondDemo = (props) => {
                             // metalness={0.5}
                             />
                         </mesh> */}
-                        {/* <ContactShadows
+                            {/* <ContactShadows
                     width={100}
                     height={100}
                     far={100}
                     position={[0, 0, 0]} scale={[1, 1]} opacity={.8} /> */}
 
-                        {/* <Sky distance={100} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
+                            {/* <Sky distance={100} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
 
 
                             {/* <FaceRing scale={400} /> */}
-                            <Ring/>
+                            <Ring />
                             <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, -1.1, 0]} rotation={[0, 4, 0]} >
                                 <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
                             </AccumulativeShadows>
 
 
-                        <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
-                        <EffectComposer>
-                            <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
-                        </EffectComposer>
-                        <Stats />
-                    </Canvas>
-</Suspense>
+                            <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
+                            <EffectComposer>
+                                <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
+                            </EffectComposer>
+                            <Stats />
+                        </Canvas>
+                    </Suspense>
                 </div>
 
                 {/* Header */}
-                <div className="headerWrapper w-full flex justify-between items-center absolute z-[99]">
+                <div className="headerWrapper w-full flex justify-between items-center absolute z-[50]">
                     <div className="navbar max-w-5xl flex justify-between items-center z-[99] mx-auto mt-4 p-4 w-full ">
                         <div className="flex justify-center">
                             <span>
@@ -117,8 +119,8 @@ export const DiamondDemo = (props) => {
                     </div>
                 </div>
 
-                {/* Hero */}
-                <section className="h-screen z-50 first-section " >
+                 {/* Hero */}
+                 <section className="h-screen z-50 first-section " >
                     <div className="wrapperContent z-50 absolute flex w-full">
                         <div className="leftSide w-1/2 "></div>
                         <div className="righttSide w-1/2 h-screen flex items-center text-[#202426]">
@@ -137,8 +139,9 @@ export const DiamondDemo = (props) => {
                     </div>
                 </section>
 
-                {/* About */}
-                <section className="h-screen z-50 second-section" >
+
+                  {/* About */}
+                  <section className="h-screen z-50 second-section" >
                     <div className="wrapperContentAboutUs z-50 absolute flex w-full">
                         <div className="righttSideAboutUs  w-1/2 h-screen flex items-center pl-60">
                             <div className="rightSideContentAboutUs w-full flex flex-col text-[#202426]">
@@ -189,6 +192,8 @@ export const DiamondDemo = (props) => {
                         </div>
                     </div>
                 </section>
+
+              
 
                 {/* <div className="optionsWrapper bg-[#f8f8f8] w-[30vw] p-12">
                     <div className="content bg-[#ffffff] rounded-3xl h-full p-4 shadow-lg">
