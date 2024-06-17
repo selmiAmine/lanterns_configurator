@@ -118,13 +118,13 @@ let colorLerpValue = {x: 0}
       .from('.rightSideContent', {
         delay: 1,
         opacity: 0,
-        translateX: '200px',
+        translateX: '20px',
         ease: 'power4.inOut',
         duration: 3
       }, '<')
 
     t1.to('.rightSideContent', {
-      translateX: '200px',
+      translateX: '20px',
       opacity: 0,
       duration: 2,
       scrollTrigger: {
@@ -154,7 +154,7 @@ let colorLerpValue = {x: 0}
     })
 
     t1.from('.rightSideContentAboutUs', {
-      translateX: '-200px',
+      translateX: '-20px',
       opacity: 0,
       scrollTrigger: {
         trigger: ".second-section",
@@ -168,7 +168,7 @@ let colorLerpValue = {x: 0}
     })
 
     t1.to('.rightSideContentAboutUs', {
-      translateX: '-200px',
+      translateX: '-20px',
       opacity: 0,
       scrollTrigger: {
         trigger: ".third-section",
@@ -182,7 +182,7 @@ let colorLerpValue = {x: 0}
     })
 
     t1.from('.rightSideContentCustomizer', {
-      translateX: '200px',
+      translateX: '20px',
       opacity: 0,
       scrollTrigger: {
         trigger: ".third-section",

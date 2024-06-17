@@ -15,7 +15,6 @@ import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import CustomerLoader from "./CustomerLoader";
 import { FaceRing } from "../FaceRing";
 
-const audio = new Audio("./sounds/music_loop.mp3")
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,6 +24,8 @@ export const DiamondDemo = (props) => {
     const { transformControlMode } = props;
     const gltf = useLoader(GLTFLoader, './models/scene.gltf')
     const [start, setStart] = useState(false)
+    const audio = new Audio("./sounds/music_loop.mp3")
+
 
 
     useEffect(() => {
@@ -34,6 +35,13 @@ export const DiamondDemo = (props) => {
         }
     }, [start])
 
+
+    
+    const disableSound = () => {
+        audio.pause()   
+    }
+
+
     function Scene() {
         return <primitive object={gltf.scene} />
     }
@@ -41,7 +49,7 @@ export const DiamondDemo = (props) => {
     return (
         <>
 
-            <CustomerLoader started={start} onStarted={() => setStart(true)}  className="z-[99] absolute h-screen w-screen"/>
+            {/* <CustomerLoader started={start} onStarted={() => setStart(true)}  className="z-[99] absolute h-screen w-screen"/> */}
             <div className="wrapper heroSection overflow-hidden">
                 <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
                     <Suspense fallback={null}>
@@ -117,13 +125,14 @@ export const DiamondDemo = (props) => {
                     <div className="navbar max-w-5xl flex justify-between items-center z-[99] mx-auto mt-4 p-4 w-full ">
                         <div className="flex justify-center">
                             <span>
+                                
                                 {/* LANTERNS STUDIO */}
-                                <img className="w-28" src="./logo.png" alt="" />
+                                {/* <img className="w-28" src="./logo.png" alt="" /> */}
                             </span>
                         </div>
                         <ul className="navbarContent  font-Ubuntu flex gap-20 text-[#202426] items-center">
                             <li >Know more</li>
-                            <li ><SpeakerWaveIcon className="size-4 " /> </li>
+                            <li onClick={disableSound} ><SpeakerWaveIcon className="size-4 " /> </li>
                         </ul>
                     </div>
                 </div>
