@@ -124,8 +124,8 @@ export const DiamondDemo = (props) => {
                 <div className="headerWrapper w-full flex justify-between items-center absolute z-[50]">
                     <div className="navbar max-w-5xl flex justify-between items-center z-[99] mx-auto mt-4 p-4 w-full ">
                         <div className="flex justify-center">
-                            <span>
-                                
+                            <span className="font-Ubuntu font-bold text-2xl underline text-[#202426]">
+                                Reliqa
                                 {/* LANTERNS STUDIO */}
                                 {/* <img className="w-28" src="./logo.png" alt="" /> */}
                             </span>
