@@ -49,7 +49,7 @@ export const DiamondDemo = (props) => {
     return (
         <>
 
-            {/* <CustomerLoader started={start} onStarted={() => setStart(true)}  className="z-[99] absolute h-screen w-screen"/> */}
+            <CustomerLoader started={start} onStarted={() => setStart(true)}  className="z-[99] absolute h-screen w-screen"/>
             <div className="wrapper heroSection overflow-hidden">
                 <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
                     <Suspense fallback={null}>
