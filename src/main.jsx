@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css'
 import DiamondDemo from './components/client/DiamondDemo.jsx';
 import Login from './components/client/Login.jsx';
+import Signup from './components/client/Signup.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route exact path="/clientPreview" element={<ModelPreview />} />
         <Route exact path="/" element={<DiamondDemo />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<Signup />} />
       </Routes>
     </React.StrictMode>
 

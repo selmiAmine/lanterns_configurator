@@ -14,6 +14,7 @@ export default {
         'Dosis': ["Dosis", "sans-serif"],
 
       },
+      
     },
   },
   plugins: [
