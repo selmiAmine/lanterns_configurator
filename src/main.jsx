@@ -8,20 +8,26 @@ import './index.css'
 import DiamondDemo from './components/client/DiamondDemo.jsx';
 import Login from './components/client/Login.jsx';
 import Signup from './components/client/Signup.jsx';
+import Configurator from './components/client/Configurator.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
 
   <BrowserRouter>
+    
     <React.StrictMode>
+    
       <Routes>
         <Route exact path="/testRoute" element={<App />} />
         <Route exact path="/clientPreview" element={<ModelPreview />} />
         <Route exact path="/" element={<DiamondDemo />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/Configurator" element={<Configurator />} />
+
       </Routes>
+      
     </React.StrictMode>
 
   </BrowserRouter>
