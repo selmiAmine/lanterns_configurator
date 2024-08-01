@@ -8,6 +8,7 @@ import './index.css'
 import DiamondDemo from './components/client/DiamondDemo.jsx';
 import Login from './components/client/Login.jsx';
 import Signup from './components/client/Signup.jsx';
+import ConfiguratorLayout from './components/client/ConfiguratorLayout.jsx';
 import Configurator from './components/client/Configurator.jsx';
 
 
@@ -24,7 +25,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route exact path="/" element={<DiamondDemo />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/Configurator" element={<Configurator />} />
+        <Route exact path="/Configurator" element={<ConfiguratorLayout />} >
+          <Route index element={<Configurator />} />
+          {/* <Route path="another" element={<AnotherComponent />} />       */}
+        </Route>
 
       </Routes>
       
