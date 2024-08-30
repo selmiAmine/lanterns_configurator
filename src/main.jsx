@@ -8,6 +8,7 @@ import './index.css'
 import DiamondDemo from './components/client/DiamondDemo.jsx';
 import Login from './components/client/Login.jsx';
 import Signup from './components/client/Signup.jsx';
+import ConfiguratorLayout from './components/client/ConfiguratorLayout.jsx';
 import Configurator from './components/client/Configurator.jsx';
 import { UserExperience } from './components/shared/UserExperience.jsx';
 
@@ -29,9 +30,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route exact path="/UserExperience" element={<UserExperience />}>
           <Route exact path="/UserExperience/Configurator" element={<Configurator />} />
         </Route>
-
-
-        
 
       </Routes>
       
