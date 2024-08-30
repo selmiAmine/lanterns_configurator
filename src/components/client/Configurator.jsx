@@ -92,45 +92,109 @@ export default function Configurator() {
         */}
         
           
-          <main className="-mt-24 pb-8">
-            <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-              <h1 className="sr-only">Page title</h1>
-              {/* Main 3 column grid */}
-              <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
-                {/* Left column */}
-                <div className="grid grid-cols-1 gap-4 lg:col-span-2">
-                  <section aria-labelledby="section-1-title">
-                    <h2 id="section-1-title" className="sr-only">
-                      Section title
-                    </h2>
-                    <div className="overflow-hidden rounded-lg bg-white shadow">
-                      <div className="p-6">
-                        {/* Your content */}
-                        
-                          this is left side
-                        </div>
+        <main className="-mt-24 pb-8">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+          <h1 className="sr-only">Page title</h1>
+          {/* Main 3 column grid */}
+          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-1 lg:gap-8">
+            {/* Left column */}
+            <div className="grid grid-cols-1 gap-4 lg:col-span-2">
+              <section aria-labelledby="section-1-title">
+                <h2 id="section-1-title" className="sr-only">
+                  Section title
+                </h2>
+                <div className="overflow-hidden rounded-lg bg-white shadow h-[600px]">
+                  <div className="h-full shadow-2xl">
+                    {/* Your content */}
+
+                    <div className="h-full w-full z-10  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
+                      <Suspense fallback={null}>
+                        <Canvas className="canvasModelPreview"
+                          shadows
+                          // camera={{ position: [20, 20, 120], fov: 5 }}
+                          style={{ height: '100%', width: '100%' }}
+                        >
+
+                          <OrbitControls
+                            enableZoom={true}
+                            makeDefault
+                            maxAzimuthAngle={40}
+                            minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
+                          />
+
+                           <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={0}>
+                            <planeGeometry args={[10, 10]} />
+                            <MeshReflectorMaterial
+                                blur={[300, 100]}
+                                resolution={2048}
+                                mixBlur={.5}
+                                // mixStrength={40}
+                                // roughness={1}
+                                depthScale={2}
+                                // minDepthThreshold={0.4}
+                                // maxDepthThreshold={1.4}
+                                color="#ff4444"
+                            // metalness={0.5}
+                            />
+                        </mesh>
+
+                          {/* <gridHelper args={[200, 200, 200]} opacity={.1} /> */}
+                          <High scale={0.005} position={[0, 1, 0]} />
+                          {/* <RingVariation3 scale={1} position={[0, 0, 0]} /> */}
+
+                          {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
+                            <RandomizedLight amount={15} radius={1} ambient={1} intensity={.5} position={[5, 5, -10]} bias={0.001} />
+                          </AccumulativeShadows>
+
+                          <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
+                          <EffectComposer>
+                            <Bloom luminanceThreshold={.4} intensity={.01} levels={0.15} mipmapBlur />
+                          </EffectComposer> */}
+
+                          {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
+                                <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
+                            </AccumulativeShadows> */}
+
+                          <ContactShadows
+                            width={100}
+                            height={100}
+                            far={100}
+                            position={[0, 0, 0]} scale={[1, 1]} opacity={.8} />
+
+                          <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
+                          <EffectComposer>
+                            <Bloom luminanceThreshold={1} intensity={.1} levels={0.2} mipmapBlur />
+                          </EffectComposer>
+                          <Stats />
+                        </Canvas>
+                      </Suspense>
                     </div>
-                  </section>
+                  </div>
                 </div>
-  
-                {/* Right column */}
-                <div className="grid grid-cols-1 gap-4">
-                  <section aria-labelledby="section-2-title">
-                    <h2 id="section-2-title" className="sr-only">
-                      Section title
-                    </h2>
-                    <div className="overflow-hidden rounded-lg bg-white shadow">
-                      <div className="p-6">
-                        {/* Your content */}
-                        this is right side
-                        
-                        </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
+              </section>
             </div>
-          </main>
+
+            {/* Right column */}
+            {/* <div className="grid grid-cols-1 gap-4">
+              <section aria-labelledby="section-2-title">
+                <h2 id="section-2-title" className="sr-only">
+                  Section title
+                </h2>
+                <div className="overflow-hidden rounded-lg bg-white shadow">
+                  <div className="p-6">
+
+
+
+                    Right side
+
+                  </div>
+                </div>
+              </section>
+            </div> */}
+
+          </div>
+        </div>
+      </main>
 
         
 
