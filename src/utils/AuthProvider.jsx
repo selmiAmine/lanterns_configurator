@@ -4,6 +4,13 @@ const AuthContext = createContext(undefined);
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+
+  const login1 = (isAuthenticated) => {
+    setIsAuthenticated(isAuthenticated);
+  };
+
+
   const authGuard = async () => {
     try {
       const result = await AuthService.authGuard()
@@ -19,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     authGuard()
   }, [])
   return <>{
-    !loading && <AuthContext.Provider value={{ isAuthenticated }}>
+    !loading && <AuthContext.Provider value={{ isAuthenticated, login1 }}>
       {children}
     </AuthContext.Provider>
   }

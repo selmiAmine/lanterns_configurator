@@ -13,7 +13,7 @@
   ```
 */
 
-import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid } from "@react-three/drei"
+import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid, Float } from "@react-three/drei"
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
@@ -48,6 +48,8 @@ import { RingVariation4 } from "../RingVariation4";
 import { Dodo } from "../Dodo";
 import { useControls } from "leva";
 import { High } from "../High";
+import { proxy } from "valtio";
+import ColorPicker from "./ColorPicker";
 
 const user = {
   name: 'Tom Cook',
@@ -68,6 +70,14 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ]
 
+const RingState = proxy({
+  current: null,
+  colors: {
+    Material_6: "#d3d3d3",
+    gold: "#d3d3d3",
+    silver: "#d3d3d3",
+  },
+})
 
 
 
@@ -77,8 +87,58 @@ function classNames(...classes) {
 
 export default function Configurator() {
 
+  const [selectedModel, setSelectedModel] = useState("High");
+  const [linkOpened, setLinkOpened] = useState(false);
+  const controls = useRef();
+
+  const updateShoeCurrent = (value) => {
+    RingState.current = value;
+  };
+
+  const updateRingColor = (pro, value) => {
+    RingState.colors[pro] = value;
+  };
 
 
+  const renderSelectedModel = () => {
+    switch (selectedModel) {
+      case "High":
+        return (
+          <High
+           scale={.1} position={[0, 15, 0]}
+            castShadow
+            colors={RingState.colors}
+            updateCurrent={updateShoeCurrent}
+          />
+        );
+      
+        return (
+          <Teapot
+            castShadow
+            colors={TeapotState.colors}
+            updateCurrent={updateTeapotCurrent}
+          />
+        );
+      default:
+        break;
+    }
+  };
+
+  const updateSelectedModel = (selectedModel) => {
+    controls.current.reset();
+    setSelectedModel(selectedModel);
+  };
+
+
+  const renderSelectedColorPicker = () => {
+    switch (selectedModel) {
+      case "High":
+        return <ColorPicker state={RingState} updateColor={updateRingColor} />;
+      
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -90,9 +150,8 @@ export default function Configurator() {
           <body class="h-full">
           ```
         */}
-        
-          
-        <main className="-mt-24 pb-8">
+
+      <main className="-mt-24 pb-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <h1 className="sr-only">Page title</h1>
           {/* Main 3 column grid */}
@@ -108,6 +167,8 @@ export default function Configurator() {
                     {/* Your content */}
 
                     <div className="h-full w-full z-10  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
+                    {renderSelectedColorPicker()}
+Hello
                       <Suspense fallback={null}>
                         <Canvas className="canvasModelPreview"
                           shadows
@@ -122,7 +183,7 @@ export default function Configurator() {
                             minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
                           />
 
-                           <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={0}>
+                          {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={0}>
                             <planeGeometry args={[10, 10]} />
                             <MeshReflectorMaterial
                                 blur={[300, 100]}
@@ -136,10 +197,21 @@ export default function Configurator() {
                                 color="#ff4444"
                             // metalness={0.5}
                             />
-                        </mesh>
+                        </mesh> */}
 
                           {/* <gridHelper args={[200, 200, 200]} opacity={.1} /> */}
-                          <High scale={0.005} position={[0, 1, 0]} />
+                          <Float 
+                          speed={1}
+                          rotationIntensity={1}
+                          floatIntensity={1}
+                          floatingRange={[0, 0.3]}
+                          >
+                            
+                            {renderSelectedModel()}
+
+
+                            {/* <High scale={.1} position={[0, 15, 0]} /> */}
+                          </Float>
                           {/* <RingVariation3 scale={1} position={[0, 0, 0]} /> */}
 
                           {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
@@ -156,10 +228,10 @@ export default function Configurator() {
                             </AccumulativeShadows> */}
 
                           <ContactShadows
-                            width={100}
-                            height={100}
-                            far={100}
-                            position={[0, 0, 0]} scale={[1, 1]} opacity={.8} />
+                            width={60}
+                            height={60}
+                            far={10}
+                            position={[0, 0, 0]} scale={[2, 2]} opacity={.6} />
 
                           <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
                           <EffectComposer>
@@ -196,10 +268,10 @@ export default function Configurator() {
         </div>
       </main>
 
-        
 
 
-      </>
-    )
-  }
-  
+
+    </>
+  )
+}
+

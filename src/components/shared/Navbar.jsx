@@ -33,9 +33,9 @@ const user = {
 }
 const navigation = [
     { name: 'Home', href: '#', current: true },
+    { name: 'Shop', href: '#', current: false },
+    { name: 'Configurator', href: '#', current: false },
     { name: 'Profile', href: '#', current: false },
-    { name: 'Resources', href: '#', current: false },
-    { name: 'Company Directory', href: '#', current: false },
     { name: 'Openings', href: '#', current: false },
 ]
 const userNavigation = [
@@ -47,9 +47,6 @@ const userNavigation = [
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
-
-
-
 
 export const Navbar = () => {
 
@@ -149,7 +146,7 @@ export const Navbar = () => {
                                                 aria-current={item.current ? 'page' : undefined}
                                                 className={classNames(
                                                     item.current ? 'text-white' : 'text-indigo-100',
-                                                    'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
+                                                    'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',   
                                                 )}
                                             >
                                                 {item.name}

@@ -12,23 +12,35 @@
   }
   ```
 */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
+import { useAuth } from "../../utils/AuthProvider";
 
 export default function Example() {
+  const { login1 } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    console.log('login1 chqnged')
+  },[login1])
+
   const login = () => {
+    
     AuthService.login(email, password)
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token.split(" ")[1]);
-        navigate("/");
+        login1(true);
+        navigate("/user");
+        console.log('redirected')
       })
       .catch((err) => {
+        login(false);
         console.log(err);
       });
   };

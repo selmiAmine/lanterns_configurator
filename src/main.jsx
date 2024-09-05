@@ -21,29 +21,30 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
       <AuthProvider>
         <Routes>
-          <Route element={<AuthRoutes />}>
-            <Route path="/login" element={<Login />} />
-            <Route exact path="/signup" element={<Signup />} />
+
+          <Route path="/" element={<AuthRoutes />}>
+            <Route exact path="login" element={<Login />} />
+            <Route exact path="signup" element={<Signup />} />
           </Route>
-        </Routes>
-      </AuthProvider>
-      <AuthProvider>
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            <Route exact path="/UserExperience" element={<UserExperience />}>
+        
+          <Route path="/" 
+          // element={<PrivateRoutes />}
+          >  
+            <Route exact path="user" element={<UserExperience />}>
               <Route
                 exact
-                path="/UserExperience/Configurator"
-                element={<Configurator />}
-              />
+                path="configurator"
+                element={<Configurator />}/>
             </Route>
           </Route>
+
         </Routes>
       </AuthProvider>
-      <Routes>
+
+      {/* <Routes>
         <Route exact path="/testRoute" element={<App />} />
         <Route exact path="/clientPreview" element={<ModelPreview />} />
-        <Route exact path="/" element={<DiamondDemo />} />
+        <Route exact path="/" element={<DiamondDemo />} /> */}
 
         {/* <Route path="/login" element={<Login />} /> */}
         {/* <Route
@@ -54,7 +55,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         /> */}
 
 
-      </Routes>
+      {/* </Routes> */}
     </React.StrictMode>
   </BrowserRouter>
 );
