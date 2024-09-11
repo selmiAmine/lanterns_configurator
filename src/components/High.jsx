@@ -147,6 +147,7 @@ useEffect(() => {
         position={[-0.067, 35.83, 22.982]}
         rotation={[Math.PI / 2, 0, 0]}
         scale={10000}
+        visible={false}
       >
 
         <MeshRefractionMaterial name='Material_6' envMap={texture} {...config} color={diamondColor} toneMapped={true} />

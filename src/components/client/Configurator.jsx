@@ -21,7 +21,6 @@ import { useLoader, Canvas } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import Chair from "../Chair";
 import { ConfiguratorSetting } from "../ConfiguratorSetting";
-import { CustomizationProvider } from "../../contexts/Customization";
 import { Ring } from "../Ring";
 import { RingVariation1 } from "../RingVariation1";
 import gsap from "gsap"
@@ -50,6 +49,8 @@ import { useControls } from "leva";
 import { High } from "../High";
 import { proxy } from "valtio";
 import ColorPicker from "./ColorPicker";
+import { StockRing } from "../StockRing";
+import { CustomizationProvider, useCustomization } from "../../contexts/RingContext/Customization";
 
 const user = {
   name: 'Tom Cook',
@@ -168,8 +169,9 @@ export default function Configurator() {
 
                     <div className="h-full w-full z-10  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
                     {renderSelectedColorPicker()}
-Hello
                       <Suspense fallback={null}>
+
+                        
                         <Canvas className="canvasModelPreview"
                           shadows
                           // camera={{ position: [20, 20, 120], fov: 5 }}
@@ -208,7 +210,7 @@ Hello
                           >
                             
                             {renderSelectedModel()}
-
+                            <StockRing/>
 
                             {/* <High scale={.1} position={[0, 15, 0]} /> */}
                           </Float>
@@ -239,6 +241,7 @@ Hello
                           </EffectComposer>
                           <Stats />
                         </Canvas>
+
                       </Suspense>
                     </div>
                   </div>

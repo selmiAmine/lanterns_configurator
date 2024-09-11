@@ -214,3 +214,16 @@ html {
   transition: width 0.4s;
 } */
 
+
+
+.slide {
+  /* background-color: red; */
+  width: 10%!important;
+  /* height: 30px!important; */
+}
+
+.slide img{
+  /* background-color: red; */
+  width: 20%!important;
+  /* height: 30px!important; */
+}

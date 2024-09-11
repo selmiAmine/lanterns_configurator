@@ -12,6 +12,7 @@ import Layout from './components/product-configurator/Layout'
 // import { PerspectiveCamera } from 'three'
 import { BellIcon } from '@heroicons/react/24/outline'
 import Testimonials from './Testimonials'
+import { CustomizationProvider } from './contexts/RingContext/Customization'
 
 
 
@@ -36,7 +37,9 @@ function App() {
   }
 
   return (
-    <Testimonials /> )
+
+      <Testimonials /> 
+  )
 }
 
 export default App

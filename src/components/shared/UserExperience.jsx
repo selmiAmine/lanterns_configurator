@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import { Selector } from "../selectors/Selector";
+import { CustomizationProvider } from "../../contexts/RingContext/Customization";
 
 export const UserExperience = () => {
 
@@ -11,7 +13,8 @@ export const UserExperience = () => {
         
         <div>
             <Navbar/>
-                <Outlet/>
+                {/* <Outlet/> */}
+                    <Selector/>
             <Footer/>
 
         </div>
