@@ -7,25 +7,26 @@ import { useGLTF } from '@react-three/drei'
 import { useCustomization } from '../../contexts/Customization';
 
 export function RingShape1(props) {
-    const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
+    const { nodes, materials } = useGLTF('/models/Rings/Ring1-variations.glb')
 
     const {
         ringColor,
         diamondColor,
         headerColor,
-        selectedDiamond
+        selectedDiamond,
+        selectedHeader
     } = useCustomization();
 
-    switch(selectedDiamond) {
-        case 'Diamond 1':
-          return 'bar';
-        case 'Diamond 2':
-          return 'bar';
-        case 'Diamond 3':
-          return 'bar';
-        default:
-          return 'foo';
-      }
+    // switch(selectedDiamond) {
+    //     case 'Diamond 1':
+    //       return 'bar';
+    //     case 'Diamond 2':
+    //       return 'bar';
+    //     case 'Diamond 3':
+    //       return 'bar';
+    //     default:
+    //       return 'foo';
+    //   }
 
     //   Gotta do the switch case of retrieving the diamond name and then attribute the visibility for each diamond
 
@@ -42,7 +43,7 @@ export function RingShape1(props) {
                 material={materials['R70.003']}
                 position={[0, 0.555, 0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
-                scale={50} 
+                scale={50}
                 material-color={ringColor.color}
 
             />
@@ -56,6 +57,7 @@ export function RingShape1(props) {
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
                 material-color={headerColor.color}
+                visible={selectedHeader == 'Heading 2'}
             />
             <mesh
                 castShadow
@@ -66,7 +68,7 @@ export function RingShape1(props) {
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
                 material-color={diamondColor.color}
-                visible={false}
+                visible={selectedDiamond == 'Diamond 1'}
             />
             <mesh
                 castShadow
@@ -75,10 +77,10 @@ export function RingShape1(props) {
                 material={materials['R30.003']}
                 position={[0.001, 0.918, 0]}
                 rotation={[Math.PI / 2, 0, 0]}
-                scale={50} 
+                scale={50}
                 material-color={diamondColor.color}
-                visible={false}
-                />
+                visible={selectedDiamond == 'Diamond 2'}
+            />
             <mesh
                 castShadow
                 receiveShadow
@@ -86,9 +88,10 @@ export function RingShape1(props) {
                 material={materials['R60.004']}
                 position={[-0.001, 0.88, 0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
-                scale={50} 
+                scale={50}
                 material-color={headerColor.color}
-                />
+                visible={selectedHeader == 'Heading 1'}
+            />
             <mesh
                 castShadow
                 receiveShadow
@@ -98,6 +101,7 @@ export function RingShape1(props) {
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
                 material-color={headerColor.color}
+                visible={selectedHeader == 'Heading 3'}
             />
             <mesh
                 castShadow
@@ -108,11 +112,11 @@ export function RingShape1(props) {
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
                 material-color={diamondColor.color}
-                visible={false}
+                visible={selectedDiamond == 'Diamond 3'}
             />
 
         </group>
     )
 }
 
-useGLTF.preload('/models/rings/Ring1-variations.glb')
+useGLTF.preload('/models/Rings/Ring1-variations.glb')

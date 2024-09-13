@@ -39,6 +39,7 @@ import { proxy } from "valtio";
 import ColorPicker from "./ColorPicker";
 import { StockRing } from "../StockRing";
 import { RingShape1 } from "../rings/RingShape1";
+import Selector from "../selectors/Selector";
 
 const user = {
   name: 'Tom Cook',
@@ -94,7 +95,7 @@ export default function Configurator() {
       case "High":
         return (
           <High
-           scale={.1} position={[0, 15, 0]}
+            scale={.1} position={[0, 15, 0]}
             castShadow
             colors={RingState.colors}
             updateCurrent={updateShoeCurrent}
@@ -104,7 +105,7 @@ export default function Configurator() {
       case "RingShape1":
         return (
           <RingShape1
-            scale={2} 
+            scale={2}
             rotation={[0, Math.PI / 2, 0]}
             position={[0, 0, 0]}
             castShadow
@@ -112,7 +113,7 @@ export default function Configurator() {
             updateCurrent={updateShoeCurrent}
           />
         );
-      
+
         return (
           <Teapot
             castShadow
@@ -135,7 +136,7 @@ export default function Configurator() {
     switch (selectedModel) {
       case "High":
         return <ColorPicker state={RingState} updateColor={updateRingColor} />;
-      
+
       default:
         break;
     }
@@ -167,11 +168,11 @@ export default function Configurator() {
                   <div className="h-full shadow-2xl">
                     {/* Your content */}
 
-                    <div className="h-full w-full z-10  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
-                    {renderSelectedColorPicker()}
+                    <div className="h-full w-full z-10 relative  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
+                      {renderSelectedColorPicker()}
                       <Suspense fallback={null}>
 
-                        
+
                         <Canvas className="canvasModelPreview"
                           shadows
                           // camera={{ position: [20, 20, 120], fov: 5 }}
@@ -202,13 +203,13 @@ export default function Configurator() {
                         </mesh> */}
 
                           {/* <gridHelper args={[200, 200, 200]} opacity={.1} /> */}
-                          <Float 
-                          speed={1}
-                          rotationIntensity={1}
-                          floatIntensity={1}
-                          floatingRange={[0, 0.3]}
+                          <Float
+                            speed={1}
+                            rotationIntensity={1}
+                            floatIntensity={1}
+                            floatingRange={[0, 0.3]}
                           >
-                            
+
                             {renderSelectedModel()}
                             {/* <StockRing/> */}
 
@@ -245,8 +246,21 @@ export default function Configurator() {
                         </Canvas>
 
                       </Suspense>
+
+                            
+                      {/* <div className="max-w-full w-full bg-red-200 absolute bottom-0">
+                        <Selector />
+                      </div> */}
+
+                      <div className="selectorWrapper absolute w-full bottom-4">
+                       <Selector/>
+                      </div>
+
+
                     </div>
+
                   </div>
+
                 </div>
               </section>
             </div>

@@ -96,8 +96,6 @@ export const CustomizationProvider = (props) => {
   const [chairColor, setChairColor] = useState(chairColors[0]);
   const [cushionColor, setCushionColor] = useState(cushionColors[0]);
 
-
-
   // Diamonds Shape 1
   const [ringColor, setringColor] = useState(ringColors[0]);
   const [diamondColor, setdiamondColor] = useState(ringColors[2]);
@@ -114,7 +112,10 @@ export const CustomizationProvider = (props) => {
 
 
   // Selected diamond
-  const [selectedDiamond, setSelectedDiamond] = useState("diamond1");
+  const [selectedDiamond, setSelectedDiamond] = useState("Diamond 1");
+  
+  // Selected Header
+  const [selectedHeader, setSelectedHeader] = useState("Heading 1");
 
 
   return (
@@ -135,7 +136,8 @@ export const CustomizationProvider = (props) => {
         ringColor,
         diamondColor,
         headerColor,
-        selectedDiamond, setSelectedDiamond
+        selectedDiamond, setSelectedDiamond,
+        selectedHeader, setSelectedHeader
         
       }}
     >
