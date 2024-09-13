@@ -18,7 +18,7 @@ import {
 } from '@react-three/drei'
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { CustomizationProvider } from './contexts/Customization'
-import { ConfiguratorSetting } from './components/ConfiguratorSetting'
+// import { ConfiguratorSetting } from './components/ConfiguratorSetting'
 
 
 
@@ -297,7 +297,6 @@ export default function Testimonials() {
 
 
 
-                            <CustomizationProvider>
                                 <Canvas
                                     shadows
                                     camera={{ position: [50, 50, 120], fov: 30 }}
@@ -312,9 +311,8 @@ export default function Testimonials() {
                                     {/* <Stats /> */}
 
                                 </Canvas>
-                                <ConfiguratorSetting/>
+                                {/* <ConfiguratorSetting/> */}
                                 
-                            </CustomizationProvider>
 
 
                             <div className="buttonGroup absolute left-0 top-0">

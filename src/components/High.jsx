@@ -14,6 +14,7 @@ import { RGBELoader } from 'three/examples/jsm/Addons.js'
 import { Color } from 'three'
 import * as THREE from 'three';
 import { useSnapshot } from 'valtio'
+import { useCustomization } from '../contexts/Customization'
 
 // import React, { useRef } from 'react'
 // import { useGLTF } from '@react-three/drei'
@@ -22,7 +23,11 @@ export function High(props) {
 
 
   const snap = useSnapshot(props.colors);
-
+  
+  const {
+    material,
+    setMaterial,visibility, setvisibility
+  } = useCustomization();
 
   const t1 = gsap.timeline()
   const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
@@ -126,7 +131,14 @@ useEffect(() => {
         scale={10000}
       >
 
-        {/* <meshMatcapMaterial  matcap={matcap} name='Matcap material' /> */}
+
+        {
+
+        visibility &&
+        (
+        <meshMatcapMaterial  matcap={matcap} name='Matcap material' />)
+        }
+                
 
       </mesh>
       <mesh
@@ -147,10 +159,11 @@ useEffect(() => {
         position={[-0.067, 35.83, 22.982]}
         rotation={[Math.PI / 2, 0, 0]}
         scale={10000}
-        visible={false}
+        visible={visibility}
       >
 
-        <MeshRefractionMaterial name='Material_6' envMap={texture} {...config} color={diamondColor} toneMapped={true} />
+        
+        <MeshRefractionMaterial name='Material_6' envMap={texture} {...config} color={diamondColor} toneMapped={true} visible={visibility} />
 
       </mesh>
 

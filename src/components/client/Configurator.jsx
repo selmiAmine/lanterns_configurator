@@ -19,16 +19,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { useLoader, Canvas } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import Chair from "../Chair";
-import { ConfiguratorSetting } from "../ConfiguratorSetting";
-import { Ring } from "../Ring";
-import { RingVariation1 } from "../RingVariation1";
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SpeakerWaveIcon, BeakerIcon } from '@heroicons/react/24/solid'
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import CustomerLoader from "./CustomerLoader";
-import { FaceRing } from "../FaceRing";
 import {
   Menu,
   MenuButton,
@@ -41,16 +32,13 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { RingVariation2 } from "../RingVariation2";
-import { RingVariation3 } from "../RingVariation3";
-import { RingVariation4 } from "../RingVariation4";
-import { Dodo } from "../Dodo";
+
 import { useControls } from "leva";
 import { High } from "../High";
 import { proxy } from "valtio";
 import ColorPicker from "./ColorPicker";
 import { StockRing } from "../StockRing";
-import { CustomizationProvider, useCustomization } from "../../contexts/RingContext/Customization";
+import { RingShape1 } from "../rings/RingShape1";
 
 const user = {
   name: 'Tom Cook',
@@ -88,7 +76,7 @@ function classNames(...classes) {
 
 export default function Configurator() {
 
-  const [selectedModel, setSelectedModel] = useState("High");
+  const [selectedModel, setSelectedModel] = useState("RingShape1");
   const [linkOpened, setLinkOpened] = useState(false);
   const controls = useRef();
 
@@ -107,6 +95,18 @@ export default function Configurator() {
         return (
           <High
            scale={.1} position={[0, 15, 0]}
+            castShadow
+            colors={RingState.colors}
+            updateCurrent={updateShoeCurrent}
+          />
+        );
+
+      case "RingShape1":
+        return (
+          <RingShape1
+            scale={2} 
+            rotation={[0, Math.PI / 2, 0]}
+            position={[0, 0, 0]}
             castShadow
             colors={RingState.colors}
             updateCurrent={updateShoeCurrent}
@@ -210,7 +210,7 @@ export default function Configurator() {
                           >
                             
                             {renderSelectedModel()}
-                            <StockRing/>
+                            {/* <StockRing/> */}
 
                             {/* <High scale={.1} position={[0, 15, 0]} /> */}
                           </Float>
@@ -218,27 +218,29 @@ export default function Configurator() {
 
                           {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
                             <RandomizedLight amount={15} radius={1} ambient={1} intensity={.5} position={[5, 5, -10]} bias={0.001} />
-                          </AccumulativeShadows>
+                          </AccumulativeShadows> */}
 
                           <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
                           <EffectComposer>
                             <Bloom luminanceThreshold={.4} intensity={.01} levels={0.15} mipmapBlur />
-                          </EffectComposer> */}
+                          </EffectComposer>
 
                           {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
                                 <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
                             </AccumulativeShadows> */}
 
                           <ContactShadows
-                            width={60}
-                            height={60}
-                            far={10}
-                            position={[0, 0, 0]} scale={[2, 2]} opacity={.6} />
+                            width={10}
+                            height={10}
+                            far={100}
+                            position={[0, 0, 0]} scale={[1, 1]} opacity={.3} />
 
-                          <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
-                          <EffectComposer>
+                          {/* <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" /> */}
+
+                          {/* <EffectComposer>
                             <Bloom luminanceThreshold={1} intensity={.1} levels={0.2} mipmapBlur />
-                          </EffectComposer>
+                          </EffectComposer> */}
+
                           <Stats />
                         </Canvas>
 

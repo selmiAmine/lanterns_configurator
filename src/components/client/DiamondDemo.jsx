@@ -4,16 +4,12 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { useLoader, Canvas } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import Chair from "../Chair";
-import { ConfiguratorSetting } from "../ConfiguratorSetting";
-import { CustomizationProvider } from "../../contexts/Customization";
 import { Ring } from "../Ring";
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SpeakerWaveIcon, BeakerIcon } from '@heroicons/react/24/solid'
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import CustomerLoader from "./CustomerLoader";
-import { FaceRing } from "../FaceRing";
 
 
 gsap.registerPlugin(ScrollTrigger)

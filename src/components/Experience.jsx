@@ -1,16 +1,7 @@
 import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls } from "@react-three/drei"
-import { Island } from "./Island";
-import { Cube } from "./Cube";
-import { BrickCube } from "./BrickCube";
-import { Tree3 } from "./Tree3";
-import { Scenetest } from "./Scenetest";
-import { Rails } from "./Rails";
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
-import { TrainFront } from "./TrainFront";
-import ButterFly from "./Butterfly";
-import { Mountains } from "./Moutains";
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 

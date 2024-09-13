@@ -8,11 +8,10 @@ import {
   PerspectiveCamera,
   Stats
 } from '@react-three/drei'
-import Layout from './components/product-configurator/Layout'
 // import { PerspectiveCamera } from 'three'
 import { BellIcon } from '@heroicons/react/24/outline'
 import Testimonials from './Testimonials'
-import { CustomizationProvider } from './contexts/RingContext/Customization'
+import { Outlet } from 'react-router-dom'
 
 
 
@@ -38,7 +37,10 @@ function App() {
 
   return (
 
-      <Testimonials /> 
+
+    <Outlet/>
+
+      // <Testimonials /> 
   )
 }
 

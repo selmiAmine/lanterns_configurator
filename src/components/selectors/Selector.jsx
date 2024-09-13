@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { EllipsisVerticalIcon, PaperAirplaneIcon } from '@heroicons/react/20/solid'
-import { useCustomization } from '../../contexts/RingContext/Customization';
+import { useCustomization } from '../../contexts/Customization';
 
 
 export const Selector = () => {
 
-    const [material, setMaterial] = useCustomization();
+    const {
+        material,
+        setMaterial,visibility, setvisibility,
+        selectedDiamond, setSelectedDiamond
+      } = useCustomization();
 
     const shapes = [
         {
@@ -77,18 +81,27 @@ export const Selector = () => {
 
 
     const shapeIdSelect = (param) => {
-        setMaterial('amine')
+        setvisibility(!visibility)
         console.log(param)
-        console.log(material)
+        // console.log(visibility)
     }
+
+    const selectedDiamondClick = (param) => {
+        // console.log(param)
+        setSelectedDiamond(param)
+    }
+    
+    // Console log the material
+    console.log(visibility)
+    console.log(selectedDiamond)
 
     return (
         <>
 
             <div className="wrapper flex justify-center">
-                <div className="container">
+                <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                     {/* <div className="title">Ring shape</div> */}
-                    <div className="options py-12">
+                    <div className="options py-8">
           
                         {/* list of Shapes */}
                         <div>
@@ -187,6 +200,7 @@ export const Selector = () => {
                                             </div>
                                             <div className="flex-shrink-0 pr-2">
                                                 <button
+                                                    onClick={() => selectedDiamondClick(project.name)}
                                                     type="button"
                                                     className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                 >
