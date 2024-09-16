@@ -7,7 +7,7 @@ import { useGLTF } from '@react-three/drei'
 import { useCustomization } from '../../contexts/Customization';
 
 export function RingShape1(props) {
-    const { nodes, materials } = useGLTF('/models/Rings/Ring1-variations.glb')
+    const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
 
     const {
         ringColor,
@@ -119,4 +119,4 @@ export function RingShape1(props) {
     )
 }
 
-useGLTF.preload('/models/Rings/Ring1-variations.glb')
+useGLTF.preload('/models/rings/Ring1-variations.glb')

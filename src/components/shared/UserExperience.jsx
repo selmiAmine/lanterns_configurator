@@ -16,7 +16,7 @@ export const UserExperience = () => {
 
                 <CustomizationProvider>
                     <Outlet />
-                    <Selector />
+                    {/* <Selector /> */}
                 </CustomizationProvider>
                 
                 <Footer />

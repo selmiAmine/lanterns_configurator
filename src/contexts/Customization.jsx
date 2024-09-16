@@ -117,6 +117,9 @@ export const CustomizationProvider = (props) => {
   // Selected Header
   const [selectedHeader, setSelectedHeader] = useState("Heading 1");
 
+  // Selecte Shape
+  const [selectedModel, setSelectedModel] = useState("Rectangular");
+
 
   return (
     <CustomizationContext.Provider
@@ -137,8 +140,8 @@ export const CustomizationProvider = (props) => {
         diamondColor,
         headerColor,
         selectedDiamond, setSelectedDiamond,
-        selectedHeader, setSelectedHeader
-        
+        selectedHeader, setSelectedHeader,
+        selectedModel, setSelectedModel
       }}
     >
       {props.children}

@@ -40,6 +40,7 @@ import ColorPicker from "./ColorPicker";
 import { StockRing } from "../StockRing";
 import { RingShape1 } from "../rings/RingShape1";
 import Selector from "../selectors/Selector";
+import { useCustomization } from "../../contexts/Customization";
 
 const user = {
   name: 'Tom Cook',
@@ -77,7 +78,8 @@ function classNames(...classes) {
 
 export default function Configurator() {
 
-  const [selectedModel, setSelectedModel] = useState("RingShape1");
+  const {selectedModel, setSelectedModel} = useCustomization()
+
   const [linkOpened, setLinkOpened] = useState(false);
   const controls = useRef();
 
@@ -102,9 +104,33 @@ export default function Configurator() {
           />
         );
 
-      case "RingShape1":
+      case "Rectangular":
         return (
           <RingShape1
+            scale={2}
+            rotation={[0, Math.PI / 2, 0]}
+            position={[0, 0, 0]}
+            castShadow
+            colors={RingState.colors}
+            updateCurrent={updateShoeCurrent}
+          />
+        );
+
+      case "Circular variation":
+        return (
+          <High
+            scale={2}
+            rotation={[0, Math.PI / 2, 0]}
+            position={[0, 0, 0]}
+            castShadow
+            colors={RingState.colors}
+            updateCurrent={updateShoeCurrent}
+          />
+        );
+
+      case "Circular":
+        return (
+          <StockRing
             scale={2}
             rotation={[0, Math.PI / 2, 0]}
             position={[0, 0, 0]}
