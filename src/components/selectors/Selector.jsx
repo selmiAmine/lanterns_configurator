@@ -11,71 +11,158 @@ export const Selector = () => {
         setMaterial, visibility, setvisibility,
         selectedDiamond, setSelectedDiamond,
         selectedHeader, setSelectedHeader,
-        SelectedModel, setSelectedModel
+        SelectedModel, setSelectedModel,
+
+        selectedHeaderShape2, setSelectedHeaderShape2, 
+        selectedDiamondShape2, setSelectedDiamondShape2,
+        
+        selectedHeaderShape3, setSelectedHeaderShape3,
+        selectedDiamondShape3, setSelectedDiamondShape3
     } = useCustomization();
 
     const [choiceStepped, setChoiceStepped] = useState(1);
+
+    // Inside the component headers list display
+    const [headersList, setHeadersList] = useState(null);
+
+    // Inside the component diamonds list display
+    const [diamondsList, setDiamondsList] = useState(null);
 
     const shapes = [
         {
             id: 1,
             name: 'Rectangular',
             description: 'description',
-            initials: '/thumbnails/shape1/Shape.png'
+            initials: '/thumbnails/shape1/Shape.png',
+
+            headers: [
+                {
+                    shapeId: 1,
+                    name: 'Heading 1',
+                    description: 'description',
+                    initials: '/thumbnails/shape1/Header-1.png'
+                },
+                {
+                    shapeId: 1,
+                    name: 'Heading 2',
+                    description: 'description',
+                    initials: '/thumbnails/shape1/Header-2.png'
+                },
+                {
+                    shapeId: 1,
+                    name: 'Heading 3',
+                    description: 'description',
+                    initials: '/thumbnails/shape1/Header-3.png'
+                },
+            ],
+
+            diamonds: [
+                {
+                    shapeId: 1,
+                    name: 'Diamond 1',
+                    description: 'description',
+                    initials: '/thumbnails/shape1/Diamond-1.png'
+                },
+                {
+                    shapeId: 1,
+                    name: 'Diamond 2',
+                    description: 'description',
+                    initials: '/thumbnails/shape1/Diamond-2.png'
+                },
+                {
+                    shapeId: 1,
+                    name: 'Diamond 3',
+                    description: 'description',
+                    initials: '/thumbnails/shape1/Diamond-3.png'
+                },
+            ]
+
         },
         {
             id: 2,
             name: 'Circular variation',
             description: 'description',
-            initials: '/thumbnails/shape2/Shape.png'
+            initials: '/thumbnails/shape2/Shape.png',
+
+            headers: [
+                {
+                    shapeId: 2,
+                    name: 'Heading 1',
+                    description: 'description',
+                    initials: '/thumbnails/shape2/Header-1.png'
+                },
+                {
+                    shapeId: 2,
+                    name: 'Heading 2',
+                    description: 'description',
+                    initials: '/thumbnails/shape2/Header-2.png'
+                },
+            ],
+
+            diamonds: [
+                {
+                    shapeId: 2,
+                    name: 'Diamond 1',
+                    description: 'description',
+                    initials: '/thumbnails/shape2/Diamond-1.png'
+                },
+                {
+                    shapeId: 2,
+                    name: 'Diamond 2',
+                    description: 'description',
+                    initials: '/thumbnails/shape2/Diamond-2.png'
+                },
+            ]
+
         },
         {
             id: 3,
             name: 'Circular',
             description: 'description',
-            initials: '/thumbnails/shape3/Shape.png'
-        },
-    ]
+            initials: '/thumbnails/shape3/Shape.png',
 
-    const heading = [
-        {
-            shapeId: 1,
-            name: 'Heading 1',
-            description: 'description',
-            initials: '/thumbnails/shape1/Header-1.png'
-        },
-        {
-            shapeId: 1,
-            name: 'Heading 2',
-            description: 'description',
-            initials: '/thumbnails/shape1/Header-2.png'
-        },
-        {
-            shapeId: 1,
-            name: 'Heading 3',
-            description: 'description',
-            initials: '/thumbnails/shape1/Header-3.png'
-        },
-    ]
+            headers: [
+                {
+                    shapeId: 3,
+                    name: 'Heading 1',
+                    description: 'description',
+                    initials: '/thumbnails/shape3/Header-1.png'
+                },
+                {
+                    shapeId: 3,
+                    name: 'Heading 2',
+                    description: 'description',
+                    initials: '/thumbnails/shape3/Header-2.png'
+                },
+                {
+                    shapeId: 3,
+                    name: 'Heading 3',
+                    description: 'description',
+                    initials: '/thumbnails/shape3/Header-2.png'
+                },
+            ],
 
-    const diamonds = [
-        {
-            shapeId: 1,
-            name: 'Diamond 1',
-            description: 'description',
-            initials: '/thumbnails/shape1/Diamond-1.png'
-        },
-        {
-            shapeId: 1,
-            name: 'Diamond 2',
-            description: 'description',
-            initials: '/thumbnails/shape1/Diamond-2.png'
-        },
-        {
-            shapeId: 1,
-            name: 'Diamond 3',
-            description: 'description',
-            initials: '/thumbnails/shape1/Diamond-3.png'
+            diamonds: [
+                {
+                    shapeId: 3,
+                    name: 'Diamond 1',
+                    description: 'description',
+                    initials: '/thumbnails/shape3/Diamond-1.png'
+                },
+                {
+                    shapeId: 3,
+                    name: 'Diamond 2',
+                    description: 'description',
+                    initials: '/thumbnails/shape3/Diamond-2.png'
+                },
+                {
+                    shapeId: 3,
+                    name: 'Diamond 3',
+                    description: 'description',
+                    initials: '/thumbnails/shape3/Diamond-3.png'
+                },
+            ]
+
         },
     ]
 
@@ -91,17 +178,69 @@ export const Selector = () => {
     }
 
     const selectedDiamondClick = (param) => {
-        setSelectedDiamond(param)
+
+        switch (param.shapeId) {
+            case 1:
+              return (
+                setSelectedDiamond(param.name)
+              );
+      
+            case 2:
+              return (
+                setSelectedDiamondShape2(param.name)
+              );
+
+            case 3:
+              return (
+                setSelectedDiamondShape3(param.name)
+              );
+      
+              return (
+                <Teapot
+                  castShadow
+                  colors={TeapotState.colors}
+                  updateCurrent={updateTeapotCurrent}
+                />
+              );
+            default:
+              break;
+          }
     }
 
     const selectedHeaderClick = (param) => {
-        setSelectedHeader(param)
-        console.log(param)
+
+        switch (param.shapeId) {
+            case 1:
+              return (
+                setSelectedHeader(param.name)
+              );
+      
+            case 2:
+              return (
+                setSelectedHeaderShape2(param.name)
+              );
+
+            case 3:
+              return (
+                setSelectedHeaderShape3(param.name)
+              );
+      
+              return (
+                <Teapot
+                  castShadow
+                  colors={TeapotState.colors}
+                  updateCurrent={updateTeapotCurrent}
+                />
+              );
+            default:
+              break;
+          }
     }
 
     const selectedShapeClick = (param) => {
-        setSelectedModel(param)
-        console.log(param)
+        setSelectedModel(param.id)
+        setHeadersList(param.headers)
+        setDiamondsList(param.diamonds)
     }
 
     return (
@@ -119,7 +258,7 @@ export const Selector = () => {
                                 <h2 className="text-sm font-medium text-gray-500">Ring shapes</h2>
                                 <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                                     {shapes.map((shape) => (
-                                        <li key={shape.name} className="col-span-1 flex rounded-md shadow-sm">
+                                        <li key={shape.name} className="col-span-1 flex rounded-md shadow-sm border-[0.5px] border-gray-300">
                                             <div
                                                 className={classNames(
                                                     'flex w-28 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white overflow-hidden',
@@ -128,7 +267,7 @@ export const Selector = () => {
                                                 {/* {shape.initials} */}
                                                 <img src={shape.initials} className='grayscale hover:grayscale-0 transition hover:scale-110' alt="" />
                                             </div>
-                                            <div className="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white/30">
+                                            <div className="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white">
                                                 <div className="flex-1 truncate px-4 py-2 text-sm">
                                                     <a href={shape.href} className="font-medium text-gray-900 hover:text-gray-600 ">
                                                         {shape.name}
@@ -137,9 +276,9 @@ export const Selector = () => {
                                                 </div>
                                                 <div className="flex-shrink-0 pr-2">
                                                     <button
-                                                        onClick={() => selectedShapeClick(shape.name)}
+                                                        onClick={() => selectedShapeClick(shape)}
                                                         type="button"
-                                                        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent bg-white/0 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                     >
                                                         <span className="sr-only">Open options</span>
                                                         <PaperAirplaneIcon aria-hidden="true" className="h-5 w-5" />
@@ -153,11 +292,11 @@ export const Selector = () => {
 
                         {/* List of headers */}
                         {
-                            choiceStepped == 2 &&
+                            headersList && choiceStepped == 2 &&
                             (<div>
                                 <h2 className="text-sm font-medium text-gray-500">Header shapes</h2>
                                 <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-                                    {heading.map((project) => (
+                                    {headersList.map((project) => (
                                         <li key={project.name} className="col-span-1 flex rounded-md shadow-sm">
                                             <div
                                                 className={classNames(
@@ -177,7 +316,7 @@ export const Selector = () => {
                                                 </div>
                                                 <div className="flex-shrink-0 pr-2">
                                                     <button
-                                                        onClick={() => selectedHeaderClick(project.name)}
+                                                        onClick={() => selectedHeaderClick(project)}
                                                         type="button"
                                                         className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                     >
@@ -193,11 +332,11 @@ export const Selector = () => {
 
                         {/* List of diamonds */}
                         {
-                            choiceStepped == 3 &&
+                            diamondsList && choiceStepped == 3 &&
                             <div>
                                 <h2 className="text-sm font-medium text-gray-500">Header shapes</h2>
                                 <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-                                    {diamonds.map((project) => (
+                                    {diamondsList.map((project) => (
                                         <li key={project.name} className="col-span-1 flex rounded-md shadow-sm">
                                             <div
                                                 className={classNames(
@@ -217,7 +356,7 @@ export const Selector = () => {
                                                 </div>
                                                 <div className="flex-shrink-0 pr-2">
                                                     <button
-                                                        onClick={() => selectedDiamondClick(project.name)}
+                                                        onClick={() => selectedDiamondClick(project)}
                                                         type="button"
                                                         className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                     >
@@ -232,14 +371,13 @@ export const Selector = () => {
                             </div>
                         }
 
-<div className="wrapper w-full bg-yellow-100 flex justify-center">
-
-                        <div className="stepped max-w-20 flex justify-between bg-green-300">
-                            <button className='step1 w-5 h-5 bg-red-200 rounded-full'></button>
-                            <button className='step2 w-5 h-5 bg-red-200 rounded-full'></button>
-                            <button className='step3 w-5 h-5 bg-red-200 rounded-full'></button>
+                        <div className="wrapper w-full  flex justify-center py-4">
+                            <div className="stepped max-w-20 flex justify-between  gap-4">
+                                <button onClick={() => setChoiceStepped(1)} className='step1 w-5 h-5 bg-red-200 rounded-full'></button>
+                                <button onClick={() => setChoiceStepped(2)} className='step2 w-5 h-5 bg-red-200 rounded-full'></button>
+                                <button onClick={() => setChoiceStepped(3)} className='step3 w-5 h-5 bg-red-200 rounded-full'></button>
+                            </div>
                         </div>
-</div>
 
 
                     </div>

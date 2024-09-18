@@ -13,7 +13,7 @@
   ```
 */
 
-import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid, Float } from "@react-three/drei"
+import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid, Float, CameraControls } from "@react-three/drei"
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
@@ -41,6 +41,8 @@ import { StockRing } from "../StockRing";
 import { RingShape1 } from "../rings/RingShape1";
 import Selector from "../selectors/Selector";
 import { useCustomization } from "../../contexts/Customization";
+import { RingShape2 } from "../rings/RingShape2";
+import { RingShape3 } from "../rings/RingShape3";
 
 const user = {
   name: 'Tom Cook',
@@ -78,7 +80,10 @@ function classNames(...classes) {
 
 export default function Configurator() {
 
-  const {selectedModel, setSelectedModel} = useCustomization()
+  const meshRef = useRef()
+  const cameraControlsRef = useRef()
+
+  const { selectedModel, setSelectedModel } = useCustomization()
 
   const [linkOpened, setLinkOpened] = useState(false);
   const controls = useRef();
@@ -104,7 +109,7 @@ export default function Configurator() {
           />
         );
 
-      case "Rectangular":
+      case 1:
         return (
           <RingShape1
             scale={2}
@@ -116,9 +121,9 @@ export default function Configurator() {
           />
         );
 
-      case "Circular variation":
+      case 2:
         return (
-          <High
+          <RingShape2
             scale={2}
             rotation={[0, Math.PI / 2, 0]}
             position={[0, 0, 0]}
@@ -128,9 +133,9 @@ export default function Configurator() {
           />
         );
 
-      case "Circular":
+      case 3:
         return (
-          <StockRing
+          <RingShape3
             scale={2}
             rotation={[0, Math.PI / 2, 0]}
             position={[0, 0, 0]}
@@ -205,12 +210,17 @@ export default function Configurator() {
                           style={{ height: '100%', width: '100%' }}
                         >
 
-                          <OrbitControls
+                          {/* <OrbitControls
                             enableZoom={true}
                             makeDefault
                             maxAzimuthAngle={40}
                             minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
+                          /> */}
+
+                          <CameraControls
+                            ref={cameraControlsRef}
                           />
+
 
                           {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={0}>
                             <planeGeometry args={[10, 10]} />
@@ -236,7 +246,10 @@ export default function Configurator() {
                             floatingRange={[0, 0.3]}
                           >
 
-                            {renderSelectedModel()}
+                            <group ref={meshRef}>
+                              {renderSelectedModel()}
+                            </group>
+
                             {/* <StockRing/> */}
 
                             {/* <High scale={.1} position={[0, 15, 0]} /> */}
@@ -273,13 +286,13 @@ export default function Configurator() {
 
                       </Suspense>
 
-                            
+
                       {/* <div className="max-w-full w-full bg-red-200 absolute bottom-0">
                         <Selector />
                       </div> */}
 
                       <div className="selectorWrapper absolute w-full bottom-4">
-                       <Selector/>
+                        <Selector />
                       </div>
 
 
