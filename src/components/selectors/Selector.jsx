@@ -17,7 +17,9 @@ export const Selector = () => {
         selectedDiamondShape2, setSelectedDiamondShape2,
         
         selectedHeaderShape3, setSelectedHeaderShape3,
-        selectedDiamondShape3, setSelectedDiamondShape3
+        selectedDiamondShape3, setSelectedDiamondShape3,
+
+        currentRing,setCurrentRing
     } = useCustomization();
 
     const [choiceStepped, setChoiceStepped] = useState(1);
@@ -179,6 +181,8 @@ export const Selector = () => {
 
     const selectedDiamondClick = (param) => {
 
+        currentRing.diamond = param
+        setCurrentRing(currentRing)
         switch (param.shapeId) {
             case 1:
               return (
@@ -209,6 +213,8 @@ export const Selector = () => {
 
     const selectedHeaderClick = (param) => {
 
+        currentRing.header = param
+        setCurrentRing(currentRing)
         switch (param.shapeId) {
             case 1:
               return (
@@ -238,6 +244,8 @@ export const Selector = () => {
     }
 
     const selectedShapeClick = (param) => {
+        currentRing.shapeId = param.id
+        setCurrentRing(currentRing)
         setSelectedModel(param.id)
         setHeadersList(param.headers)
         setDiamondsList(param.diamonds)

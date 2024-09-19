@@ -43,6 +43,7 @@ import Selector from "../selectors/Selector";
 import { useCustomization } from "../../contexts/Customization";
 import { RingShape2 } from "../rings/RingShape2";
 import { RingShape3 } from "../rings/RingShape3";
+import ColorSelector from "../selectors/ColorSelector";
 
 const user = {
   name: 'Tom Cook',
@@ -83,7 +84,7 @@ export default function Configurator() {
   const meshRef = useRef()
   const cameraControlsRef = useRef()
 
-  const { selectedModel, setSelectedModel } = useCustomization()
+  const { selectedModel, setSelectedModel,currentRing } = useCustomization()
 
   const [linkOpened, setLinkOpened] = useState(false);
   const controls = useRef();
@@ -95,7 +96,6 @@ export default function Configurator() {
   const updateRingColor = (pro, value) => {
     RingState.colors[pro] = value;
   };
-
 
   const renderSelectedModel = () => {
     switch (selectedModel) {
@@ -198,7 +198,6 @@ export default function Configurator() {
                 <div className="overflow-hidden rounded-lg bg-white shadow h-[600px]">
                   <div className="h-full shadow-2xl">
                     {/* Your content */}
-
                     <div className="h-full w-full z-10 relative  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
                       {renderSelectedColorPicker()}
                       <Suspense fallback={null}>
@@ -293,6 +292,10 @@ export default function Configurator() {
 
                       <div className="selectorWrapper absolute w-full bottom-4">
                         <Selector />
+                      </div>
+
+                      <div className="selectorWrapper absolute top-20 right-20">
+                        <ColorSelector />
                       </div>
 
 

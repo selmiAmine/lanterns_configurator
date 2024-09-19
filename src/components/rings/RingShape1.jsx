@@ -11,15 +11,16 @@ export function RingShape1(props) {
     const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
 
 
-    const snap = useSnapshot(props.colors);
+    // const snap = useSnapshot(props.colors);
 
 
     const [hovered, setHovered] = useState(null);
-    const hexString = snap.Material_6; // Or dynamically from snap.Material_6
+    // const hexString = snap.Material_6; // Or dynamically from snap.Material_6
 
 
     useEffect(() => {
-        const cursor = `<svg width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path fill="rgba(255, 255, 255, 0.5)" d="M29.5 54C43.031 54 54 43.031 54 29.5S43.031 5 29.5 5 5 15.969 5 29.5 15.969 54 29.5 54z" stroke="#000"/><g filter="url(#filter0_d)"><path d="M29.5 47C39.165 47 47 39.165 47 29.5S39.165 12 29.5 12 12 19.835 12 29.5 19.835 47 29.5 47z" fill="#ffffff"/></g><path d="M2 2l11 2.947L4.947 13 2 2z" fill="#000"/><text fill="#000" style="white-space:pre" font-family="Inter var, sans-serif" font-size="10" letter-spacing="-.01em"><tspan x="35" y="63">${hovered}</tspan></text></g><defs><clipPath id="clip0"><path fill="#fff" d="M0 0h64v64H0z"/></clipPath><filter id="filter0_d" x="6" y="8" width="47" height="47" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/><feOffset dy="2"/><feGaussianBlur stdDeviation="3"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/><feBlend in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter></defs></svg>`;
+        const cursor = 
+        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M19.221 10.803 12 10V4a2 2 0 0 0-4 0v12l-3.031-1.212a2 2 0 0 0-2.64 1.225l-.113.34a.998.998 0 0 0 .309 1.084l5.197 4.332c.179.149.406.231.64.231H19a2 2 0 0 0 2-2v-7.21a2 2 0 0 0-1.779-1.987z"></path></svg>`;
         if (hovered) {
             document.body.style.cursor = `url('data:image/svg+xml;base64,${btoa(
                 cursor
@@ -33,14 +34,15 @@ export function RingShape1(props) {
         diamondColor,
         headerColor,
         selectedDiamond,
-        selectedHeader
+        selectedHeader,
+        setCurrentItem
     } = useCustomization();
-
+    
     return (
         <group {...props} dispose={null}
             onPointerOver={(e) => {
-                console.log(e.object.material.name)
-                console.log(snap)
+                // console.log(e.object.material.name)
+                // console.log(snap)
                 // console.log(hexValue + '  ' + hexString + '  '+ snap.Material_6)
 
                 e.stopPropagation();
@@ -58,7 +60,11 @@ export function RingShape1(props) {
             onPointerMissed={() => {
                 props.updateCurrent(null);
             }}
-
+            onClick={(e) => {
+                e.stopPropagation()
+                setCurrentItem(e.object.name)
+                console.log(e.object.name)
+            }}
         >
 
             <mesh
@@ -69,8 +75,8 @@ export function RingShape1(props) {
                 position={[0, 0.555, 0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
-                material-color={ringColor.color}
-
+                material-color={ringColor}
+                name='circle'
             />
 
             <mesh
@@ -81,8 +87,9 @@ export function RingShape1(props) {
                 position={[0, 0.886, 0.002]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
-                material-color={headerColor.color}
+                material-color={headerColor}
                 visible={selectedHeader == 'Heading 2'}
+                name='header'
             />
             <mesh
                 castShadow
@@ -92,8 +99,9 @@ export function RingShape1(props) {
                 position={[-0.001, 0.909, -0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
-                material-color={diamondColor.color}
+                material-color={diamondColor}
                 visible={selectedDiamond == 'Diamond 1'}
+                name='diamond'
             />
             <mesh
                 castShadow
@@ -103,8 +111,9 @@ export function RingShape1(props) {
                 position={[0.001, 0.918, 0]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
-                material-color={diamondColor.color}
+                material-color={diamondColor}
                 visible={selectedDiamond == 'Diamond 2'}
+                name='diamond'
             />
             <mesh
                 castShadow
@@ -114,8 +123,9 @@ export function RingShape1(props) {
                 position={[-0.001, 0.88, 0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
-                material-color={headerColor.color}
+                material-color={headerColor}
                 visible={selectedHeader == 'Heading 1'}
+                name='header'
             />
             <mesh
                 castShadow
@@ -125,8 +135,9 @@ export function RingShape1(props) {
                 position={[-0.001, 0.883, 0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
-                material-color={headerColor.color}
+                material-color={headerColor}
                 visible={selectedHeader == 'Heading 3'}
+                name='header'
             />
             <mesh
                 castShadow
@@ -136,8 +147,9 @@ export function RingShape1(props) {
                 position={[0.001, 0.91, 0]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
-                material-color={diamondColor.color}
+                material-color={diamondColor}
                 visible={selectedDiamond == 'Diamond 3'}
+                name='diamond'
             />
 
         </group>

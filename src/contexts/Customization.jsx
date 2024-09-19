@@ -111,37 +111,29 @@ export const CustomizationProvider = (props) => {
   const [legs, setLegs] = useState(1);
   const [chairColor, setChairColor] = useState(chairColors[0]);
   const [cushionColor, setCushionColor] = useState(cushionColors[0]);
+  const [currentItem, setCurrentItem] = useState("");
 
   // Colors Shape 1
-  const [ringColor, setringColor] = useState(ringColors[0]);
-  const [diamondColor, setdiamondColor] = useState(ringColors[2]);
-  const [headerColor, setheaderColor] = useState(ringColors[1]);
+  const [ringColor, setRingColor] = useState(ringColors[0].color);
+  const [diamondColor, setDiamondColor] = useState(ringColors[2].color);
+  const [headerColor, setHeaderColor] = useState(ringColors[1].color);
   const [selectedDiamond, setSelectedDiamond] = useState("Diamond 1");
   const [selectedHeader, setSelectedHeader] = useState("Heading 1");
 
   // Colors Shape 2
-  const [ringColorShape2, setringColorShape2] = useState(ringColors[0]);
-  const [diamondColorShape2, setdiamondColorShape2] = useState(ringColors[2]);
-  const [headerColorShape2, setheaderColorShape2] = useState(ringColors[1]);
+  const [ringColorShape2, setRingColorShape2] = useState(ringColors[0].color);
+  const [diamondColorShape2, setDiamondColorShape2] = useState(ringColors[2].color);
+  const [headerColorShape2, setHeaderColorShape2] = useState(ringColors[1].color);
   const [selectedHeaderShape2, setSelectedHeaderShape2] = useState("Heading 1");
   const [selectedDiamondShape2, setSelectedDiamondShape2] = useState("Diamond 1");
 
   // Colors Shape 3
-  const [ringColorShape3, setringColorShape3] = useState(ringColors[0]);
-  const [diamondColorShape3, setdiamondColorShape3] = useState(ringColors[2]);
-  const [headerColorShape3, setheaderColorShape3] = useState(ringColors[1]);
+  const [ringColorShape3, setRingColorShape3] = useState(ringColors[0].color);
+  const [diamondColorShape3, setDiamondColorShape3] = useState(ringColors[2].color);
+  const [headerColorShape3, setHeaderColorShape3] = useState(ringColors[1].color);
   const [selectedHeaderShape3, setSelectedHeaderShape3] = useState("Heading 1");
   const [selectedDiamondShape3, setSelectedDiamondShape3] = useState("Diamond 1");
 
-  // Color picker object
-  const RingState = {
-    current: null,
-    colors: {
-      Material_6: "#d3d3d3",
-      gold: "#d3d3d3",
-      silver: "#d3d3d3",
-    },
-  }
   
 
   // Header Shape 1
@@ -155,14 +147,31 @@ export const CustomizationProvider = (props) => {
 
 
   // Selecte Shape
-  const [selectedModel, setSelectedModel] = useState("High");
+  const [selectedModel, setSelectedModel] = useState(1);
 
   // Current ring
   const [currentRing, setCurrentRing] = useState(
     {
-      shapeId :0,
-      header : {},
-      diamond : {},
+      shapeId :selectedModel,
+      shapeOptions : {
+
+      },
+      header : {
+        data : {
+
+        },
+        options: {
+          
+        }
+      },
+      diamond : {
+        data : {
+
+        },
+        options: {
+
+        }
+      },
       ownerId : 0,
       name : '',
       description : '',
@@ -190,26 +199,29 @@ export const CustomizationProvider = (props) => {
         selectedModel, setSelectedModel,
         currentRing, setCurrentRing,
         
-        ringColor,
-        diamondColor,
-        headerColor,
+        ringColor, setRingColor,
+        diamondColor, setDiamondColor,
+        headerColor, setHeaderColor,
         selectedDiamond, setSelectedDiamond,
         selectedHeader, setSelectedHeader,
         
-        ringColorShape2,
-        diamondColorShape2,
-        headerColorShape2,
+        ringColorShape2, setRingColorShape2,
+        diamondColorShape2, setDiamondColorShape2,
+        headerColorShape2,setHeaderColorShape2,
         selectedDiamondShape2, setSelectedDiamondShape2,
         selectedHeaderShape2, setSelectedHeaderShape2,
 
-        ringColorShape3,
-        diamondColorShape3,
-        headerColorShape3,
+        ringColorShape3, setRingColorShape3,
+        diamondColorShape3, setDiamondColorShape3,
+        headerColorShape3, setHeaderColorShape3,
         selectedDiamondShape3, setSelectedDiamondShape3,
         selectedHeaderShape3, setSelectedHeaderShape3,
       
+        // Current selected Item with mouse
+        currentItem, setCurrentItem
 
-        RingState
+
+        
       }}
     >
       {props.children}
