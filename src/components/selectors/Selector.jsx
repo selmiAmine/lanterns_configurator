@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { EllipsisVerticalIcon, PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { useCustomization } from '../../contexts/Customization';
 
+import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/solid'
 
 export const Selector = () => {
 
@@ -13,16 +14,82 @@ export const Selector = () => {
         selectedHeader, setSelectedHeader,
         SelectedModel, setSelectedModel,
 
-        selectedHeaderShape2, setSelectedHeaderShape2, 
+        selectedHeaderShape2, setSelectedHeaderShape2,
         selectedDiamondShape2, setSelectedDiamondShape2,
-        
+
         selectedHeaderShape3, setSelectedHeaderShape3,
         selectedDiamondShape3, setSelectedDiamondShape3,
 
-        currentRing,setCurrentRing
+        currentRing, setCurrentRing,
+
+        zoomToDiamond, zoomToHeader, resetCamera
+
     } = useCustomization();
 
-    const [choiceStepped, setChoiceStepped] = useState(1);
+
+
+    // let LINEWIDTH = 0
+
+    let [lineWidth, setLineWidth] = useState(1);
+    let [choiceStepped, setChoiceStepped] = useState(1);
+
+    const nextStep = () => {
+        if (choiceStepped < 3) {
+            setChoiceStepped(++choiceStepped)
+        }
+
+        switch (choiceStepped) {
+            case 1:
+                {
+                    resetCamera()
+                    break;
+                }
+            case 2:
+
+                {
+                    // zoomToDiamond()
+                    zoomToHeader()
+                    break;
+                }
+            case 3:
+                {
+                    zoomToDiamond()
+                    break;
+                }
+
+            default:
+                break;
+        }
+    }
+
+    const previousStep = () => {
+        if (choiceStepped > 1) {
+            setChoiceStepped(--choiceStepped)
+        }
+
+        switch (choiceStepped) {
+            case 1:
+                {
+                    resetCamera()
+                    break;
+                }
+            case 2:
+
+                {
+                    // zoomToDiamond()
+                    zoomToHeader()
+                    break;
+                }
+            case 3:
+                {
+                    zoomToDiamond()
+                    break;
+                }
+
+            default:
+                break;
+        }
+    }
 
     // Inside the component headers list display
     const [headersList, setHeadersList] = useState(null);
@@ -172,7 +239,6 @@ export const Selector = () => {
         return classes.filter(Boolean).join(' ')
     }
 
-
     const shapeIdSelect = (param) => {
         setvisibility(!visibility)
         console.log(param)
@@ -185,30 +251,30 @@ export const Selector = () => {
         setCurrentRing(currentRing)
         switch (param.shapeId) {
             case 1:
-              return (
-                setSelectedDiamond(param.name)
-              );
-      
+                return (
+                    setSelectedDiamond(param.name)
+                );
+
             case 2:
-              return (
-                setSelectedDiamondShape2(param.name)
-              );
+                return (
+                    setSelectedDiamondShape2(param.name)
+                );
 
             case 3:
-              return (
-                setSelectedDiamondShape3(param.name)
-              );
-      
-              return (
-                <Teapot
-                  castShadow
-                  colors={TeapotState.colors}
-                  updateCurrent={updateTeapotCurrent}
-                />
-              );
+                return (
+                    setSelectedDiamondShape3(param.name)
+                );
+
+                return (
+                    <Teapot
+                        castShadow
+                        colors={TeapotState.colors}
+                        updateCurrent={updateTeapotCurrent}
+                    />
+                );
             default:
-              break;
-          }
+                break;
+        }
     }
 
     const selectedHeaderClick = (param) => {
@@ -217,30 +283,30 @@ export const Selector = () => {
         setCurrentRing(currentRing)
         switch (param.shapeId) {
             case 1:
-              return (
-                setSelectedHeader(param.name)
-              );
-      
+                return (
+                    setSelectedHeader(param.name)
+                );
+
             case 2:
-              return (
-                setSelectedHeaderShape2(param.name)
-              );
+                return (
+                    setSelectedHeaderShape2(param.name)
+                );
 
             case 3:
-              return (
-                setSelectedHeaderShape3(param.name)
-              );
-      
-              return (
-                <Teapot
-                  castShadow
-                  colors={TeapotState.colors}
-                  updateCurrent={updateTeapotCurrent}
-                />
-              );
+                return (
+                    setSelectedHeaderShape3(param.name)
+                );
+
+                return (
+                    <Teapot
+                        castShadow
+                        colors={TeapotState.colors}
+                        updateCurrent={updateTeapotCurrent}
+                    />
+                );
             default:
-              break;
-          }
+                break;
+        }
     }
 
     const selectedShapeClick = (param) => {
@@ -251,13 +317,14 @@ export const Selector = () => {
         setDiamondsList(param.diamonds)
     }
 
+
     return (
         <>
 
-            <div className="wrapper flex justify-center">
+            <div className="wrapper flex flex-col justify-center ">
                 <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                     {/* <div className="title">Ring shape</div> */}
-                    <div className="options">
+                    <div className="options min-w-full">
 
                         {/* list of Shapes */}
                         {
@@ -379,18 +446,29 @@ export const Selector = () => {
                             </div>
                         }
 
+                        {/* <div className="overflow-hidden rounded-full mt-4 bg-gray-200">
+                            <div style={{ width: lineWidth +'%' }} className="h-1 rounded-full bg-indigo-600" />
+                        </div> */}
+
                         <div className="wrapper w-full  flex justify-center py-4">
+
                             <div className="stepped max-w-20 flex justify-between  gap-4">
-                                <button onClick={() => setChoiceStepped(1)} className='step1 w-5 h-5 bg-red-200 rounded-full'></button>
-                                <button onClick={() => setChoiceStepped(2)} className='step2 w-5 h-5 bg-red-200 rounded-full'></button>
-                                <button onClick={() => setChoiceStepped(3)} className='step3 w-5 h-5 bg-red-200 rounded-full'></button>
+                                <button onClick={() => previousStep()} className='step1 p-2 bg-red-200 rounded-full'>
+                                    <ChevronLeftIcon className="mx-auto h-4 w-4 text-gray-900" />
+                                </button>
+                                <button onClick={() => nextStep()} className='step2 p-2 bg-red-200 rounded-full'>
+                                    <ChevronRightIcon className="mx-auto h-4 w-4 text-gray-900" />
+                                </button>
+                                {/* <button onClick={() => setChoiceStepped(3)} className='step3 w-5 h-5 bg-red-200 rounded-full'></button> */}
                             </div>
                         </div>
 
 
                     </div>
                 </div>
+
             </div>
+
 
 
         </>

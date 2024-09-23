@@ -13,8 +13,8 @@
   ```
 */
 
-import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid, Float, CameraControls } from "@react-three/drei"
-import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid, Float, CameraControls, Bounds, useBounds } from "@react-three/drei"
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { useLoader, Canvas } from '@react-three/fiber'
@@ -44,6 +44,10 @@ import { useCustomization } from "../../contexts/Customization";
 import { RingShape2 } from "../rings/RingShape2";
 import { RingShape3 } from "../rings/RingShape3";
 import ColorSelector from "../selectors/ColorSelector";
+import gsap from 'gsap'
+
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { RingLoader } from "../rings/RingLoader";
 
 const user = {
   name: 'Tom Cook',
@@ -79,22 +83,18 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Configurator() {
 
+
+function ThreejsScene() {
+  const t1 = gsap.timeline()
+
+
+
+  const { cameraControlRef, selectedModel, setSelectedModel } = useCustomization()
   const meshRef = useRef()
-  const cameraControlsRef = useRef()
-
-  const { selectedModel, setSelectedModel,currentRing } = useCustomization()
-
-  const [linkOpened, setLinkOpened] = useState(false);
-  const controls = useRef();
-
+  // const cameraControlRef = useRef()
   const updateShoeCurrent = (value) => {
     RingState.current = value;
-  };
-
-  const updateRingColor = (pro, value) => {
-    RingState.colors[pro] = value;
   };
 
   const renderSelectedModel = () => {
@@ -157,6 +157,120 @@ export default function Configurator() {
     }
   };
 
+
+  // cameraControlRef.current?.dolly(2, true)
+
+  //   const { cameraPosition, scenePosition, sceneRotation } = useControls({
+  //     cameraPosition: {
+  //         value: { x: 0, y: 2, z: 9 },
+  //         step: 0.05
+  //     },
+  // })
+
+  // useMemo(() => {
+  //     cameraControlRef.current?.setPosition(cameraPosition.x, cameraPosition.y, cameraPosition.z, true)
+  //     cameraControlRef.current?.setLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z, 0,1,0, true)
+
+
+  // })
+
+  return (
+    <>
+      <Canvas className="canvasModelPreview"
+        shadows
+        // camera={{ position: [20, 20, 120], fov: 5 }}
+        style={{ height: '100%', width: '100%' }
+        }
+      >
+
+        {/* <OrbitControls
+                            enableZoom={true}
+                            makeDefault
+                            maxAzimuthAngle={40}
+                            minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
+                          /> */}
+
+        < CameraControls
+          ref={cameraControlRef}
+        />
+
+        {/* < gridHelper args={[200, 200, 200]} opacity={.1} /> */}
+
+        {/* <Float
+          speed={1}
+          rotationIntensity={1}
+          floatIntensity={1}
+          floatingRange={[0, 0.3]}
+        > */}
+
+          {/* <group ref={meshRef}>
+            {renderSelectedModel()}
+          </group> */}
+
+          <RingLoader />
+
+        {/* </Float> */}
+
+        {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
+                            <RandomizedLight amount={15} radius={1} ambient={1} intensity={.5} position={[5, 5, -10]} bias={0.001} />
+                          </AccumulativeShadows> */}
+
+        <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
+        <EffectComposer>
+          <Bloom luminanceThreshold={.4} intensity={.01} levels={0.15} mipmapBlur />
+        </EffectComposer>
+
+        {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
+                                <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
+                            </AccumulativeShadows> */}
+
+        <ContactShadows
+          width={10}
+          height={10}
+          far={100}
+          position={[0, 0, 0]} scale={[1, 1]} opacity={.3} />
+
+        <Stats />
+      </Canvas >
+
+    </>)
+}
+
+export default function Configurator() {
+
+
+
+
+  // const { cameraPosition, scenePosition, sceneRotation } = useControls({
+  //   cameraPosition: {
+  //       value: { x:4.45, y:0.45, z:9 },
+  //       step: 0.05
+  //   },
+  //   scenePosition : {
+  //       value : { x:0.25, y:0, z:4.35 },
+  //       step: 0.05
+  //   },
+  //   sceneRotation : {
+  //       value : { x:0, y:0, z:0 },
+  //       step: 0.01
+  //   },
+
+  // }) 
+
+
+
+
+  const { selectedModel, setSelectedModel, currentRing, cameraControlRef } = useCustomization()
+
+  const [linkOpened, setLinkOpened] = useState(false);
+  const controls = useRef();
+
+
+
+  const updateRingColor = (pro, value) => {
+    RingState.colors[pro] = value;
+  };
+
   const updateSelectedModel = (selectedModel) => {
     controls.current.reset();
     setSelectedModel(selectedModel);
@@ -172,6 +286,9 @@ export default function Configurator() {
         break;
     }
   };
+
+
+
 
   return (
     <>
@@ -203,85 +320,7 @@ export default function Configurator() {
                       <Suspense fallback={null}>
 
 
-                        <Canvas className="canvasModelPreview"
-                          shadows
-                          // camera={{ position: [20, 20, 120], fov: 5 }}
-                          style={{ height: '100%', width: '100%' }}
-                        >
-
-                          {/* <OrbitControls
-                            enableZoom={true}
-                            makeDefault
-                            maxAzimuthAngle={40}
-                            minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
-                          /> */}
-
-                          <CameraControls
-                            ref={cameraControlsRef}
-                          />
-
-
-                          {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={0}>
-                            <planeGeometry args={[10, 10]} />
-                            <MeshReflectorMaterial
-                                blur={[300, 100]}
-                                resolution={2048}
-                                mixBlur={.5}
-                                // mixStrength={40}
-                                // roughness={1}
-                                depthScale={2}
-                                // minDepthThreshold={0.4}
-                                // maxDepthThreshold={1.4}
-                                color="#ff4444"
-                            // metalness={0.5}
-                            />
-                        </mesh> */}
-
-                          {/* <gridHelper args={[200, 200, 200]} opacity={.1} /> */}
-                          <Float
-                            speed={1}
-                            rotationIntensity={1}
-                            floatIntensity={1}
-                            floatingRange={[0, 0.3]}
-                          >
-
-                            <group ref={meshRef}>
-                              {renderSelectedModel()}
-                            </group>
-
-                            {/* <StockRing/> */}
-
-                            {/* <High scale={.1} position={[0, 15, 0]} /> */}
-                          </Float>
-                          {/* <RingVariation3 scale={1} position={[0, 0, 0]} /> */}
-
-                          {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
-                            <RandomizedLight amount={15} radius={1} ambient={1} intensity={.5} position={[5, 5, -10]} bias={0.001} />
-                          </AccumulativeShadows> */}
-
-                          <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
-                          <EffectComposer>
-                            <Bloom luminanceThreshold={.4} intensity={.01} levels={0.15} mipmapBlur />
-                          </EffectComposer>
-
-                          {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
-                                <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
-                            </AccumulativeShadows> */}
-
-                          <ContactShadows
-                            width={10}
-                            height={10}
-                            far={100}
-                            position={[0, 0, 0]} scale={[1, 1]} opacity={.3} />
-
-                          {/* <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" /> */}
-
-                          {/* <EffectComposer>
-                            <Bloom luminanceThreshold={1} intensity={.1} levels={0.2} mipmapBlur />
-                          </EffectComposer> */}
-
-                          <Stats />
-                        </Canvas>
+                        <ThreejsScene />
 
                       </Suspense>
 

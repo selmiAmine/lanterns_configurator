@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 
 const chairColors = [
   {
@@ -136,6 +136,27 @@ export const CustomizationProvider = (props) => {
 
   
 
+  // Camera ref
+  const cameraControlRef = useRef(null);
+  
+  const setCameraControlRef = (value) => {
+    cameraControlRef.current = value
+  }
+
+  const zoomToDiamond = (value) => {
+    cameraControlRef.current?.setLookAt(0,2.4,1,0,2,0, true)
+    // cameraControlRef.current = value
+  }
+
+  const zoomToHeader = (value) => {
+    cameraControlRef.current?.setLookAt(0,2,1,0,1.8,0, true)
+    // cameraControlRef.current = value
+  }
+
+  const resetCamera = (value) => {
+    cameraControlRef.current?.setLookAt(0, 1, 4,0,2,0, true)
+  }
+
   // Header Shape 1
   // const [ringColor, setringColor] = useState(ringColors[0]);
   // const [diamondColor, setdiamondColor] = useState(ringColors[2]);
@@ -218,9 +239,12 @@ export const CustomizationProvider = (props) => {
         selectedHeaderShape3, setSelectedHeaderShape3,
       
         // Current selected Item with mouse
-        currentItem, setCurrentItem
+        currentItem, setCurrentItem,
 
-
+        cameraControlRef,setCameraControlRef,
+        zoomToDiamond,
+        zoomToHeader,
+        resetCamera
         
       }}
     >

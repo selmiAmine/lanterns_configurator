@@ -41,10 +41,6 @@ export function RingShape2(props) {
   return (
     <group {...props} dispose={null}
       onPointerOver={(e) => {
-        // console.log(e.object.material.name)
-        // console.log(snap)
-        // console.log(hexValue + '  ' + hexString + '  '+ snap.Material_6)
-
         e.stopPropagation();
         setHovered(e.object.material.name);
       }}
@@ -55,15 +51,12 @@ export function RingShape2(props) {
       }}
       onPointerDown={(e) => {
         e.stopPropagation();
-        props.updateCurrent(e.object.material.name);
       }}
       onPointerMissed={() => {
-        props.updateCurrent(null);
       }}
       onClick={(e) => {
         e.stopPropagation()
         setCurrentItem(e.object.name)
-        console.log(e.object.name)
       }}
     >
       <mesh

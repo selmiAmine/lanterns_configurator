@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { EllipsisVerticalIcon, PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { useCustomization } from '../../contexts/Customization';
+import { useControls } from 'leva';
+import { useFrame } from '@react-three/fiber';
 
 
 export const ColorSelector = () => {
@@ -19,17 +21,22 @@ export const ColorSelector = () => {
         setHeaderColor,
         setHeaderColorShape2,
         setHeaderColorShape3,
-        currentItem } = useCustomization()
+        currentItem,
+        cameraControlRef,
+        zoomToDiamond } = useCustomization()
 
-    console.log(currentItem)
+    const DEG45 = Math.PI / 4;
 
     const colorUpdate = (param) => {
         switch (currentItem) {
             case "circle":
-                {   
+                {
                     setRingColor(param)
                     setRingColorShape2(param)
                     setRingColorShape3(param)
+                    // cameraControlRef.current?.rotate(DEG45, 0, true)
+                    // cameraControlRef.current?.position.x(4)
+                    // cameraControlRef.current?.zoom(10, true)
                     break;
                 }
             case "diamond":
