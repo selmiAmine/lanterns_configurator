@@ -14,158 +14,157 @@ import { High } from '../High';
 import { RingShape1 } from './RingShape1';
 
 export function RingLoader(props) {
-    const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
+  const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
 
 
-    // const snap = useSnapshot(props.colors);
-    const { cameraControlRef, zoomToDiamond,selectedModel, setSelectedModel } = useCustomization()
+  // const snap = useSnapshot(props.colors);
+  const { cameraControlRef, zoomToDiamond, selectedModel, setSelectedModel } = useCustomization()
 
-    const [hovered, setHovered] = useState(null);
-    // const hexString = snap.Material_6; // Or dynamically from snap.Material_6
+  const [hovered, setHovered] = useState(null);
+  // const hexString = snap.Material_6; // Or dynamically from snap.Material_6
 
-    useEffect(() => {
-        const cursor =
-            `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M19.221 10.803 12 10V4a2 2 0 0 0-4 0v12l-3.031-1.212a2 2 0 0 0-2.64 1.225l-.113.34a.998.998 0 0 0 .309 1.084l5.197 4.332c.179.149.406.231.64.231H19a2 2 0 0 0 2-2v-7.21a2 2 0 0 0-1.779-1.987z"></path></svg>`;
-        if (hovered) {
-            document.body.style.cursor = `url('data:image/svg+xml;base64,${btoa(
-                cursor
-            )}'), auto`;
+  useEffect(() => {
+    const cursor =
+      `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M19.221 10.803 12 10V4a2 2 0 0 0-4 0v12l-3.031-1.212a2 2 0 0 0-2.64 1.225l-.113.34a.998.998 0 0 0 .309 1.084l5.197 4.332c.179.149.406.231.64.231H19a2 2 0 0 0 2-2v-7.21a2 2 0 0 0-1.779-1.987z"></path></svg>`;
+    if (hovered) {
+      document.body.style.cursor = `url('data:image/svg+xml;base64,${btoa(
+        cursor
+      )}'), auto`;
+    }
+    return () => (document.body.style.cursor = "auto");
+  }, [hovered]);
+
+  const {
+    ringColor,
+    diamondColor,
+    headerColor,
+    selectedDiamond,
+    selectedHeader,
+    setCurrentItem
+  } = useCustomization();
+
+  const model = useRef()
+
+  const { cameraPosition, scenePosition, sceneRotation } = useControls({
+    cameraPosition: {
+      value: { x: 0, y: 2, z: 9 },
+      step: 0.05
+    },
+  })
+
+  useMemo(() => {
+    // cameraControlRef.current?.setPosition(cameraPosition.x, cameraPosition.y, cameraPosition.z, true)
+    // cameraControlRef.current?.setLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z, 0,1,0, true)
+
+
+    // camera.position.x = cameraPosition.x
+    // camera.position.y = cameraPosition.y
+    // camera.position.z = cameraPosition.z
+
+  })
+
+  useEffect(() => {
+
+    console.log(cameraControlRef.current)
+    cameraControlRef.current.setPosition(0, 2, 4, true)
+
+    console.log('model', model.current)
+  }, []);
+
+  const renderSelectedModel = () => {
+    switch (selectedModel) {
+      case "High":
+        return (
+          <High
+            scale={.1} position={[0, 15, 0]}
+            castShadow
+          // colors={RingState.colors}
+          />
+        );
+
+      case 1:
+        return (
+          <RingShape1
+            scale={2}
+            rotation={[0, Math.PI / 2, 0]}
+            position={[0, 0, 0]}
+            castShadow
+          // colors={RingState.colors}
+          />
+        );
+
+      case 2:
+        return (
+          <RingShape2
+            scale={2}
+            rotation={[0, Math.PI / 2, 0]}
+            position={[0, 0, 0]}
+            castShadow
+          // colors={RingState.colors}
+          />
+        );
+
+      case 3:
+        return (
+          <RingShape3
+            scale={2}
+            rotation={[0, Math.PI / 2, 0]}
+            position={[0, 0, 0]}
+            castShadow
+          // colors={RingState.colors}
+          />
+        );
+
+        return (
+          <Teapot
+            castShadow
+          // colors={TeapotState.colors}
+          // updateCurrent={updateTeapotCurrent}
+          />
+        );
+      default:
+        break;
+    }
+  };
+
+
+
+
+
+  return (
+
+    <group {...props} dispose={null}
+      ref={model}
+      onPointerOver={(e) => {
+        // console.log(e.object.material.name)
+        // console.log(snap)
+        // console.log(hexValue + '  ' + hexString + '  '+ snap.Material_6)
+
+        e.stopPropagation();
+        setHovered(e.object.material.name);
+      }}
+      onPointerOut={(e) => {
+        if (e.intersections.length === 0) {
+          setHovered(null);
         }
-        return () => (document.body.style.cursor = "auto");
-    }, [hovered]);
+      }}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        // props.updateCurrent(e.object.material.name);
+      }}
+      onPointerMissed={() => {
+        // props.updateCurrent(null);
+      }}
+      onClick={(e) => {
+        e.stopPropagation()
+        setCurrentItem(e.object.name)
+        console.log(e.object.name)
+      }}
+    >
+      {renderSelectedModel()}
+    </group>
 
-    const {
-        ringColor,
-        diamondColor,
-        headerColor,
-        selectedDiamond,
-        selectedHeader,
-        setCurrentItem
-    } = useCustomization();
-
-    const model = useRef()
-
-    const { cameraPosition, scenePosition, sceneRotation } = useControls({
-        cameraPosition: {
-            value: { x: 0, y: 2, z: 9 },
-            step: 0.05
-        },
-    })
-
-    useMemo(() => {
-        // cameraControlRef.current?.setPosition(cameraPosition.x, cameraPosition.y, cameraPosition.z, true)
-        // cameraControlRef.current?.setLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z, 0,1,0, true)
-
-
-        // camera.position.x = cameraPosition.x
-        // camera.position.y = cameraPosition.y
-        // camera.position.z = cameraPosition.z
-
-    })
-
-    useEffect(() => {
-
-        cameraControlRef.current.setPosition(0, 2, 4, true)
-
-        console.log('model',model.current)
-    }, []);
-
-    const renderSelectedModel = () => {
-        switch (selectedModel) {
-          case "High":
-            return (
-              <High
-                scale={.1} position={[0, 15, 0]}
-                castShadow
-                // colors={RingState.colors}
-              />
-            );
-    
-          case 1:
-            return (
-              <RingShape1
-                scale={2}
-                rotation={[0, Math.PI / 2, 0]}
-                position={[0, 0, 0]}
-                castShadow
-                // colors={RingState.colors}
-              />
-            );
-    
-          case 2:
-            return (
-              <RingShape2
-                scale={2}
-                rotation={[0, Math.PI / 2, 0]}
-                position={[0, 0, 0]}
-                castShadow
-                // colors={RingState.colors}
-              />
-            );
-    
-          case 3:
-            return (
-              <RingShape3
-                scale={2}
-                rotation={[0, Math.PI / 2, 0]}
-                position={[0, 0, 0]}
-                castShadow
-                // colors={RingState.colors}
-              />
-            );
-    
-            return (
-              <Teapot
-                castShadow
-                // colors={TeapotState.colors}
-                // updateCurrent={updateTeapotCurrent}
-              />
-            );
-          default:
-            break;
-        }
-      };
-    
-
-
-
-
-    return (
-
-
-
-        <group {...props} dispose={null}
-            ref={model}
-            onPointerOver={(e) => {
-                // console.log(e.object.material.name)
-                // console.log(snap)
-                // console.log(hexValue + '  ' + hexString + '  '+ snap.Material_6)
-
-                e.stopPropagation();
-                setHovered(e.object.material.name);
-            }}
-            onPointerOut={(e) => {
-                if (e.intersections.length === 0) {
-                    setHovered(null);
-                }
-            }}
-            onPointerDown={(e) => {
-                e.stopPropagation();
-                // props.updateCurrent(e.object.material.name);
-            }}
-            onPointerMissed={() => {
-                // props.updateCurrent(null);
-            }}
-            onClick={(e) => {
-                e.stopPropagation()
-                setCurrentItem(e.object.name)
-                console.log(e.object.name)
-            }}
-        >
-            {renderSelectedModel()}
-        </group>
-
-    )
+  )
 }
 
 // useGLTF.preload('/models/rings/Ring1-variations.glb')

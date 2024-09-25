@@ -88,7 +88,7 @@ function classNames(...classes) {
 function ThreejsScene() {
   const t1 = gsap.timeline()
 
-
+  
 
   const { cameraControlRef, selectedModel, setSelectedModel } = useCustomization()
   const meshRef = useRef()

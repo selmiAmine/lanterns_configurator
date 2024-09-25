@@ -7,7 +7,8 @@ import { Bounds, useBounds, useGLTF } from '@react-three/drei'
 import { useCustomization } from '../../contexts/Customization';
 import { useSnapshot } from 'valtio';
 import { useControls } from 'leva';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { TextureLoader } from 'three';
 
 export function RingShape1(props) {
     const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
@@ -38,6 +39,22 @@ export function RingShape1(props) {
         selectedHeader,
         setCurrentItem
     } = useCustomization();
+
+    const [colorMap, displacementMap,normalMap, roughnessMap, metallic] = useLoader(TextureLoader, [
+        '/textures/gold/Poliigon_MetalGoldPaint_7253_BaseColor.jpg',
+        '/textures/gold/Poliigon_MetalGoldPaint_7253_Displacement.jpg',
+        '/textures/gold/Poliigon_MetalGoldPaint_7253_Normal.png',
+        '/textures/gold/Poliigon_MetalGoldPaint_7253_Roughness.jpg',
+        '/textures/gold/Poliigon_MetalGoldPaint_7253_Metallic.jpg',
+    ])
+
+    const [colorMapMat,normalMapMat, roughnessMapMat, metallicMat] = useLoader(TextureLoader, [
+        '/textures/mat/Poliigon_MetalPaintedMatte_7037_BaseColor.jpg',
+        // '/textures/mat/Poliigon_MetalPaintedMatte_7037_Displacement.tiff',
+        '/textures/mat/Poliigon_MetalPaintedMatte_7037_Normal.png',
+        '/textures/mat/Poliigon_MetalPaintedMatte_7037_Roughness.jpg',
+        '/textures/mat/Poliigon_MetalPaintedMatte_7037_Metallic.jpg',
+    ])
 
     return (
 
@@ -75,7 +92,16 @@ export function RingShape1(props) {
                 scale={50}
                 material-color={ringColor}
                 name='circle'
-            />
+            >
+                <meshStandardMaterial
+                    displacementScale={0.2}
+                    map={colorMapMat}
+                    // displacementMap={displacementMapMat}
+                    normalMap={normalMapMat}
+                    roughnessMap={roughnessMapMat}
+                // aoMap={aoMap}
+                />
+            </mesh>
 
             <mesh
                 castShadow

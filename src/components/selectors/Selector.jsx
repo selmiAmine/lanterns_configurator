@@ -22,7 +22,7 @@ export const Selector = () => {
 
         currentRing, setCurrentRing,
 
-        zoomToDiamond, zoomToHeader, resetCamera
+        zoomToDiamond, zoomToHeader, resetCamera, cameraControlRef
 
     } = useCustomization();
 
@@ -34,6 +34,8 @@ export const Selector = () => {
     let [choiceStepped, setChoiceStepped] = useState(1);
 
     const nextStep = () => {
+        console.log(cameraControlRef.current)
+
         if (choiceStepped < 3) {
             setChoiceStepped(++choiceStepped)
         }
@@ -63,6 +65,8 @@ export const Selector = () => {
     }
 
     const previousStep = () => {
+        console.log(cameraControlRef.current)
+
         if (choiceStepped > 1) {
             setChoiceStepped(--choiceStepped)
         }
@@ -453,10 +457,10 @@ export const Selector = () => {
                         <div className="wrapper w-full  flex justify-center py-4">
 
                             <div className="stepped max-w-20 flex justify-between  gap-4">
-                                <button onClick={() => previousStep()} className='step1 p-2 bg-red-200 rounded-full'>
+                                <button onClick={() => previousStep()} className='step1 p-2 bg-white rounded-full'>
                                     <ChevronLeftIcon className="mx-auto h-4 w-4 text-gray-900" />
                                 </button>
-                                <button onClick={() => nextStep()} className='step2 p-2 bg-red-200 rounded-full'>
+                                <button onClick={() => nextStep()} className='step2 p-2 bg-white rounded-full'>
                                     <ChevronRightIcon className="mx-auto h-4 w-4 text-gray-900" />
                                 </button>
                                 {/* <button onClick={() => setChoiceStepped(3)} className='step3 w-5 h-5 bg-red-200 rounded-full'></button> */}
