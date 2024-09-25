@@ -154,7 +154,10 @@ export const CustomizationProvider = (props) => {
   }
 
   const resetCamera = (value) => {
-    cameraControlRef.current?.setLookAt(0, 1, 4,0,2,0, true)
+    cameraControlRef.current.setPosition(0, 2, 4, true)
+    cameraControlRef.current.setTarget(0, 0, 0, true)
+
+    // cameraControlRef.current?.setLookAt(0, 1, 4,0,2,0, true)
   }
 
   // Header Shape 1
