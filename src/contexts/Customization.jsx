@@ -133,6 +133,13 @@ export const CustomizationProvider = (props) => {
   const [headerColorShape3, setHeaderColorShape3] = useState(ringColors[1].color);
   const [selectedHeaderShape3, setSelectedHeaderShape3] = useState("Heading 1");
   const [selectedDiamondShape3, setSelectedDiamondShape3] = useState("Diamond 1");
+  
+  
+  const [materialsImported, setMaterialsImported] = useState({});
+  
+  console.log(materialsImported)
+  // Selected material
+  const [selectedMaterial, setSelectedMaterial] = useState(2);
 
   
 
@@ -247,8 +254,11 @@ export const CustomizationProvider = (props) => {
         cameraControlRef,setCameraControlRef,
         zoomToDiamond,
         zoomToHeader,
-        resetCamera
-        
+        resetCamera,
+
+        materialsImported, setMaterialsImported,
+        selectedMaterial, setSelectedMaterial
+
       }}
     >
       {props.children}

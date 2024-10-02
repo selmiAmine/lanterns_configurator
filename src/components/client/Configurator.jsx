@@ -48,6 +48,9 @@ import gsap from 'gsap'
 
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { RingLoader } from "../rings/RingLoader";
+import { Ring1Unwrapped } from "../rings/Ring1Unwrapped";
+import { Unwrapped } from "../rings/Unwrapped";
+import { MaterialSelector } from "../selectors/MaterialSelector";
 
 const user = {
   name: 'Tom Cook',
@@ -207,6 +210,9 @@ function ThreejsScene() {
             {renderSelectedModel()}
           </group> */}
 
+
+            <Ring1Unwrapped scale={2} position={[2,0,0]} rotation={[0, Math.PI / 2, 0]}/>
+            {/* <Unwrapped scale={2} position={[-2,0,0]} rotation={[0, Math.PI / 2, 0]}/> */}
           <RingLoader />
 
         {/* </Float> */}
@@ -217,7 +223,7 @@ function ThreejsScene() {
 
         <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
         <EffectComposer>
-          <Bloom luminanceThreshold={.4} intensity={.01} levels={0.15} mipmapBlur />
+        <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
         </EffectComposer>
 
         {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
@@ -335,6 +341,10 @@ export default function Configurator() {
 
                       <div className="selectorWrapper absolute top-20 right-20">
                         <ColorSelector />
+                      </div>
+
+                      <div className="selectorWrapper absolute top-20 left-20">
+                        <MaterialSelector />
                       </div>
 
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { EllipsisVerticalIcon, PaperAirplaneIcon } from '@heroicons/react/20/solid'
 import { useCustomization } from '../../contexts/Customization';
-import { useControls } from 'leva';
 import { useFrame } from '@react-three/fiber';
 
 
@@ -75,6 +74,7 @@ export const ColorSelector = () => {
                             <div onClick={() => { colorUpdate('#4ade80') }} className='h-5 rounded-full w-5 bg-green-400'></div>
                             <div onClick={() => { colorUpdate('#60a5fa') }} className='h-5 rounded-full w-5 bg-blue-400'></div>
                             <div onClick={() => { colorUpdate('#ffffff') }} className='h-5 rounded-full w-5 bg-white'></div>
+                            <div onClick={() => { colorUpdate('#545454') }} className='h-5 rounded-full w-5 bg-black border border-white b-4'></div>
                         </div>
                     </div>
                 </div>

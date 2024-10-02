@@ -45,12 +45,12 @@ export function RingLoader(props) {
 
   const model = useRef()
 
-  const { cameraPosition, scenePosition, sceneRotation } = useControls({
-    cameraPosition: {
-      value: { x: 0, y: 2, z: 9 },
-      step: 0.05
-    },
-  })
+  // const { cameraPosition, scenePosition, sceneRotation } = useControls({
+  //   cameraPosition: {
+  //     value: { x: 0, y: 2, z: 9 },
+  //     step: 0.05
+  //   },
+  // })
 
   useMemo(() => {
     // cameraControlRef.current?.setPosition(cameraPosition.x, cameraPosition.y, cameraPosition.z, true)
