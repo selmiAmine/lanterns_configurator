@@ -36,20 +36,16 @@ export const MaterialSelector = () => {
                             </div>
                             <div className="item  flex flex-row gap-4 items-center">
                                 <div onClick={() => { matUpdate(2) }} className='h-5 rounded-full w-5 bg-red-400'></div>
-                                <div>Fabric</div>
+                                <div>Matte</div>
                             </div>
                             <div className="item  flex flex-row gap-4 items-center">
                                 <div onClick={() => { matUpdate(3) }} className='h-5 rounded-full w-5 bg-red-400'></div>
-                                <div>Metal</div>
+                                <div>Round Hammer</div>
                             </div>
                             <div className="item  flex flex-row gap-4 items-center">
                                 <div onClick={() => { matUpdate(4) }} className='h-5 rounded-full w-5 bg-red-400'></div>
-                                <div>Mat</div>
+                                <div>Fabric</div>
                             </div>
-                            {/* <div onClick={() => { colorUpdate('#facc15') }} className='h-5 rounded-full w-5 bg-yellow-400'></div> */}
-                            {/* <div onClick={() => { colorUpdate('#4ade80') }} className='h-5 rounded-full w-5 bg-green-400'></div> */}
-                            {/* <div onClick={() => { colorUpdate('#60a5fa') }} className='h-5 rounded-full w-5 bg-blue-400'></div> */}
-                            {/* <div onClick={() => { colorUpdate('#ffffff') }} className='h-5 rounded-full w-5 bg-white'></div> */}
                         </div>
                     </div>
                 </div>

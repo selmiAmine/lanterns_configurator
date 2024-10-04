@@ -149,7 +149,10 @@ export function RingShape2(props) {
         material-color={diamondColorShape2}
         visible={selectedDiamondShape2 == 'Diamond 2'}
         name="diamond"
-      />
+      >
+                        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+
+        </mesh>
       <mesh
         castShadow
         receiveShadow
