@@ -135,6 +135,7 @@ export function RingShape1(props) {
                 position={[0, 0.555, 0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
+                // scale-x= {20}
                 material-color={ringColor}
                 name='circle'
             >
@@ -203,9 +204,11 @@ export function RingShape1(props) {
                 position={[-0.001, 0.88, 0.001]}
                 rotation={[Math.PI / 2, 0, 0]}
                 scale={50}
+                // scale-x={20}
                 material-color={headerColor}
                 visible={selectedHeader == 'Heading 1'}
                 name='header'
+                
             />
             <mesh
                 castShadow
