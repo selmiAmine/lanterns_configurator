@@ -10,6 +10,7 @@ export const ColorSelector = () => {
 
     const {
         currentRing,
+        setCurrentRing,
         selectedModel,
         setRingColor,
         setRingColorShape2,
@@ -33,17 +34,17 @@ export const ColorSelector = () => {
                     setRingColor(param)
                     setRingColorShape2(param)
                     setRingColorShape3(param)
-                    // cameraControlRef.current?.rotate(DEG45, 0, true)
-                    // cameraControlRef.current?.position.x(4)
-                    // cameraControlRef.current?.zoom(10, true)
+                    currentRing.shape.options.color = param
+                    setCurrentRing(currentRing)            
                     break;
                 }
             case "diamond":
-
                 {
                     setDiamondColor(param)
                     setDiamondColorShape2(param)
                     setDiamondColorShape3(param)
+                    currentRing.diamond.options.color = param
+                    setCurrentRing(currentRing)
                     break;
                 }
             case "header":
@@ -51,6 +52,8 @@ export const ColorSelector = () => {
                     setHeaderColor(param)
                     setHeaderColorShape2(param)
                     setHeaderColorShape3(param)
+                    currentRing.header.options.color = param
+                    setCurrentRing(currentRing)
                     break;
                 }
 
