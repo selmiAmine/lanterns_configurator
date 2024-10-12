@@ -134,12 +134,10 @@ export const CustomizationProvider = (props) => {
   const [selectedHeaderShape3, setSelectedHeaderShape3] = useState("Heading 1");
   const [selectedDiamondShape3, setSelectedDiamondShape3] = useState("Diamond 1");
   
-  
   const [materialsImported, setMaterialsImported] = useState({});
   
-  console.log(materialsImported)
   // Selected material
-  const [selectedMaterial, setSelectedMaterial] = useState(2);
+  const [selectedMaterial, setSelectedMaterial] = useState(1);
 
   
 
@@ -177,30 +175,39 @@ export const CustomizationProvider = (props) => {
 
 
 
-  // Selecte Shape
+  // Selected Shape
   const [selectedModel, setSelectedModel] = useState(1);
+
+  // Rotate animation
+  const [canAnimate, setCanAnimate] = useState(true);
 
   // Current ring
   const [currentRing, setCurrentRing] = useState(
     {
-      shapeId :selectedModel,
-      shapeOptions : {
-
+      // shapeId :selectedModel,
+      // shapeOptions : {
+      //   material : 0,
+      //   color : "",
+      // },
+      shape : {
+        data : selectedModel,
+        options: {
+          material : selectedMaterial,
+          color : "",
+        }
       },
       header : {
-        data : {
-
-        },
+        data : {},
         options: {
-          
+          material : 0,
+          color : "",
         }
       },
       diamond : {
-        data : {
-
-        },
+        data : {},
         options: {
-
+          material : 0,
+          color : "",
         }
       },
       ownerId : 0,
@@ -210,6 +217,18 @@ export const CustomizationProvider = (props) => {
       comment : ''
     }
   ); 
+
+  const saveRing = () => {
+    console.log('RING SAVED',currentRing)
+  }
+
+  const resetRing = () => {
+    console.log('RING RESETTED',currentRing)
+    // setSelectedModel(0)
+    setSelectedDiamond('asds')
+
+    // Set all possibilities to empty string
+  }
 
   return (
     <CustomizationContext.Provider
@@ -257,7 +276,17 @@ export const CustomizationProvider = (props) => {
         resetCamera,
 
         materialsImported, setMaterialsImported,
-        selectedMaterial, setSelectedMaterial
+        selectedMaterial, setSelectedMaterial,
+
+        canAnimate, setCanAnimate,
+
+
+
+
+
+        // functions
+
+        saveRing, resetRing,
 
       }}
     >
