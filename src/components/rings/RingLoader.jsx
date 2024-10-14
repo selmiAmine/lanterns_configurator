@@ -42,7 +42,9 @@ export function RingLoader(props) {
     selectedHeader,
     setCurrentItem,
 
-    canAnimate, setCanAnimate
+    canAnimate, setCanAnimate,
+
+    registerFunction
   } = useCustomization();
 
   const model = useRef()
@@ -154,35 +156,67 @@ export function RingLoader(props) {
 
   const takeScreenshot = () => {
     try {
-      const strMime = "image/jpeg";
+      const strMime = "image/png"; // Use PNG to support transparency
+
+      // Set background to transparent
+      const originalBackground = scene.background;
+      scene.background = null; // Set the scene background to null for transparency
+
       // Render the scene using the top-down camera
       gl.render(scene, topCamera.current);
+
+      // Capture the screenshot with transparency
       const imgData = gl.domElement.toDataURL(strMime);
-      saveFile(imgData.replace(strMime, strDownloadMime), "top-down-screenshot.jpg");
+      saveFile(imgData.replace(strMime, strDownloadMime), "top-down-screenshot.png");
+
+      // Restore original background if necessary
+      scene.background = originalBackground;
     } catch (e) {
       console.error(e);
     }
   };
 
+  const functionInComponent1 = () => {
+    // console.log('Function in Component 1 triggered!');
+    // Your function logic here
+
+    takeScreenshot()
+  };
+
   useEffect(() => {
-    topCamera.current.setPosition(0, 4, 4, true)
+    registerFunction(functionInComponent1);
+
+    // topCamera.current.setPosition(0, 4, 4, true)
     // topCamera.current.setTarget(0, 0, 0, true)
 
     // Wait until the next animation frame to ensure the canvas is rendered
-    requestAnimationFrame(() => {
-      takeScreenshot();
-    });
-  }, []);
+
+    // requestAnimationFrame(() => {
+    //   takeScreenshot();
+    // });
+
+  }, [registerFunction]);
 
 
 
   return (
     <>
 
-      < CameraControls
+      <PerspectiveCamera
+        name='ScreenShot-camera'
+        ref={topCamera}
+        // makeDefault
+        position={[2, 3, 5]}  // Camera placed above the scene (adjust height as needed)
+        fov={50}               // Adjust FOV as needed
+        near={0.1}
+        far={100}
+        onUpdate={(self) => self.lookAt(0, 0, 0)}  // Look at the center of the scene
+      />
+
+      {/* < CameraControls
         // enabled={false}
         ref={topCamera}
-      />
+      /> */}
 
       <group {...props} dispose={null}
         ref={model}

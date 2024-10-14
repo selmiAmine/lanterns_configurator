@@ -179,7 +179,7 @@ export const CustomizationProvider = (props) => {
   const [selectedModel, setSelectedModel] = useState(1);
 
   // Rotate animation
-  const [canAnimate, setCanAnimate] = useState(true);
+  const [canAnimate, setCanAnimate] = useState(false);
 
   // Current ring
   const [currentRing, setCurrentRing] = useState(
@@ -225,10 +225,18 @@ export const CustomizationProvider = (props) => {
   const resetRing = () => {
     console.log('RING RESETTED',currentRing)
     // setSelectedModel(0)
-    setSelectedDiamond('asds')
+    // setSelectedDiamond('asds')
 
     // Set all possibilities to empty string
   }
+
+
+
+  const [exposedFunction, setExposedFunction] = useState(null);
+
+  const registerFunction = (func) => {
+    setExposedFunction(() => func); // Register the function
+  };
 
   return (
     <CustomizationContext.Provider
@@ -287,6 +295,7 @@ export const CustomizationProvider = (props) => {
         // functions
 
         saveRing, resetRing,
+        exposedFunction, registerFunction
 
       }}
     >

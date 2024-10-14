@@ -93,13 +93,16 @@ function ThreejsScene() {
 
 
 
-  const { cameraControlRef, selectedModel, setSelectedModel } = useCustomization()
+  const { cameraControlRef, selectedModel, setSelectedModel  } = useCustomization()
   const meshRef = useRef()
   // const cameraControlRef = useRef()
   const updateShoeCurrent = (value) => {
     RingState.current = value;
   };
 
+
+
+  
   const renderSelectedModel = () => {
     switch (selectedModel) {
       case "High":
@@ -264,11 +267,15 @@ function ThreejsScene() {
 
     // }) 
 
-    const { selectedModel, setSelectedModel, currentRing, cameraControlRef, setCanAnimate, canAnimate ,takeScreenshot} = useCustomization()
+    const { selectedModel, setSelectedModel, currentRing, cameraControlRef, setCanAnimate, canAnimate ,takeScreenshot,exposedFunction} = useCustomization()
 
     const [linkOpened, setLinkOpened] = useState(false);
     const controls = useRef();
-
+    const handleClick = () => {
+      if (exposedFunction) {
+        exposedFunction(); // Trigger the function from Component 1
+      }
+    };
 
 
     const updateRingColor = (pro, value) => {
@@ -351,7 +358,9 @@ function ThreejsScene() {
 
                           //   className={`wrapper p-2 rounded-lg shadow-lg
                           // ${canAnimate == false ? 'outline outline-gray-400 outline-2 text-gray-400' : 'outline outline-gray-8 outline-2 text-gray-900'}`}
-                            onClick={() => { takeScreenshot() }}>
+                            // onClick={() => { takeScreenshot() }}
+                            onClick={handleClick}
+                            >
                             <CameraIcon className='w-4 h-4' alt="" />
                           </div>
                         </div>
