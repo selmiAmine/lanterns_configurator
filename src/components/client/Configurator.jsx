@@ -30,7 +30,7 @@ import {
   PopoverButton,
   PopoverPanel,
 } from '@headlessui/react'
-import { Bars3Icon, BellIcon, CameraIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, CameraIcon, XMarkIcon, FingerPrintIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon, ArrowPathIcon } from '@heroicons/react/20/solid'
 
 import { useControls } from "leva";
@@ -51,6 +51,7 @@ import { RingLoader } from "../rings/RingLoader";
 import { Ring1Unwrapped } from "../rings/Ring1Unwrapped";
 import { Unwrapped } from "../rings/Unwrapped";
 import { MaterialSelector } from "../selectors/MaterialSelector";
+import { useSpring, a } from "@react-spring/three";
 
 const user = {
   name: 'Tom Cook',
@@ -93,7 +94,7 @@ function ThreejsScene() {
 
 
 
-  const { cameraControlRef, selectedModel, setSelectedModel  } = useCustomization()
+  const { cameraControlRef, selectedModel, setSelectedModel, isFloating } = useCustomization()
   const meshRef = useRef()
   // const cameraControlRef = useRef()
   const updateShoeCurrent = (value) => {
@@ -102,7 +103,7 @@ function ThreejsScene() {
 
 
 
-  
+
   const renderSelectedModel = () => {
     switch (selectedModel) {
       case "High":
@@ -180,130 +181,140 @@ function ThreejsScene() {
 
   // })
 
+  // Define the spring animation for smooth transitions
+  const { position, rotation } = useSpring({
+    position: isFloating ? [0, 0, 0] : [0, 0, 0], // initial and final position
+    rotation: isFloating ? [0, 0, 0] : [0, 0, 0], // initial and final rotation
+    config: { tension: 170, friction: 26 }, // Controls the smoothness of the animation
+  });
 
-    return (
-      <>
-        <Canvas className="canvasModelPreview"
-          shadows
-          // camera={{ position: [20, 20, 120], fov: 5 }}
-          style={{ height: '100%', width: '100%' }
-          }
-        >
 
-          {/* <OrbitControls
+  return (
+    <>
+      <Canvas className="canvasModelPreview"
+        shadows
+        // camera={{ position: [20, 20, 120], fov: 5 }}
+        style={{ height: '100%', width: '100%' }
+        }
+      >
+
+        {/* <OrbitControls
                             enableZoom={true}
                             makeDefault
                             maxAzimuthAngle={40}
                             minPolarAngle={0} maxPolarAngle={(Math.PI / 2.1)}
                           /> */}
 
-          < CameraControls
-            ref={cameraControlRef}
-          />
+        < CameraControls
+          ref={cameraControlRef}
+        />
 
-          {/* < gridHelper args={[200, 200, 200]} opacity={.1} /> */}
+        < gridHelper args={[200, 200, 200]} opacity={.1} />
 
-          {/* <Float
-          speed={1}
-          rotationIntensity={1}
-          floatIntensity={1}
-          floatingRange={[0, 0.3]}
-        > */}
+        {isFloating ? (
+          <Float speed={4} rotationIntensity={3} floatIntensity={2} floatingRange={[0, 0.3]}>
+            <Ring1Unwrapped scale={2} position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
+            <RingLoader />
+          </Float>
+        ) : (
+          <>
+            <a.group position={position} rotation={rotation}>
 
-          {/* <group ref={meshRef}>
-            {renderSelectedModel()}
-          </group> */}
+              <Ring1Unwrapped scale={2} position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
+              <RingLoader />
+            </a.group>
+
+          </>
+        )}
 
 
-          <Ring1Unwrapped scale={2} position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
-          {/* <Unwrapped scale={2} position={[-2,0,0]} rotation={[0, Math.PI / 2, 0]}/> */}
-          <RingLoader />
 
-          {/* </Float> */}
 
-          {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
+
+        {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
                             <RandomizedLight amount={15} radius={1} ambient={1} intensity={.5} position={[5, 5, -10]} bias={0.001} />
                           </AccumulativeShadows> */}
 
-          <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
-          <EffectComposer>
-            <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
-          </EffectComposer>
+        <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
 
-          {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
+        <EffectComposer>
+          <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
+        </EffectComposer>
+
+        {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
                                 <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
                             </AccumulativeShadows> */}
 
-          <ContactShadows
-            width={10}
-            height={10}
-            far={100}
-            position={[0, 0, 0]} scale={[1, 1]} opacity={.3} />
+        <ContactShadows
+          width={10}
+          height={10}
+          far={100}
+          position={[0, 0, 0]} scale={[1, 1]} opacity={.5} />
 
-          <Stats />
-        </Canvas >
+        <Stats />
+      </Canvas >
 
-      </>)
-  }
+    </>)
+}
 
-  export default function Configurator() {
-
-
-
-
-    // const { cameraPosition, scenePosition, sceneRotation } = useControls({
-    //   cameraPosition: {
-    //       value: { x:4.45, y:0.45, z:9 },
-    //       step: 0.05
-    //   },
-    //   scenePosition : {
-    //       value : { x:0.25, y:0, z:4.35 },
-    //       step: 0.05
-    //   },
-    //   sceneRotation : {
-    //       value : { x:0, y:0, z:0 },
-    //       step: 0.01
-    //   },
-
-    // }) 
-
-    const { selectedModel, setSelectedModel, currentRing, cameraControlRef, setCanAnimate, canAnimate ,takeScreenshot,exposedFunction} = useCustomization()
-
-    const [linkOpened, setLinkOpened] = useState(false);
-    const controls = useRef();
-    const handleClick = () => {
-      if (exposedFunction) {
-        exposedFunction(); // Trigger the function from Component 1
-      }
-    };
-
-
-    const updateRingColor = (pro, value) => {
-      RingState.colors[pro] = value;
-    };
-
-    const updateSelectedModel = (selectedModel) => {
-      controls.current.reset();
-      setSelectedModel(selectedModel);
-    };
-
-
-    const renderSelectedColorPicker = () => {
-      switch (selectedModel) {
-        case "High":
-          return <ColorPicker state={RingState} updateColor={updateRingColor} />;
-
-        default:
-          break;
-      }
-    };
+export default function Configurator() {
 
 
 
 
-    return (
-      <>
-        {/*
+  // const { cameraPosition, scenePosition, sceneRotation } = useControls({
+  //   cameraPosition: {
+  //       value: { x:4.45, y:0.45, z:9 },
+  //       step: 0.05
+  //   },
+  //   scenePosition : {
+  //       value : { x:0.25, y:0, z:4.35 },
+  //       step: 0.05
+  //   },
+  //   sceneRotation : {
+  //       value : { x:0, y:0, z:0 },
+  //       step: 0.01
+  //   },
+
+  // }) 
+
+  const { selectedModel, setSelectedModel, currentRing, cameraControlRef, setCanAnimate, canAnimate, takeScreenshot, exposedFunction, setIsFloating, isFloating, currentModelAttributes, setCurrentModelAttributes, 
+    setLayingPosition,setResetPositon
+
+  } = useCustomization()
+
+  const [linkOpened, setLinkOpened] = useState(false);
+  const controls = useRef();
+  const handleClick = () => {
+    if (exposedFunction) {
+      exposedFunction(); // Trigger the function from Component 1
+    }
+  };
+
+
+  const updateRingColor = (pro, value) => {
+    RingState.colors[pro] = value;
+  };
+
+  const updateSelectedModel = (selectedModel) => {
+    controls.current.reset();
+    setSelectedModel(selectedModel);
+  };
+
+
+  const renderSelectedColorPicker = () => {
+    switch (selectedModel) {
+      case "High":
+        return <ColorPicker state={RingState} updateColor={updateRingColor} />;
+
+      default:
+        break;
+    }
+  };
+
+  return (
+    <>
+      {/*
           This example requires updating your template:
   
           ```
@@ -312,82 +323,102 @@ function ThreejsScene() {
           ```
         */}
 
-        <main className="-mt-24 pb-8">
-          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <h1 className="sr-only">Page title</h1>
-            {/* Main 3 column grid */}
-            <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-1 lg:gap-8">
-              {/* Left column */}
-              <div className="grid grid-cols-1 gap-4 lg:col-span-2">
-                <section aria-labelledby="section-1-title">
-                  <h2 id="section-1-title" className="sr-only">
-                    Section title
-                  </h2>
-                  <div className="overflow-hidden rounded-lg bg-white shadow h-[600px]">
-                    <div className="h-full shadow-2xl">
-                      {/* Your content */}
-                      <div className="h-full w-full z-10 relative  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
-                        {renderSelectedColorPicker()}
-                        <Suspense fallback={null}>
+      <main className="-mt-24 pb-8">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+          <h1 className="sr-only">Page title</h1>
+          {/* Main 3 column grid */}
+          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-1 lg:gap-8">
+            {/* Left column */}
+            <div className="grid grid-cols-1 gap-4 lg:col-span-2">
+              <section aria-labelledby="section-1-title">
+                <h2 id="section-1-title" className="sr-only">
+                  Section title
+                </h2>
+                <div className="overflow-hidden rounded-lg bg-white shadow h-[600px]">
+                  <div className="h-full shadow-2xl">
+                    {/* Your content */}
+                    <div className="h-full w-full z-10 relative  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
+                      {renderSelectedColorPicker()}
+                      <Suspense fallback={null}>
 
 
-                          <ThreejsScene />
+                        <ThreejsScene />
 
-                        </Suspense>
+                      </Suspense>
 
 
-                        {/* <div className="max-w-full w-full bg-red-200 absolute bottom-0">
+                      {/* <div className="max-w-full w-full bg-red-200 absolute bottom-0">
                         <Selector />
                       </div> */}
 
 
-                        <div className="selectorWrapper absolute top-5 left-20 px-4">
-                          {/* <Selector /> */}
-                          <div
+                      <div className="selectorWrapper absolute top-5 left-20 px-4">
+                        {/* <Selector /> */}
+                        <div
 
-                            className={`wrapper p-2 rounded-lg shadow-lg
+                          className={`wrapper p-2 rounded-lg shadow-lg
                           ${canAnimate == false ? 'outline outline-gray-400 outline-2 text-gray-400' : 'outline outline-gray-8 outline-2 text-gray-900'}`}
-                            onClick={() => { setCanAnimate(!canAnimate) }}>
-                            <ArrowPathIcon className='w-4 h-4' alt="" />
-                          </div>
+                          onClick={() => { setCanAnimate(!canAnimate) }}>
+                          <ArrowPathIcon className='w-4 h-4' alt="" />
                         </div>
-                        
-                        <div className="selectorWrapper absolute top-5 left-40">
-                          {/* <Selector /> */}
-                          <div
-
-                          //   className={`wrapper p-2 rounded-lg shadow-lg
-                          // ${canAnimate == false ? 'outline outline-gray-400 outline-2 text-gray-400' : 'outline outline-gray-8 outline-2 text-gray-900'}`}
-                            // onClick={() => { takeScreenshot() }}
-                            onClick={handleClick}
-                            >
-                            <CameraIcon className='w-4 h-4' alt="" />
-                          </div>
-                        </div>
-
-                        <div className="selectorWrapper absolute w-full bottom-4">
-                          <Selector />
-                        </div>
-
-                        <div className="selectorWrapper absolute top-20 right-20">
-                          <ColorSelector />
-                        </div>
-
-                        <div className="selectorWrapper absolute top-20 left-20">
-                          <MaterialSelector />
-                        </div>
-
-
                       </div>
 
+                      <div className="selectorWrapper absolute top-5 left-40 px-4">
+                        {/* <Selector /> */}
+                        <div
+
+                          className={`wrapper p-2 rounded-lg shadow-lg
+                          ${isFloating == false ? 'outline outline-gray-400 outline-2 text-gray-400' : 'outline outline-gray-8 outline-2 text-gray-900'}`}
+                          onClick={() => { setIsFloating(!isFloating) }}>
+                          <FingerPrintIcon className='w-4 h-4' alt="" />
+                        </div>
+                      </div>
+
+                      <div className="selectorWrapper absolute top-5 left-60 px-4">
+                        {/* <Selector /> */}
+                        <div
+
+                          className={`wrapper p-2 rounded-lg shadow-lg outline outline-gray-8 outline-2 text-gray-900`}
+                          // onClick={() => { takeScreenshot() }}
+                          onClick={handleClick}
+                        >
+                          <CameraIcon className='w-4 h-4' alt="" />
+                        </div>
+                      </div>
+
+                      <div className="selectorWrapper absolute w-full bottom-4">
+                        <Selector />
+                      </div>
+
+                      <div className="selectorWrapper absolute top-20 right-20">
+                        <ColorSelector />
+                      </div>
+
+                      <div className="selectorWrapper absolute top-20 left-20">
+                        <MaterialSelector />
+                        <button
+                          onClick={() => { setLayingPosition() }}>
+                          Switch position</button>
+                        <br />
+                        <button
+                          onClick={() => { setResetPositon() }}>
+                          Reset position</button>
+                      </div>
+
+
+
+
+
+
                     </div>
-
                   </div>
-                </section>
-              </div>
 
-              {/* Right column */}
-              {/* <div className="grid grid-cols-1 gap-4">
+                </div>
+              </section>
+            </div>
+
+            {/* Right column */}
+            {/* <div className="grid grid-cols-1 gap-4">
               <section aria-labelledby="section-2-title">
                 <h2 id="section-2-title" className="sr-only">
                   Section title
@@ -404,14 +435,14 @@ function ThreejsScene() {
               </section>
             </div> */}
 
-            </div>
           </div>
-        </main>
+        </div>
+      </main>
 
 
 
 
-      </>
-    )
-  }
+    </>
+  )
+}
 

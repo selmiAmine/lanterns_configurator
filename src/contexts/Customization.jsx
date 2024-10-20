@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import { createContext, useContext, useRef, useState } from "react";
 
 const chairColors = [
@@ -173,13 +174,17 @@ export const CustomizationProvider = (props) => {
   // We have the variables for the material color for multiple meshes, we need to attribute the variables for mesh appearences to be visible or not
   // then move on to the visibility of the specific material
 
-
-
   // Selected Shape
   const [selectedModel, setSelectedModel] = useState(1);
 
   // Rotate animation
   const [canAnimate, setCanAnimate] = useState(false);
+  
+  // Floating animation
+  const [isFloating, setIsFloating] = useState(false);
+  
+  // Floating animation
+  const [currentModelAttributes, setCurrentModelAttributes] = useState(null);
 
   // Current ring
   const [currentRing, setCurrentRing] = useState(
@@ -224,10 +229,13 @@ export const CustomizationProvider = (props) => {
 
   const resetRing = () => {
     console.log('RING RESETTED',currentRing)
+    
     // setSelectedModel(0)
+    
     // setSelectedDiamond('asds')
 
     // Set all possibilities to empty string
+  
   }
 
 
@@ -237,6 +245,58 @@ export const CustomizationProvider = (props) => {
   const registerFunction = (func) => {
     setExposedFunction(() => func); // Register the function
   };
+
+
+  const setLayingPosition = () => {
+    console.log(currentModelAttributes.position);
+
+    // Animate the rotation using GSAP
+    gsap.to(currentModelAttributes.rotation, {
+      x: Math.PI / 2,
+      duration: 1, // Animation duration in seconds
+      onUpdate: () => {
+        setCurrentModelAttributes({ ...currentModelAttributes });
+      }
+    });
+    
+    // Animate the position at the same time
+    gsap.to(currentModelAttributes.position, {
+      z: -1,
+      y: 1,
+      duration: 1, // Animation duration in seconds
+      onUpdate: () => {
+        setCurrentModelAttributes({ ...currentModelAttributes });
+      }
+    });
+    
+  };
+
+  const setResetPositon = () => {
+    console.log(currentModelAttributes.position);
+
+    // Animate the rotation using GSAP
+    gsap.to(currentModelAttributes.rotation, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1, // Animation duration in seconds
+      onUpdate: () => {
+        setCurrentModelAttributes({ ...currentModelAttributes });
+      }
+    });
+  
+    gsap.to(currentModelAttributes.position, {
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 1, // Animation duration in seconds
+      onUpdate: () => {
+        setCurrentModelAttributes({ ...currentModelAttributes });
+      }
+    });
+  };
+
+
 
   return (
     <CustomizationContext.Provider
@@ -288,14 +348,17 @@ export const CustomizationProvider = (props) => {
 
         canAnimate, setCanAnimate,
 
+        isFloating, setIsFloating,
 
+        currentModelAttributes, setCurrentModelAttributes,
 
 
 
         // functions
 
         saveRing, resetRing,
-        exposedFunction, registerFunction
+        exposedFunction, registerFunction,
+        setLayingPosition, setResetPositon
 
       }}
     >

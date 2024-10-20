@@ -44,7 +44,8 @@ export function RingLoader(props) {
 
     canAnimate, setCanAnimate,
 
-    registerFunction
+    registerFunction,
+    setCurrentModelAttributes
   } = useCustomization();
 
   const model = useRef()
@@ -73,6 +74,11 @@ export function RingLoader(props) {
     cameraControlRef.current.setPosition(0, 2, 4, true)
 
     console.log('model', model.current)
+
+
+    // currentModelAttributes
+    setCurrentModelAttributes(model.current)
+
   }, []);
 
   const renderSelectedModel = () => {
@@ -183,8 +189,23 @@ export function RingLoader(props) {
     takeScreenshot()
   };
 
+
+  const hasRegistered = useRef(false); // Use a ref to track registration
+
   useEffect(() => {
-    registerFunction(functionInComponent1);
+
+    // console.log(registerFunction)
+    // if(registerFunction)
+      // console.log('hello')
+
+    // console.log(registerFunction)
+    // registerFunction(functionInComponent1); // Call the registerFunction
+  
+    if (!hasRegistered.current) {
+      console.log(functionInComponent1)
+      registerFunction(functionInComponent1); // Call the registerFunction
+      hasRegistered.current = true; // Set the flag to true to prevent future calls
+    }
 
     // topCamera.current.setPosition(0, 4, 4, true)
     // topCamera.current.setTarget(0, 0, 0, true)

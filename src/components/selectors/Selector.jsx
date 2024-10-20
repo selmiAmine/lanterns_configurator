@@ -32,9 +32,9 @@ export const Selector = () => {
     let [choiceStepped, setChoiceStepped] = useState(1);
 
     const nextStep = () => {
-        console.log(cameraControlRef.current)
+        console.log(choiceStepped)
 
-        if (choiceStepped < 3) {
+        if (choiceStepped < 6) {
             setChoiceStepped(++choiceStepped)
         }
 
@@ -54,6 +54,12 @@ export const Selector = () => {
             case 3:
                 {
                     zoomToDiamond()
+                    break;
+                }
+
+            case 4:
+                {
+                    resetCamera()
                     break;
                 }
 
@@ -85,6 +91,12 @@ export const Selector = () => {
             case 3:
                 {
                     zoomToDiamond()
+                    break;
+                }
+
+            case 4:
+                {
+                    resetCamera()
                     break;
                 }
 
@@ -346,7 +358,7 @@ export const Selector = () => {
                         {/* list of Shapes */}
                         {
                             choiceStepped == 1 &&
-                            <div>
+                            <div className='min-h-16'>
                                 <h2 className="text-sm font-medium text-gray-500 text-center">Ring shapes</h2>
                                 <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                                     {shapes.map((shape) => (
@@ -385,7 +397,7 @@ export const Selector = () => {
                         {/* List of headers */}
                         {
                             headersList && choiceStepped == 2 &&
-                            <div>
+                            <div className='min-h-16'>
                                 <h2 className="text-sm font-medium text-gray-500 text-center">Header shapes</h2>
                                 <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                                     {headersList.map((project) => (
@@ -440,7 +452,7 @@ export const Selector = () => {
                         {/* List of diamonds */}
                         {
                             diamondsList && choiceStepped == 3 &&
-                            <div>
+                            <div className='min-h-16'>
                                 <h2 className="text-sm font-medium text-gray-500 text-center">Diamond shapes</h2>
                                 <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                                     {diamondsList.map((project) => (
@@ -487,6 +499,78 @@ export const Selector = () => {
                             </div>
                         }
 
+                        {/* Ring name */}
+                        {
+                            choiceStepped == 4 &&
+                            <div className='min-h-16 flex items-center flex-col'>
+                                <h2 className="text-sm font-medium text-gray-500 text-center mb-2">Ring name</h2>
+                                {/* <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+                                    Hello
+                                </ul> */}
+
+                                <label htmlFor="ringName" className="sr-only">
+                                    Ring name
+                                </label>
+                                <div className="inputWrapper w-full flex justify-center">
+                                    <input
+                                        id="ringName"
+                                        name="ringName"
+                                        type="text"
+                                        placeholder="..."
+                                        className="text-sm font-semibold block text-center w-1/2 rounded-md border-b-4 border-black/50 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300/0 placeholder:text-gray-400 focus:ring-0 focus:ring-inset focus:ring-gray-600/50 focus:border-gray-800 focus:shadow-lg sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                            </div>
+                        }
+
+                        {/* Ring description */}
+                        {
+                            choiceStepped == 5 &&
+                            <div className='min-h-16 flex items-center flex-col'>
+                                <h2 className="text-sm font-medium text-gray-500 text-center mb-2">Ring description</h2>
+                                {/* <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+                                    Hello
+                                </ul> */}
+
+                                <label htmlFor="ringName" className="sr-only">
+                                    Ring description
+                                </label>
+                                <div className="inputWrapper w-full flex justify-center">
+                                    <input
+                                        id="ringName"
+                                        name="ringName"
+                                        type="text"
+                                        placeholder="..."
+                                        className="text-sm font-semibold block text-center w-full rounded-md border-b-4 border-black/50 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300/0 placeholder:text-gray-400 focus:ring-0 focus:ring-inset focus:ring-gray-600/50 focus:border-gray-800 focus:shadow-lg sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                            </div>
+                        }
+
+                        {/* Ring price */}
+                        {
+                            choiceStepped == 6 &&
+                            <div className='min-h-16 flex items-center flex-col'>
+                                <h2 className="text-sm font-medium text-gray-500 text-center mb-2">Ring price</h2>
+                                {/* <ul role="list" className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+                                    Hello
+                                </ul> */}
+
+                                <label htmlFor="ringName" className="sr-only">
+                                    Ring price
+                                </label>
+                                <div className="inputWrapper w-full flex justify-center">
+                                    <input
+                                        id="ringName"
+                                        name="ringName"
+                                        type="number"
+                                        placeholder="..."
+                                        className="text-sm font-semibold block text-center w-1/4 rounded-md border-b-4 border-black/50 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300/0 placeholder:text-gray-400 focus:ring-0 focus:ring-inset focus:ring-gray-600/50 focus:border-gray-800 focus:shadow-lg sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                            </div>
+                        }
+
                         {/* <div className="overflow-hidden rounded-full mt-4 bg-gray-200">
                             <div style={{ width: lineWidth +'%' }} className="h-1 rounded-full bg-indigo-600" />
                         </div> */}
@@ -503,8 +587,8 @@ export const Selector = () => {
                                 <button disabled={choiceStepped == 1} onClick={() => previousStep()} className={`step1 p-2 rounded-full ${choiceStepped == 1 ? 'bg-[#d3d3d3]' : 'bg-white'}`}>
                                     <ChevronLeftIcon className={`mx-auto h-4 w-4 ${choiceStepped == 1 ? 'text-white' : 'text-gray-900'}`} />
                                 </button>
-                                <button disabled={choiceStepped == 3} onClick={() => nextStep()} className={`'step2 p-2 bg-white rounded-full ${choiceStepped == 3 ? 'bg-[#d3d3d3]' : 'bg-white'} '`}>
-                                    <ChevronRightIcon className={`mx-auto h-4 w-4 ${choiceStepped == 3 ? 'text-white' : 'text-gray-900'}`} />
+                                <button disabled={choiceStepped == 6} onClick={() => nextStep()} className={`'step2 p-2 rounded-full ${choiceStepped == 6 ? 'bg-[#d3d3d3]' : 'bg-white'} '`}>
+                                    <ChevronRightIcon className={`mx-auto h-4 w-4 ${choiceStepped == 6 ? 'text-white' : 'text-gray-900'}`} />
                                 </button>
                                 {/* <button onClick={() => setChoiceStepped(3)} className='step3 w-5 h-5 bg-red-200 rounded-full'></button> */}
                             </div>
