@@ -13,13 +13,13 @@
   ```
 */
 
-import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid, Float, CameraControls, Bounds, useBounds } from "@react-three/drei"
+import { ContactShadows, RandomizedLight, SpotLight, Environment, OrbitControls, Cloud, Clouds, Sky, TransformControls, Stage, MeshReflectorMaterial, Stats, AccumulativeShadows, Caustics, MeshTransmissionMaterial, Loader, Grid, Float, CameraControls, Bounds, useBounds, useEnvironment } from "@react-three/drei"
 import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { randFloat, randFloatSpread } from "three/src/math/MathUtils";
 import { useLoader, Canvas } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { Bloom, EffectComposer, N8AO, ToneMapping } from "@react-three/postprocessing";
 import {
   Menu,
   MenuButton,
@@ -52,6 +52,7 @@ import { Ring1Unwrapped } from "../rings/Ring1Unwrapped";
 import { Unwrapped } from "../rings/Unwrapped";
 import { MaterialSelector } from "../selectors/MaterialSelector";
 import { useSpring, a } from "@react-spring/three";
+import { RenderPass } from "postprocessing";
 
 const user = {
   name: 'Tom Cook',
@@ -188,15 +189,18 @@ function ThreejsScene() {
     config: { tension: 170, friction: 26 }, // Controls the smoothness of the animation
   });
 
+  // const env = useEnvironment({ files: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/peppermint_powerplant_2_1k.hdr' })
 
   return (
     <>
       <Canvas className="canvasModelPreview"
+        dpr={[1, 1.5]} gl={{ antialias: false }}
         shadows
         // camera={{ position: [20, 20, 120], fov: 5 }}
         style={{ height: '100%', width: '100%' }
         }
       >
+        <spotLight color={'#000000'} position={[0, 1, 0]} angle={0.15} penumbra={1} decay={0} intensity={1} />
 
         {/* <OrbitControls
                             enableZoom={true}
@@ -209,7 +213,7 @@ function ThreejsScene() {
           ref={cameraControlRef}
         />
 
-        < gridHelper args={[200, 200, 200]} opacity={.1} />
+        {/* < gridHelper args={[200, 200, 200]} opacity={.1} /> */}
 
         {isFloating ? (
           <Float speed={4} rotationIntensity={3} floatIntensity={2} floatingRange={[0, 0.3]}>
@@ -228,28 +232,33 @@ function ThreejsScene() {
         )}
 
 
-
+        <AccumulativeShadows temporal frames={100} color={'#000000'} opacity={.4}>
+          <RandomizedLight radius={2} position={[4, 10, 8]} />
+        </AccumulativeShadows>
 
 
         {/* <AccumulativeShadows temporal frames={100} color="#FFFFFF" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={100} position={[0, 0, 0]} rotation={[0, 0, 0]} >
                             <RandomizedLight amount={15} radius={1} ambient={1} intensity={.5} position={[5, 5, -10]} bias={0.001} />
                           </AccumulativeShadows> */}
 
-        <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr" />
+        {/* <Environment background blur={1} map={env} /> */}
 
         <EffectComposer>
+ 
+          <N8AO aoRadius={0.15} intensity={4} distanceFalloff={2} />
           <Bloom luminanceThreshold={1} intensity={1} levels={0.2} mipmapBlur />
+
         </EffectComposer>
 
         {/* <AccumulativeShadows temporal frames={30} color="#FED766" colorBlend={8} toneMapped={true} alphaTest={1} opacity={1} scale={20} position={[0, 0, 0]} rotation={[0, 4, 0]} >
                                 <RandomizedLight amount={8} radius={10} ambient={0.5} intensity={1} position={[5, 5, -10]} bias={0.001} />
                             </AccumulativeShadows> */}
 
-        <ContactShadows
+        {/* <ContactShadows
           width={10}
           height={10}
           far={100}
-          position={[0, 0, 0]} scale={[1, 1]} opacity={.5} />
+          position={[0, 0, 0]} scale={[1, 1]} opacity={.5} /> */}
 
         <Stats />
       </Canvas >
@@ -278,8 +287,8 @@ export default function Configurator() {
 
   // }) 
 
-  const { selectedModel, setSelectedModel, currentRing, cameraControlRef, setCanAnimate, canAnimate, takeScreenshot, exposedFunction, setIsFloating, isFloating, currentModelAttributes, setCurrentModelAttributes, 
-    setLayingPosition,setResetPositon
+  const { selectedModel, setSelectedModel, currentRing, cameraControlRef, setCanAnimate, canAnimate, takeScreenshot, exposedFunction, setIsFloating, isFloating, currentModelAttributes, setCurrentModelAttributes,
+    setLayingPosition, setResetPositon
 
   } = useCustomization()
 
