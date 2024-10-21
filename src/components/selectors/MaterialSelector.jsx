@@ -42,7 +42,7 @@ export const MaterialSelector = () => {
                                 className={`h-4 rounded-full w-10 bg-black ${selectedMaterial == 2 ? 'outline outline-gray-800 outline-2 shadow-xl' : 'bg-black'}`}></div>
                                 <div
                                 className={`${selectedMaterial == 2 ? 'underline underline-offset-8' : ''}`}
-                                >Matte</div>
+                                >Ivory</div>
                             </div>
                             <div className="item flex flex-row gap-4 items-center" onClick={() => { matUpdate(3) }}>
                                 <div
