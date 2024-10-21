@@ -60,7 +60,7 @@ export function RingShape1(props) {
                 }
             case 4:
                 {
-                    return materialsImported.Fabric
+                    return materialsImported.Wood
                     break;
                 }
 
