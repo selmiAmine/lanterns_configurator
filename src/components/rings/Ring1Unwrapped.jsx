@@ -9,14 +9,14 @@ import { TextureLoader } from 'three'
 import { useCustomization } from '../../contexts/Customization'
 
 export function Ring1Unwrapped(props) {
-    const { nodes, materials } = useGLTF('/models/rings/Ring1-v2.glb')
+    const { nodes, materials } = useGLTF('/models/rings/Ring1-v3.glb')
 
 
     const {setMaterialsImported} = useCustomization()
 
 
     useEffect(() => {
-
+        console.log(materials)
         setMaterialsImported(materials)
 
     }, []);
