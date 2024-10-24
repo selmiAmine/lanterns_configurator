@@ -45,35 +45,35 @@ export function RingShape3(props) {
   const selectMaterial = () => {
 
     switch (selectedMaterial) {
-        case 1:
-            {
-                return materialsImported.gold
-                break;
-            }
-        case 2:
+      case 1:
+        {
+          return materialsImported.gold
+          break;
+        }
+      case 2:
 
-            {
-                return materialsImported.mat
-                break;
-            }
-        case 3:
-            {
-                return materialsImported.AlienMetal
-                break;
-            }
-        case 4:
-            {
-                return materialsImported.Wood
-                break;
-            }
+        {
+          return materialsImported.mat
+          break;
+        }
+      case 3:
+        {
+          return materialsImported.AlienMetal
+          break;
+        }
+      case 4:
+        {
+          return materialsImported.Wood
+          break;
+        }
 
-        default:
-            break;
+      default:
+        break;
     }
-}
+  }
 
 
-const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
+  const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
   const configDiamond = useControls({
     bounces: { value: 3, min: 0, max: 8, step: 1 },
     aberrationStrength: { value: 0.01, min: 0, max: 0.1, step: 0.01 },
@@ -81,14 +81,14 @@ const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/H
     fresnel: { value: 1, min: 0, max: 1 },
     color: 'white',
   })
-    const [diamondColor2, setDiamondColor2] = useState(new THREE.Color(0xd9effa).convertSRGBToLinear())
+  const [diamondColor2, setDiamondColor2] = useState(new THREE.Color(0xd9effa).convertSRGBToLinear())
 
-    const config = {
-        bounces: 2.4,
-        aberrationStrength: 0.03,
-        ior: 2.4,
-        fresnel: .8,
-    }
+  const config = {
+    bounces: 2.4,
+    aberrationStrength: 0.03,
+    ior: 2.4,
+    fresnel: .8,
+  }
 
   return (
     <group {...props} dispose={null}
@@ -147,7 +147,7 @@ const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/H
         material-color={diamondColorShape3}
         name='diamond'
       >
-                                <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
 
       </mesh>
       <mesh
@@ -163,9 +163,9 @@ const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/H
         name='diamond'
 
       >
-                                <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
 
-        </mesh>
+      </mesh>
       <mesh
         castShadow
         receiveShadow
@@ -189,8 +189,9 @@ const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/H
         visible={selectedDiamondShape3 == 'Diamond 3'}
         material-color={diamondColorShape3}
         name='diamond'
-      >                        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
-</mesh>
+      >
+        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+      </mesh>
       <mesh
         castShadow
         receiveShadow

@@ -22,7 +22,7 @@ export function RingShape2(props) {
     selectedDiamondShape2,
     selectedHeaderShape2,
     setCurrentItem,
-    selectedMaterial,materialsImported
+    selectedMaterial, materialsImported
   } = useCustomization()
 
 
@@ -80,14 +80,14 @@ export function RingShape2(props) {
     fresnel: { value: 1, min: 0, max: 1 },
     color: 'white',
   })
-    const [diamondColor2, setDiamondColor2] = useState(new THREE.Color(0xd9effa).convertSRGBToLinear())
+  const [diamondColor2, setDiamondColor2] = useState(new THREE.Color(0xd9effa).convertSRGBToLinear())
 
-    const config = {
-        bounces: 2.4,
-        aberrationStrength: 0.03,
-        ior: 2.4,
-        fresnel: .8,
-    }
+  const config = {
+    bounces: 2.4,
+    aberrationStrength: 0.03,
+    ior: 2.4,
+    fresnel: .8,
+  }
 
   return (
     <group {...props} dispose={null}
@@ -135,9 +135,9 @@ export function RingShape2(props) {
         visible={selectedDiamondShape2 == 'Diamond 1'}
         name="diamond"
       >
-                        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
 
-        </mesh>
+      </mesh>
       <mesh
         castShadow
         receiveShadow
@@ -150,9 +150,9 @@ export function RingShape2(props) {
         visible={selectedDiamondShape2 == 'Diamond 2'}
         name="diamond"
       >
-                        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
 
-        </mesh>
+      </mesh>
       <mesh
         castShadow
         receiveShadow
