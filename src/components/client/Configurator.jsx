@@ -288,7 +288,8 @@ export default function Configurator() {
   // }) 
 
   const { selectedModel, setSelectedModel, currentRing, cameraControlRef, setCanAnimate, canAnimate, takeScreenshot, exposedFunction, setIsFloating, isFloating, currentModelAttributes, setCurrentModelAttributes,
-    setLayingPosition, setResetPositon
+    setLayingPosition, setResetPositon, exposedFunction2,formDataContent,
+    setCurrentRing
 
   } = useCustomization()
 
@@ -297,8 +298,17 @@ export default function Configurator() {
   const handleClick = () => {
     if (exposedFunction) {
       exposedFunction(); // Trigger the function from Component 1
+      exposedFunction2(); // Trigger the function from Component 1
     }
   };
+
+  useEffect(() => {
+    
+    currentRing.thumbnail = formDataContent
+    setCurrentRing(currentRing)
+    
+  
+  }, [formDataContent]);
 
 
   const updateRingColor = (pro, value) => {
