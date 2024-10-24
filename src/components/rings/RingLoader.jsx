@@ -45,8 +45,10 @@ export function RingLoader(props) {
     canAnimate, setCanAnimate,
 
     registerFunction,
-    setCurrentModelAttributes
-    
+    setCurrentModelAttributes,
+
+    formDataContent, setFormDataContent
+
   } = useCustomization();
 
   const model = useRef()
@@ -174,6 +176,7 @@ export function RingLoader(props) {
 
       // Capture the screenshot with transparency
       const imgData = gl.domElement.toDataURL(strMime);
+
       saveFile(imgData.replace(strMime, strDownloadMime), "top-down-screenshot.png");
 
       // Restore original background if necessary
@@ -183,11 +186,86 @@ export function RingLoader(props) {
     }
   };
 
+  const base64ToFile = (base64, mimeType, fileName) => {
+    const byteString = atob(base64.split(',')[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const intArray = new Uint8Array(arrayBuffer);
+  
+    for (let i = 0; i < byteString.length; i++) {
+      intArray[i] = byteString.charCodeAt(i);
+    }
+  
+    // Create a File object from the Uint8Array
+    return new File([intArray], fileName, { type: mimeType });
+  };
+
+  const base64ToBlob = (base64, mime) => {
+    const byteString = atob(base64.split(',')[1]); // Decode base64
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const intArray = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < byteString.length; i++) {
+      intArray[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([intArray], { type: mime });
+  };
+
+  const saveScreenshot = () => {
+    console.log('Screenshot saved')
+
+    const strMime = "image/png"; // Use PNG to support transparency
+
+    // Set background to transparent
+    const originalBackground = scene.background;
+    scene.background = null; // Set the scene background to null for transparency
+
+    // Render the scene using the top-down camera
+    gl.render(scene, topCamera.current);
+
+    // Capture the screenshot with transparency
+    const imgData = gl.domElement.toDataURL(strMime);
+    
+    // Convert base64 image data to Blob
+    // const file = base64ToFile(imgData, strMime, 'top-down-screenshot.png');
+
+    const blob = base64ToBlob(imgData, strMime);
+
+    
+    // Create FormData and append the Blob as a file
+    const formData = new FormData();
+    // formData.append('thumbnail', imgData.replace(strMime, strDownloadMime));
+    formData.append('thumbnail', blob, 'top-down-screenshot.png');
+
+    // Store FormData in the context
+    setFormDataContent(formData);
+
+    // console.log('context',formDataContent.get('thumbnail'))
+    for (let [key, value] of formData.entries()) {
+      setFormDataContent(value);
+    }
+    // Restore original background if necessary
+    scene.background = originalBackground;
+
+  };
+
+  // To monitor when the formDataContent changes:
+useEffect(() => {
+  console.log('formDataContent updated:', formDataContent); // Will log the new value after the state updates
+}, [formDataContent]);
+
   const functionInComponent1 = () => {
     // console.log('Function in Component 1 triggered!');
     // Your function logic here
 
     takeScreenshot()
+  };
+
+  const functionInComponent2 = () => {
+    // console.log('Function in Component 1 triggered!');
+    // Your function logic here
+
+    saveScreenshot()
   };
 
 
@@ -197,14 +275,14 @@ export function RingLoader(props) {
 
     // console.log(registerFunction)
     // if(registerFunction)
-      // console.log('hello')
+    // console.log('hello')
 
     // console.log(registerFunction)
     // registerFunction(functionInComponent1); // Call the registerFunction
-  
+
     if (!hasRegistered.current) {
       console.log(functionInComponent1)
-      registerFunction(functionInComponent1); // Call the registerFunction
+      registerFunction(functionInComponent1, functionInComponent2); // Call the registerFunction
       hasRegistered.current = true; // Set the flag to true to prevent future calls
     }
 
@@ -224,7 +302,7 @@ export function RingLoader(props) {
 
   return (
     <>
-        <Environment  blur={2} map={env} />
+      <Environment blur={2} map={env} />
 
       <PerspectiveCamera
         name='ScreenShot-camera'
