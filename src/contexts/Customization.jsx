@@ -186,14 +186,12 @@ export const CustomizationProvider = (props) => {
   // Floating animation
   const [currentModelAttributes, setCurrentModelAttributes] = useState(null);
 
+  const [formDataContent, setFormDataContent] = useState(null);
+
   // Current ring
   const [currentRing, setCurrentRing] = useState(
     {
-      // shapeId :selectedModel,
-      // shapeOptions : {
-      //   material : 0,
-      //   color : "",
-      // },
+      thumbnail : {},
       shape : {
         data : selectedModel,
         options: {
@@ -241,9 +239,16 @@ export const CustomizationProvider = (props) => {
 
 
   const [exposedFunction, setExposedFunction] = useState(null);
+  
+  const [exposedFunction2, setExposedFunction2] = useState(null);
 
-  const registerFunction = (func) => {
+  const registerFunction = (func, func2) => {
     setExposedFunction(() => func); // Register the function
+    setExposedFunction2(() => func2); // Register the function
+  };
+
+  const registerFunction2 = (func) => {
+    setExposedFunction2(() => func); // Register the function
   };
 
 
@@ -351,13 +356,15 @@ export const CustomizationProvider = (props) => {
         isFloating, setIsFloating,
 
         currentModelAttributes, setCurrentModelAttributes,
-
+        formDataContent, setFormDataContent,
 
 
         // functions
 
         saveRing, resetRing,
         exposedFunction, registerFunction,
+        exposedFunction2, registerFunction2,
+
         setLayingPosition, setResetPositon
 
       }}
