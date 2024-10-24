@@ -4,6 +4,8 @@ import { EllipsisVerticalIcon, PaperAirplaneIcon } from '@heroicons/react/20/sol
 import { useCustomization } from '../../contexts/Customization';
 
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/solid'
+import RingService from '../../services/ring-service';
+import axios from 'axios';
 
 export const Selector = () => {
 
@@ -24,7 +26,9 @@ export const Selector = () => {
 
         zoomToDiamond, zoomToHeader, resetCamera, cameraControlRef,
 
-        saveRing, resetRing
+        saveRing, resetRing,
+        visualizeCurrentRing,
+        formDataContent, exposedFunction2
 
     } = useCustomization();
 
@@ -347,6 +351,61 @@ export const Selector = () => {
         resetRing()
     }
 
+    const [ringName, setRingName] = useState(currentRing.name);
+    const [ringDescription, setRingDescription] = useState(currentRing.description);
+    const [ringPrice, setRingPrice] = useState(currentRing.price);
+
+
+
+
+    useEffect(() => {
+
+        currentRing.thumbnail = formDataContent
+        setCurrentRing(currentRing)
+        console.log('triggered')
+
+        // RingService.create(currentRing)
+
+        const formData = new FormData();
+
+        // Append the file and other fields
+        formData.append('thumbnail', currentRing.thumbnail); // Assuming `thumbnail` is a file object
+        formData.append('data', JSON.stringify(currentRing));
+        // formData.append('description', currentRing.description);
+        // formData.append('price', currentRing.price);
+
+    
+    axios.post("http://localhost:3000/api/ring/create", 
+
+      formData
+      
+      , {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    );
+
+    }, [formDataContent]);
+
+    const handleSave = () => {
+
+        currentRing.name = ringName
+        currentRing.description = ringDescription
+        currentRing.price = ringPrice
+
+        if (exposedFunction2) {
+            exposedFunction2(); // Trigger the function from Component 1
+        }
+
+        // Update the current ring
+        setCurrentRing(currentRing);
+
+        saveRing()
+
+
+    };
+
 
     return (
         <>
@@ -516,6 +575,8 @@ export const Selector = () => {
                                         id="ringName"
                                         name="ringName"
                                         type="text"
+                                        value={ringName}
+                                        onChange={(e) => setRingName(e.target.value)}
                                         placeholder="..."
                                         className="text-sm font-semibold block text-center w-1/2 rounded-md border-b-4 border-black/50 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300/0 placeholder:text-gray-400 focus:ring-0 focus:ring-inset focus:ring-gray-600/50 focus:border-gray-800 focus:shadow-lg sm:text-sm sm:leading-6"
                                     />
@@ -539,6 +600,8 @@ export const Selector = () => {
                                     <input
                                         id="ringName"
                                         name="ringName"
+                                        value={ringDescription}
+                                        onChange={(e) => setRingDescription(e.target.value)}
                                         type="text"
                                         placeholder="..."
                                         className="text-sm font-semibold block text-center w-full rounded-md border-b-4 border-black/50 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300/0 placeholder:text-gray-400 focus:ring-0 focus:ring-inset focus:ring-gray-600/50 focus:border-gray-800 focus:shadow-lg sm:text-sm sm:leading-6"
@@ -564,6 +627,8 @@ export const Selector = () => {
                                         id="ringName"
                                         name="ringName"
                                         type="number"
+                                        value={ringPrice}
+                                        onChange={(e) => setRingPrice(Number(e.target.value))}
                                         placeholder="..."
                                         className="text-sm font-semibold block text-center w-1/4 rounded-md border-b-4 border-black/50 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300/0 placeholder:text-gray-400 focus:ring-0 focus:ring-inset focus:ring-gray-600/50 focus:border-gray-800 focus:shadow-lg sm:text-sm sm:leading-6"
                                     />
@@ -593,7 +658,7 @@ export const Selector = () => {
                                 {/* <button onClick={() => setChoiceStepped(3)} className='step3 w-5 h-5 bg-red-200 rounded-full'></button> */}
                             </div>
 
-                            <button disabled={currentRing.header.data.shapeId == 1} onClick={() => saveRing()} className={`step1 p-2 rounded-full ${choiceStepped == 1 ? 'bg-[#d3d3d3]' : 'bg-green-700'}`}>
+                            <button disabled={currentRing.header.data.shapeId == 1} onClick={() => handleSave()} className={`step1 p-2 rounded-full ${choiceStepped == 1 ? 'bg-[#d3d3d3]' : 'bg-green-700'}`}>
                                 <img className='w-4 h-4' src="/SaveIcon.svg" alt="" />
                             </button>
 
