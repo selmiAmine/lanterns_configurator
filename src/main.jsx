@@ -13,6 +13,7 @@ import { UserExperience } from "./components/shared/UserExperience.jsx";
 import AuthRoutes from "./utils/AuthRoutes.jsx";
 import { AuthProvider } from "./utils/AuthProvider.jsx"
 import PrivateRoutes from "./utils/PrivateRoutes.jsx";
+import RingsList from "./components/client/RingsList.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -37,6 +38,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 exact
                 path="configurator"
                 element={<Configurator />}/>
+              <Route
+                exact
+                path="list-rings"
+                element={<RingsList />}/>
             </Route>
           </Route>
 
