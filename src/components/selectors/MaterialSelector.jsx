@@ -58,7 +58,7 @@ export const MaterialSelector = () => {
                                     className={`h-4 rounded-full w-10 bg-red-400 bg-contain ${selectedMaterial == 4 ? 'outline outline-gray-800 outline-2 shadow-xl' : 'bg-black'}`}></div>
                                 <div
                                 className={`${selectedMaterial == 4 ? 'underline underline-offset-8' : ''}`}
-                                >Fabric</div>
+                                >Wood</div>
                             </div>
                         </div>
                     </div>
