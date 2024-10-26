@@ -73,13 +73,13 @@ export function RingShape2(props) {
 
 
   const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  const configDiamond = useControls({
-    bounces: { value: 3, min: 0, max: 8, step: 1 },
-    aberrationStrength: { value: 0.01, min: 0, max: 0.1, step: 0.01 },
-    ior: { value: 2.75, min: 0, max: 10 },
-    fresnel: { value: 1, min: 0, max: 1 },
-    color: 'white',
-  })
+  // const configDiamond = useControls({
+  //   bounces: { value: 3, min: 0, max: 8, step: 1 },
+  //   aberrationStrength: { value: 0.01, min: 0, max: 0.1, step: 0.01 },
+  //   ior: { value: 2.75, min: 0, max: 10 },
+  //   fresnel: { value: 1, min: 0, max: 1 },
+  //   color: 'white',
+  // })
   const [diamondColor2, setDiamondColor2] = useState(new THREE.Color(0xd9effa).convertSRGBToLinear())
 
   const config = {
@@ -135,7 +135,10 @@ export function RingShape2(props) {
         visible={selectedDiamondShape2 == 'Diamond 1'}
         name="diamond"
       >
-        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+        <MeshRefractionMaterial envMap={texture} 
+        // {...configDiamond}
+          color={diamondColorShape2}
+          toneMapped={false} />
 
       </mesh>
       <mesh
@@ -150,7 +153,9 @@ export function RingShape2(props) {
         visible={selectedDiamondShape2 == 'Diamond 2'}
         name="diamond"
       >
-        <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+        <MeshRefractionMaterial envMap={texture} 
+        // {...configDiamond}
+         color={diamondColorShape2} toneMapped={false} />
 
       </mesh>
       <mesh

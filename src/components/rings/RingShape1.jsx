@@ -26,13 +26,13 @@ export function RingShape1(props) {
         selectedMaterial
     } = useCustomization();
 
-    const configDiamond = useControls({
-        bounces: { value: 3, min: 0, max: 8, step: 1 },
-        aberrationStrength: { value: 0.01, min: 0, max: 0.1, step: 0.01 },
-        ior: { value: 2.75, min: 0, max: 10 },
-        fresnel: { value: 1, min: 0, max: 1 },
-        color: 'white',
-      })
+    // const configDiamond = useControls({
+    //     bounces: { value: 3, min: 0, max: 8, step: 1 },
+    //     aberrationStrength: { value: 0.01, min: 0, max: 0.1, step: 0.01 },
+    //     ior: { value: 2.75, min: 0, max: 10 },
+    //     fresnel: { value: 1, min: 0, max: 1 },
+    //     color: 'white',
+    //   })
 
     // const snap = useSnapshot(props.colors);
 
@@ -178,7 +178,9 @@ export function RingShape1(props) {
                 name='diamond'
 
             >
-                <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+                <MeshRefractionMaterial envMap={texture} 
+                // {...configDiamond}
+                 color={diamondColor} toneMapped={false} />
 
             </mesh>
             <mesh
@@ -193,7 +195,9 @@ export function RingShape1(props) {
                 visible={selectedDiamond == 'Diamond 2'}
                 name='diamond'
             >
-                <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+                <MeshRefractionMaterial envMap={texture} 
+                // {...configDiamond}
+                 color={diamondColor} toneMapped={false} />
 
             </mesh>
             <mesh
@@ -234,7 +238,9 @@ export function RingShape1(props) {
                 visible={selectedDiamond == 'Diamond 3'}
                 name='diamond'
             >
-                <MeshRefractionMaterial envMap={texture} {...configDiamond} color={diamondColor2} toneMapped={false} />
+                <MeshRefractionMaterial envMap={texture} 
+                // {...configDiamond}
+                 color={diamondColor} toneMapped={false} />
 
             </mesh>
         </group>
