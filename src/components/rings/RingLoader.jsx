@@ -12,13 +12,14 @@ import { RingShape3 } from './RingShape3';
 import { RingShape2 } from './RingShape2';
 import { High } from '../High';
 import { RingShape1 } from './RingShape1';
+import axios from 'axios';
+import { useParams } from 'next/navigation';
 
 export function RingLoader(props) {
   const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
 
-
   // const snap = useSnapshot(props.colors);
-  const { cameraControlRef, zoomToDiamond, selectedModel, setSelectedModel } = useCustomization()
+  const { cameraControlRef, zoomToDiamond, fetchRing, currentRing } = useCustomization()
 
   const [hovered, setHovered] = useState(null);
   // const hexString = snap.Material_6; // Or dynamically from snap.Material_6
@@ -35,11 +36,7 @@ export function RingLoader(props) {
   }, [hovered]);
 
   const {
-    ringColor,
-    diamondColor,
-    headerColor,
-    selectedDiamond,
-    selectedHeader,
+
     setCurrentItem,
 
     canAnimate, setCanAnimate,
@@ -47,8 +44,29 @@ export function RingLoader(props) {
     registerFunction,
     setCurrentModelAttributes,
 
-    formDataContent, setFormDataContent
+    formDataContent, setFormDataContent,
 
+    selectedModel, setSelectedModel,
+
+    ringColor, setRingColor,
+    diamondColor, setDiamondColor,
+    headerColor, setHeaderColor,
+    selectedDiamond, setSelectedDiamond,
+    selectedHeader, setSelectedHeader,
+
+    ringColorShape2, setRingColorShape2,
+    diamondColorShape2, setDiamondColorShape2,
+    headerColorShape2, setHeaderColorShape2,
+    selectedDiamondShape2, setSelectedDiamondShape2,
+    selectedHeaderShape2, setSelectedHeaderShape2,
+
+    ringColorShape3, setRingColorShape3,
+    diamondColorShape3, setDiamondColorShape3,
+    headerColorShape3, setHeaderColorShape3,
+    selectedDiamondShape3, setSelectedDiamondShape3,
+    selectedHeaderShape3, setSelectedHeaderShape3,
+
+    setSelectedMaterial
   } = useCustomization();
 
   const model = useRef()
@@ -73,11 +91,7 @@ export function RingLoader(props) {
 
   useEffect(() => {
 
-    console.log(cameraControlRef.current)
     cameraControlRef.current.setPosition(0, 2, 4, true)
-
-    console.log('model', model.current)
-
 
     // currentModelAttributes
     setCurrentModelAttributes(model.current)
@@ -190,11 +204,11 @@ export function RingLoader(props) {
     const byteString = atob(base64.split(',')[1]);
     const arrayBuffer = new ArrayBuffer(byteString.length);
     const intArray = new Uint8Array(arrayBuffer);
-  
+
     for (let i = 0; i < byteString.length; i++) {
       intArray[i] = byteString.charCodeAt(i);
     }
-  
+
     // Create a File object from the Uint8Array
     return new File([intArray], fileName, { type: mimeType });
   };
@@ -225,13 +239,13 @@ export function RingLoader(props) {
 
     // Capture the screenshot with transparency
     const imgData = gl.domElement.toDataURL(strMime);
-    
+
     // Convert base64 image data to Blob
     // const file = base64ToFile(imgData, strMime, 'top-down-screenshot.png');
 
     const blob = base64ToBlob(imgData, strMime);
 
-    
+
     // Create FormData and append the Blob as a file
     const formData = new FormData();
     // formData.append('thumbnail', imgData.replace(strMime, strDownloadMime));
@@ -250,9 +264,62 @@ export function RingLoader(props) {
   };
 
   // To monitor when the formDataContent changes:
-useEffect(() => {
-  console.log('formDataContent updated:', formDataContent); // Will log the new value after the state updates
-}, [formDataContent]);
+  useEffect(() => {
+    console.log('formDataContent updated:', formDataContent); // Will log the new value after the state updates
+  }, [formDataContent]);
+
+  useEffect(() => {
+
+    // If condition server if the use is accessing this page from the list of rings, in case he is just configuring we wont access it
+    if (props.productId) {
+      const id = props.productId; // Replace with the actual ring ID you want to fetch
+      fetchRing(id);
+    }
+  }, [fetchRing]); // Only depend on fetchRing
+
+
+  const [modelLoaded, setModelLoaded] = useState(true); // Track when the model is fully loaded
+
+  // Log currentRing value after it is updated
+  useEffect(() => {
+
+    // need another condition in case the user accessing from the list of rings or configuring
+    if (currentRing && props.productId) {
+      console.log("Updated currentRing:", currentRing); // Log the updated currentRing
+
+      setSelectedModel(currentRing.shape.data)
+      setSelectedMaterial(currentRing.shape.options.material)
+      setRingColor(currentRing.shape.options.color)
+      setDiamondColor(currentRing.diamond.options.color)
+      setHeaderColor(currentRing.header.options.color)
+      setSelectedDiamond(currentRing.diamond.data.name)
+      setSelectedHeader(currentRing.header.data.name)
+      setRingColor(currentRing.shape.options.color)
+      setRingColorShape2(currentRing.shape.options.color)
+      setDiamondColorShape2(currentRing.diamond.options.color)
+      setHeaderColorShape2(currentRing.header.options.color)
+      setSelectedDiamondShape2(currentRing.diamond.data.name)
+      setSelectedHeaderShape2(currentRing.header.data.name)
+      setRingColorShape3(currentRing.shape.options.color)
+      setDiamondColorShape3(currentRing.diamond.options.color)
+      setHeaderColorShape3(currentRing.header.options.color)
+      setSelectedDiamondShape3(currentRing.diamond.data.name)
+      setSelectedHeaderShape3(currentRing.header.data.name)
+      
+      const timer = setTimeout(() => {
+        setModelLoaded(true);
+      }, 1000); // 1-second delay
+
+      // Cleanup the timer if the component unmounts or if currentRing changes
+      return () => clearTimeout(timer);
+
+    }
+
+  }, [currentRing]); // This effect will run whenever currentRing is updated
+
+
+
+
 
   const functionInComponent1 = () => {
     // console.log('Function in Component 1 triggered!');
@@ -281,7 +348,6 @@ useEffect(() => {
     // registerFunction(functionInComponent1); // Call the registerFunction
 
     if (!hasRegistered.current) {
-      console.log(functionInComponent1)
       registerFunction(functionInComponent1, functionInComponent2); // Call the registerFunction
       hasRegistered.current = true; // Set the flag to true to prevent future calls
     }
@@ -320,36 +386,37 @@ useEffect(() => {
         ref={topCamera}
       /> */}
 
-      <group {...props} dispose={null}
-        ref={model}
-        onPointerOver={(e) => {
-          // console.log(e.object.material.name)
-          // console.log(snap)
-          // console.log(hexValue + '  ' + hexString + '  '+ snap.Material_6)
+      {modelLoaded &&
+        <group {...props} dispose={null}
+          ref={model}
+          onPointerOver={(e) => {
+            // console.log(e.object.material.name)
+            // console.log(snap)
+            // console.log(hexValue + '  ' + hexString + '  '+ snap.Material_6)
 
-          e.stopPropagation();
-          setHovered(e.object.material.name);
-        }}
-        onPointerOut={(e) => {
-          if (e.intersections.length === 0) {
-            setHovered(null);
-          }
-        }}
-        onPointerDown={(e) => {
-          e.stopPropagation();
-          // props.updateCurrent(e.object.material.name);
-        }}
-        onPointerMissed={() => {
-          // props.updateCurrent(null);
-        }}
-        onClick={(e) => {
-          e.stopPropagation()
-          setCurrentItem(e.object.name)
-          console.log(e.object.name)
-        }}
-      >
-        {renderSelectedModel()}
-      </group>
+            e.stopPropagation();
+            setHovered(e.object.material.name);
+          }}
+          onPointerOut={(e) => {
+            if (e.intersections.length === 0) {
+              setHovered(null);
+            }
+          }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            // props.updateCurrent(e.object.material.name);
+          }}
+          onPointerMissed={() => {
+            // props.updateCurrent(null);
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            setCurrentItem(e.object.name)
+            console.log(e.object.name)
+          }}
+        >
+          {renderSelectedModel()}
+        </group>}
     </>
 
   )
