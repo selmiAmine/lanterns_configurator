@@ -18,40 +18,46 @@ import RingsList from "./components/client/RingsList.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     {/* <React.StrictMode> */}
-      <AuthProvider>
-        <Routes>
-
-          <Route path="/" 
-          // element={<AuthRoutes />}
-          >
-            <Route exact path="login" element={<Login />} />
-            <Route exact path="signup" element={<Signup />} />
-          </Route>
-        
-          <Route path="/" 
-          // element={<PrivateRoutes />}
-          >  
-            <Route exact path="user" 
-            element={<UserExperience />}
-            >
-              <Route
-                exact
-                path="configurator"
-                element={<Configurator />}/>
-              <Route
-                exact
-                path="list-rings"
-                element={<RingsList />}/>
-            </Route>
-          </Route>
-
-        </Routes>
-      </AuthProvider>
-
+    <AuthProvider>
       <Routes>
-        <Route exact path="/" element={<DiamondDemo />} /> 
-        
-       </Routes>
+
+        <Route path="/"
+        // element={<AuthRoutes />}
+        >
+          <Route exact path="login" element={<Login />} />
+          <Route exact path="signup" element={<Signup />} />
+        </Route>
+
+        <Route path="/"
+        // element={<PrivateRoutes />}
+        >
+          <Route exact path="user"
+            element={<UserExperience />}
+          >
+            <Route
+              exact
+              path="configurator/:id" // Add :id to make it a dynamic route
+              element={<Configurator />}
+            />
+            <Route
+              exact
+              path="configurator"
+              element={<Configurator />} // Render the Configurator without an ID
+            />
+            <Route
+              exact
+              path="list-rings"
+              element={<RingsList />} />
+          </Route>
+        </Route>
+
+      </Routes>
+    </AuthProvider>
+
+    <Routes>
+      <Route exact path="/" element={<DiamondDemo />} />
+
+    </Routes>
     {/* </React.StrictMode> */}
   </BrowserRouter>
 );
