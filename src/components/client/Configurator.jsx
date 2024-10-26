@@ -53,6 +53,7 @@ import { Unwrapped } from "../rings/Unwrapped";
 import { MaterialSelector } from "../selectors/MaterialSelector";
 import { useSpring, a } from "@react-spring/three";
 import { RenderPass } from "postprocessing";
+import { useParams } from "react-router-dom";
 
 const user = {
   name: 'Tom Cook',
@@ -91,6 +92,9 @@ function classNames(...classes) {
 
 
 function ThreejsScene() {
+
+  const { id } = useParams(); // Get the id from the URL
+
   const t1 = gsap.timeline()
 
 
@@ -218,14 +222,14 @@ function ThreejsScene() {
         {isFloating ? (
           <Float speed={4} rotationIntensity={3} floatIntensity={2} floatingRange={[0, 0.3]}>
             <Ring1Unwrapped scale={2} position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
-            <RingLoader />
+            <RingLoader productId={id} />
           </Float>
         ) : (
           <>
             <a.group position={position} rotation={rotation}>
 
               <Ring1Unwrapped scale={2} position={[2, 0, 0]} rotation={[0, Math.PI / 2, 0]} />
-              <RingLoader />
+              <RingLoader productId={id} />
             </a.group>
 
           </>
@@ -293,6 +297,7 @@ export default function Configurator() {
 
   } = useCustomization()
 
+  const { id } = useParams(); // Get the id from the URL
   const [linkOpened, setLinkOpened] = useState(false);
   const controls = useRef();
   const handleClick = () => {
@@ -359,10 +364,7 @@ export default function Configurator() {
                     <div className="h-full w-full z-10 relative  canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
                       {renderSelectedColorPicker()}
                       <Suspense fallback={null}>
-
-
                         <ThreejsScene />
-
                       </Suspense>
 
 
@@ -406,7 +408,7 @@ export default function Configurator() {
                       </div>
 
                       <div className="selectorWrapper absolute w-full bottom-4">
-                        <Selector />
+                        <Selector productId={id}  />
                       </div>
 
                       <div className="selectorWrapper absolute top-20 right-20">
