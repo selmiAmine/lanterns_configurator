@@ -1,5 +1,6 @@
 import gsap from "gsap";
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import RingService from "../services/ring-service";
 
 const chairColors = [
   {
@@ -104,7 +105,7 @@ const ringShapes = [
 const CustomizationContext = createContext({});
 
 export const CustomizationProvider = (props) => {
-  
+
   const [material, setMaterial] = useState("leather");
 
   const [visibility, setvisibility] = useState(false);
@@ -134,28 +135,28 @@ export const CustomizationProvider = (props) => {
   const [headerColorShape3, setHeaderColorShape3] = useState(ringColors[1].color);
   const [selectedHeaderShape3, setSelectedHeaderShape3] = useState("Heading 1");
   const [selectedDiamondShape3, setSelectedDiamondShape3] = useState("Diamond 1");
-  
+
   const [materialsImported, setMaterialsImported] = useState({});
-  
+
   // Selected material
   const [selectedMaterial, setSelectedMaterial] = useState(1);
 
-  
+
 
   // Camera ref
   const cameraControlRef = useRef(null);
-  
+
   const setCameraControlRef = (value) => {
     cameraControlRef.current = value
   }
 
   const zoomToDiamond = (value) => {
-    cameraControlRef.current?.setLookAt(0,2.4,1,0,2,0, true)
+    cameraControlRef.current?.setLookAt(0, 2.4, 1, 0, 2, 0, true)
     // cameraControlRef.current = value
   }
 
   const zoomToHeader = (value) => {
-    cameraControlRef.current?.setLookAt(0,2,1,0,1.8,0, true)
+    cameraControlRef.current?.setLookAt(0, 2, 1, 0, 1.8, 0, true)
     // cameraControlRef.current = value
   }
 
@@ -179,67 +180,60 @@ export const CustomizationProvider = (props) => {
 
   // Rotate animation
   const [canAnimate, setCanAnimate] = useState(false);
-  
+
   // Floating animation
   const [isFloating, setIsFloating] = useState(false);
-  
+
   // Floating animation
   const [currentModelAttributes, setCurrentModelAttributes] = useState(null);
 
   const [formDataContent, setFormDataContent] = useState(null);
 
+  const [rings, setRings] = useState([]);
+
   // Current ring
   const [currentRing, setCurrentRing] = useState(
     {
-      thumbnail : {},
-      shape : {
-        data : selectedModel,
+      thumbnail: {},
+      shape: {
+        data: selectedModel,
         options: {
-          material : selectedMaterial,
-          color : "",
+          material: selectedMaterial,
+          color: "",
         }
       },
-      header : {
-        data : {},
+      header: {
+        data: {},
         options: {
-          material : 0,
-          color : "",
+          material: 0,
+          color: "",
         }
       },
-      diamond : {
-        data : {},
+      diamond: {
+        data: {},
         options: {
-          material : 0,
-          color : "",
+          material: 0,
+          color: "",
         }
       },
-      ownerId : 0,
-      name : '',
-      description : '',
-      price : 0,
-      comment : ''
+      ownerId: 0,
+      name: '',
+      description: '',
+      price: 0,
+      comment: ''
     }
-  ); 
+  );
 
   const saveRing = () => {
-    console.log('RING SAVED',currentRing)
+    console.log('RING SAVED', currentRing)
   }
 
   const resetRing = () => {
-    console.log('RING RESETTED',currentRing)
-    
-    // setSelectedModel(0)
-    
-    // setSelectedDiamond('asds')
-
-    // Set all possibilities to empty string
-  
+    console.log('RING RESETTED', currentRing)
   }
 
-
-
   const [exposedFunction, setExposedFunction] = useState(null);
-  
+
   const [exposedFunction2, setExposedFunction2] = useState(null);
 
   const registerFunction = (func, func2) => {
@@ -251,6 +245,26 @@ export const CustomizationProvider = (props) => {
     setExposedFunction2(() => func); // Register the function
   };
 
+  const fetchRing = useCallback(async (id) => {
+    try {
+      const fetchedRing = await RingService.getRing(id);
+      console.log(fetchedRing)
+      setCurrentRing(fetchedRing); // Ensure this doesn't cause state changes that lead to re-rendering
+      console.log(currentRing)
+    } catch (error) {
+      console.error("Error fetching ring in context:", error);
+    }
+  }, [setCurrentRing]);
+
+  const fetchRings = async () => {
+    try {
+      const ringData = await RingService.getRings();
+      // console.log("Fetched rings:", ringData); // Console log the fetched rings
+      setRings(ringData); // Update the rings in the context state
+    } catch (error) {
+      console.error("Failed to fetch rings:", error);
+    }
+  };
 
   const setLayingPosition = () => {
     console.log(currentModelAttributes.position);
@@ -263,7 +277,7 @@ export const CustomizationProvider = (props) => {
         setCurrentModelAttributes({ ...currentModelAttributes });
       }
     });
-    
+
     // Animate the position at the same time
     gsap.to(currentModelAttributes.position, {
       z: -1,
@@ -273,7 +287,7 @@ export const CustomizationProvider = (props) => {
         setCurrentModelAttributes({ ...currentModelAttributes });
       }
     });
-    
+
   };
 
   const setResetPositon = () => {
@@ -289,7 +303,7 @@ export const CustomizationProvider = (props) => {
         setCurrentModelAttributes({ ...currentModelAttributes });
       }
     });
-  
+
     gsap.to(currentModelAttributes.position, {
       x: 0,
       y: 0,
@@ -301,6 +315,9 @@ export const CustomizationProvider = (props) => {
     });
   };
 
+  useEffect(() => {
+    fetchRings();
+  }, []);
 
 
   return (
@@ -308,7 +325,7 @@ export const CustomizationProvider = (props) => {
       value={{
         material,
         setMaterial,
-        visibility, 
+        visibility,
         setvisibility,
         legs,
         setLegs,
@@ -318,19 +335,19 @@ export const CustomizationProvider = (props) => {
         cushionColors,
         cushionColor,
         setCushionColor,
-        
-        selectedModel, setSelectedModel,
+
         currentRing, setCurrentRing,
-        
+        selectedModel, setSelectedModel,
+
         ringColor, setRingColor,
         diamondColor, setDiamondColor,
         headerColor, setHeaderColor,
         selectedDiamond, setSelectedDiamond,
         selectedHeader, setSelectedHeader,
-        
+
         ringColorShape2, setRingColorShape2,
         diamondColorShape2, setDiamondColorShape2,
-        headerColorShape2,setHeaderColorShape2,
+        headerColorShape2, setHeaderColorShape2,
         selectedDiamondShape2, setSelectedDiamondShape2,
         selectedHeaderShape2, setSelectedHeaderShape2,
 
@@ -339,11 +356,11 @@ export const CustomizationProvider = (props) => {
         headerColorShape3, setHeaderColorShape3,
         selectedDiamondShape3, setSelectedDiamondShape3,
         selectedHeaderShape3, setSelectedHeaderShape3,
-      
+
         // Current selected Item with mouse
         currentItem, setCurrentItem,
 
-        cameraControlRef,setCameraControlRef,
+        cameraControlRef, setCameraControlRef,
         zoomToDiamond,
         zoomToHeader,
         resetCamera,
@@ -365,7 +382,11 @@ export const CustomizationProvider = (props) => {
         exposedFunction, registerFunction,
         exposedFunction2, registerFunction2,
 
-        setLayingPosition, setResetPositon
+        setLayingPosition, setResetPositon,
+        fetchRing,
+
+
+        rings, fetchRings
 
       }}
     >
