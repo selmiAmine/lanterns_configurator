@@ -16,7 +16,6 @@ export function Ring1Unwrapped(props) {
 
 
     useEffect(() => {
-        console.log(materials)
         setMaterialsImported(materials)
 
     }, []);
