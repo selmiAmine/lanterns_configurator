@@ -7,7 +7,7 @@ import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/solid'
 import RingService from '../../services/ring-service';
 import axios from 'axios';
 
-export const Selector = () => {
+export const Selector = (props) => {
 
     const {
         material,
@@ -258,6 +258,15 @@ export const Selector = () => {
         selectedShapeClick(shapes[0])
     }, [])
 
+
+    
+    useEffect(() => {
+    
+        selectedShapeClick( shapes [currentRing.shape.data - 1 ])
+
+    }, [currentRing]); // Adding currentRing as a dependency
+
+
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }
@@ -341,9 +350,6 @@ export const Selector = () => {
         setSelectedModel(param.id)
         setHeadersList(param.headers)
         setDiamondsList(param.diamonds)
-
-        saveRing()
-
     }
 
     const resetRingConfiguration = () => {
@@ -360,31 +366,60 @@ export const Selector = () => {
 
     useEffect(() => {
 
-        currentRing.thumbnail = formDataContent
-        setCurrentRing(currentRing)
-        console.log('triggered')
+        const id = false;
 
-        // RingService.create(currentRing)
 
-        const formData = new FormData();
+        if (props.productId) {
 
-        // Append the file and other fields
-        formData.append('thumbnail', currentRing.thumbnail); // Assuming `thumbnail` is a file object
-        formData.append('data', JSON.stringify(currentRing));
-        // formData.append('description', currentRing.description);
-        // formData.append('price', currentRing.price);
+            currentRing.thumbnail = formDataContent;
+            // currentRing.id = props.productId;
+            setCurrentRing(currentRing);
+            console.log('triggered');
+            
+            // Prepare form data
+            const formData = new FormData();
+            
+            // Append the file and other fields
+            formData.append('thumbnail', currentRing.thumbnail); // Assuming `thumbnail` is a file object
+            formData.append('data', JSON.stringify(currentRing));
+            
+            // Perform a PUT request to update the ring
+            axios.put(`http://localhost:3000/api/ring/update`, // Replace with the correct ID field
+                formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            ).then(response => {
+                console.log('Ring updated successfully:', response.data);
+            }).catch(error => {
+                console.error('Error updating the ring:', error);
+            });
+            
+        } else {
 
+            currentRing.thumbnail = formDataContent
+            setCurrentRing(currentRing)
+            console.log('triggered')
     
-    axios.post("http://localhost:3000/api/ring/create", 
-
-      formData
-      
-      , {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+            // RingService.create(currentRing)
+    
+            const formData = new FormData();
+    
+            // Append the file and other fields
+            formData.append('thumbnail', currentRing.thumbnail); // Assuming `thumbnail` is a file object
+            formData.append('data', JSON.stringify(currentRing));
+    
+            axios.post("http://localhost:3000/api/ring/create",
+                formData
+                , {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
         }
-      }
-    );
+
 
     }, [formDataContent]);
 
@@ -476,7 +511,6 @@ export const Selector = () => {
                                                 }`}
 
                                         >
-
                                             <div
                                                 className={classNames(
                                                     project.bgColor,
@@ -658,7 +692,7 @@ export const Selector = () => {
                                 {/* <button onClick={() => setChoiceStepped(3)} className='step3 w-5 h-5 bg-red-200 rounded-full'></button> */}
                             </div>
 
-                            <button disabled={currentRing.header.data.shapeId == 1} onClick={() => handleSave()} className={`step1 p-2 rounded-full ${choiceStepped == 1 ? 'bg-[#d3d3d3]' : 'bg-green-700'}`}>
+                            <button disabled={choiceStepped == 1} onClick={() => handleSave()} className={`step1 p-2 rounded-full ${choiceStepped == 1 ? 'bg-[#d3d3d3]' : 'bg-green-700'}`}>
                                 <img className='w-4 h-4' src="/SaveIcon.svg" alt="" />
                             </button>
 
