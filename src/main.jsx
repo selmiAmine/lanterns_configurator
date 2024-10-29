@@ -22,14 +22,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
 
         <Route path="/"
-        // element={<AuthRoutes />}
+        element={<AuthRoutes />}
         >
           <Route exact path="login" element={<Login />} />
           <Route exact path="signup" element={<Signup />} />
         </Route>
 
         <Route path="/"
-        // element={<PrivateRoutes />}
+        element={<PrivateRoutes />}
         >
           <Route exact path="user"
             element={<UserExperience />}
