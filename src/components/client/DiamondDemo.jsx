@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SpeakerWaveIcon, BeakerIcon } from '@heroicons/react/24/solid'
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import CustomerLoader from "./CustomerLoader";
+import { Link, NavLink } from "react-router-dom";
 
 
 gsap.registerPlugin(ScrollTrigger)
@@ -25,16 +26,17 @@ export const DiamondDemo = (props) => {
 
 
     useEffect(() => {
-        if (start){
+        console.log(start)
+        if (start) {
             audio.play()
             console.log(audio)
         }
     }, [start])
 
 
-    
+
     const disableSound = () => {
-        audio.pause()   
+        audio.pause()
     }
 
 
@@ -45,10 +47,10 @@ export const DiamondDemo = (props) => {
     return (
         <>
 
-            <CustomerLoader started={start} onStarted={() => setStart(true)}  className="z-[99] absolute h-screen w-screen"/>
+            <CustomerLoader started={start} onStarted={() => setStart(true)} className="z-[99] absolute h-screen w-screen" />
             <div className="wrapper heroSection overflow-hidden">
                 <div className="h-screen w-full z-10 fixed top-0 canvasWrapper bg-gradient-to-r from-[#F4F4F8] bg-[#E6E6EA] ">
-                    <Suspense fallback={null}>
+                    <Suspense fallback={true}>
                         <Canvas className="canvasModelPreview"
                             shadows
                             camera={{ position: [50, 50, 120], fov: 30 }}
@@ -117,7 +119,7 @@ export const DiamondDemo = (props) => {
                 </div>
 
                 {/* Header */}
-                <div className="headerWrapper w-full flex justify-between items-center absolute z-[50]">
+                <div className="headerWrapper w-full flex justify-between items-center absolute z-[1000]">
                     <div className="navbar max-w-5xl flex justify-between items-center z-[99] mx-auto mt-4 p-4 w-full ">
                         <div className="flex justify-center">
                             <span className="font-Ubuntu font-bold text-2xl underline text-[#202426]">
@@ -127,14 +129,17 @@ export const DiamondDemo = (props) => {
                             </span>
                         </div>
                         <ul className="navbarContent  font-Ubuntu flex gap-20 text-[#202426] items-center">
-                            <li >Know more</li>
+                            <li>
+                                <Link to="/login">Know more</Link>
+                            </li>
+                            {/* <li >Know more</li> */}
                             <li onClick={disableSound} ><SpeakerWaveIcon className="size-4 " /> </li>
                         </ul>
                     </div>
                 </div>
 
-                 {/* Hero */}
-                 <section className="h-screen z-50 first-section " >
+                {/* Hero */}
+                <section className="h-screen z-50 first-section " >
                     <div className="wrapperContent z-50 absolute flex w-full">
                         <div className="leftSide w-1/2 "></div>
                         <div className="righttSide w-1/2 h-screen flex items-center text-[#202426]">
@@ -154,8 +159,8 @@ export const DiamondDemo = (props) => {
                 </section>
 
 
-                  {/* About */}
-                  <section className="h-screen z-50 second-section" >
+                {/* About */}
+                <section className="h-screen z-50 second-section" >
                     <div className="wrapperContentAboutUs z-50 absolute flex w-full">
                         <div className="righttSideAboutUs  w-1/2 h-screen flex items-center pl-60">
                             <div className="rightSideContentAboutUs w-full flex flex-col text-[#202426]">
@@ -207,7 +212,7 @@ export const DiamondDemo = (props) => {
                     </div>
                 </section>
 
-              
+
 
                 {/* <div className="optionsWrapper bg-[#f8f8f8] w-[30vw] p-12">
                     <div className="content bg-[#ffffff] rounded-3xl h-full p-4 shadow-lg">
