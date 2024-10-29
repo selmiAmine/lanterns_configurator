@@ -24,7 +24,7 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const user = {
     name: 'Tom Cook',
@@ -42,7 +42,7 @@ const navigation = [
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
+    // { name: 'Sign out', href: '#' },
 ]
 
 function classNames(...classes) {
@@ -50,6 +50,16 @@ function classNames(...classes) {
 }
 
 export const Navbar = () => {
+
+    const navigate = useNavigate();
+
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        // navigate("/");
+        window.location.replace('/')
+
+    }
 
     return (
         <>
@@ -95,13 +105,23 @@ export const Navbar = () => {
                                     >
                                         {userNavigation.map((item) => (
                                             <MenuItem key={item.name}>
-                                                <Link 
-                                                 to={'/user/' + item.href}
-                                                 className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                                                <Link
+                                                    to={'/user/' + item.href}
+                                                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
                                                     {item.name}
                                                 </Link>
                                             </MenuItem>
                                         ))}
+
+                                        <MenuItem onClick={() => {
+                                            logout()
+                                        }} key={'Sign out'}>
+                                            <Link
+                                                to={'/'}
+                                                className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                                                {'Sign out'}
+                                            </Link>
+                                        </MenuItem>
                                     </MenuItems>
                                 </Menu>
                             </div>
@@ -149,7 +169,7 @@ export const Navbar = () => {
                                                 aria-current={item.current ? 'page' : undefined}
                                                 className={classNames(
                                                     item.current ? 'text-white' : 'text-indigo-100',
-                                                    'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',   
+                                                    'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
                                                 )}
                                             >
                                                 {item.name}
