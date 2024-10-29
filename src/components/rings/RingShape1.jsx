@@ -11,6 +11,7 @@ import { TextureLoader } from 'three';
 import { RGBELoader } from 'three/examples/jsm/Addons.js';
 import * as THREE from 'three';
 import { useControls } from 'leva';
+import TransitionMaterialFree from './TransitionMaterialFree';
 
 export function RingShape1(props) {
     const { nodes, materials } = useGLTF('/models/rings/Ring1-variations.glb')
@@ -150,6 +151,18 @@ export function RingShape1(props) {
                 /> */}
 
 
+                {/* Smooth material transition */}
+
+                {/* <TransitionMaterialFree
+                    roughness={0.25}
+                    transitionColor={ringColor}
+                    metalness={0.25}
+                    transitionTime={0.4}
+                    clearcoat={1}
+                    clearcoatRoughness={0.05}
+                /> */}
+
+
             </mesh>
 
             <mesh
@@ -164,7 +177,7 @@ export function RingShape1(props) {
                 visible={selectedHeader == 'Heading 2'}
                 name='header'
             />
-            
+
             <mesh
                 castShadow
                 receiveShadow
@@ -178,9 +191,9 @@ export function RingShape1(props) {
                 name='diamond'
 
             >
-                <MeshRefractionMaterial envMap={texture} 
-                // {...configDiamond}
-                 color={diamondColor} toneMapped={false} />
+                <MeshRefractionMaterial envMap={texture}
+                    // {...configDiamond}
+                    color={diamondColor} toneMapped={false} />
 
             </mesh>
             <mesh
@@ -195,9 +208,9 @@ export function RingShape1(props) {
                 visible={selectedDiamond == 'Diamond 2'}
                 name='diamond'
             >
-                <MeshRefractionMaterial envMap={texture} 
-                // {...configDiamond}
-                 color={diamondColor} toneMapped={false} />
+                <MeshRefractionMaterial envMap={texture}
+                    // {...configDiamond}
+                    color={diamondColor} toneMapped={false} />
 
             </mesh>
             <mesh
@@ -212,7 +225,7 @@ export function RingShape1(props) {
                 material-color={headerColor}
                 visible={selectedHeader == 'Heading 1'}
                 name='header'
-                
+
             />
             <mesh
                 castShadow
@@ -238,9 +251,9 @@ export function RingShape1(props) {
                 visible={selectedDiamond == 'Diamond 3'}
                 name='diamond'
             >
-                <MeshRefractionMaterial envMap={texture} 
-                // {...configDiamond}
-                 color={diamondColor} toneMapped={false} />
+                <MeshRefractionMaterial envMap={texture}
+                    // {...configDiamond}
+                    color={diamondColor} toneMapped={false} />
 
             </mesh>
         </group>
