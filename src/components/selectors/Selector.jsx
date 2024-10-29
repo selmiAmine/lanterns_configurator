@@ -259,10 +259,10 @@ export const Selector = (props) => {
     }, [])
 
 
-    
+
     useEffect(() => {
-    
-        selectedShapeClick( shapes [currentRing.shape.data - 1 ])
+
+        selectedShapeClick(shapes[currentRing.shape.data - 1])
 
     }, [currentRing]); // Adding currentRing as a dependency
 
@@ -361,13 +361,11 @@ export const Selector = (props) => {
     const [ringDescription, setRingDescription] = useState(currentRing.description);
     const [ringPrice, setRingPrice] = useState(currentRing.price);
 
-
-
-
     useEffect(() => {
 
-        const id = false;
-
+        //   const ownerShip = false
+        //   if (payload.id == currentRing.ownerId)
+        //     ownerShip = true
 
         if (props.productId) {
 
@@ -375,41 +373,50 @@ export const Selector = (props) => {
             // currentRing.id = props.productId;
             setCurrentRing(currentRing);
             console.log('triggered');
-            
+
             // Prepare form data
             const formData = new FormData();
-            
+
             // Append the file and other fields
             formData.append('thumbnail', currentRing.thumbnail); // Assuming `thumbnail` is a file object
             formData.append('data', JSON.stringify(currentRing));
-            
+
             // Perform a PUT request to update the ring
             axios.put(`http://localhost:3000/api/ring/update`, // Replace with the correct ID field
                 formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
+            }
             ).then(response => {
                 console.log('Ring updated successfully:', response.data);
             }).catch(error => {
                 console.error('Error updating the ring:', error);
             });
-            
+
         } else {
 
             currentRing.thumbnail = formDataContent
+            // currentRing.ownerId = localStorage.getItem("token");
+            const token = localStorage.getItem("token")
+            const payloadBase64 = token.split(".")[1];
+            // Decode the Base64 string
+            const payload = JSON.parse(atob(payloadBase64));
+            const id = payload.id
+            currentRing.ownerId = id
+
+
             setCurrentRing(currentRing)
             console.log('triggered')
-    
+
             // RingService.create(currentRing)
-    
+
             const formData = new FormData();
-    
+
             // Append the file and other fields
             formData.append('thumbnail', currentRing.thumbnail); // Assuming `thumbnail` is a file object
             formData.append('data', JSON.stringify(currentRing));
-    
+
             axios.post("http://localhost:3000/api/ring/create",
                 formData
                 , {
