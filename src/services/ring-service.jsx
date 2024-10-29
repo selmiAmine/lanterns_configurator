@@ -33,7 +33,6 @@ const RingService = {
   getRings: async function () {
     try {
       const response = await axios.get(`http://localhost:3000/api/ring/fetch`);
-      // console.log(response)
       return response.data.rings; // Return the data for further use
     } catch (error) {
       console.error("There was an error fetching the ring:", error);
