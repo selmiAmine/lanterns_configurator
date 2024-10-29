@@ -173,7 +173,7 @@ export default function Signup() {
                     <button
                       type="button"
                       onClick={() => {
-                        login();
+                        signup();
                       }}
                       className="flex w-full justify-center rounded-md bg-[#ff4444] hover:bg-[#ff4444d7] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
