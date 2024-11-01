@@ -40,6 +40,16 @@ const RingService = {
     }
   },
 
+  getRingByOwner: async function (id) {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/ring/fetchByOwner/${id}`);
+      return response.data.rings // Return the data for further use
+    } catch (error) {
+      console.error("There was an error fetching the ring:", error);
+      throw error; // Rethrow the error if you want to handle it further up the chain
+    }
+  },
+
 };
 
 export default RingService;
