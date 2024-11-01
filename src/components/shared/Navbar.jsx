@@ -25,6 +25,7 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Link, useNavigate } from 'react-router-dom'
+import { useCustomization } from '../../contexts/Customization'
 
 const user = {
     name: 'Tom Cook',
@@ -33,7 +34,7 @@ const user = {
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-    { name: 'Home', href: '/', current: true },
+    { name: 'Home', href: '/user/', current: true },
     { name: 'Shop', href: '/user/list-rings', current: false },
     { name: 'Configurator', href: '/user/configurator', current: false },
     { name: 'Profile', href: '#', current: false },
@@ -52,11 +53,13 @@ function classNames(...classes) {
 export const Navbar = () => {
 
     const navigate = useNavigate();
+    const { clearRingsByOwner } = useCustomization()
 
 
     const logout = () => {
         localStorage.removeItem("token");
         // navigate("/");
+        clearRingsByOwner()
         window.location.replace('/')
 
     }
