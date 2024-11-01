@@ -14,6 +14,8 @@ import AuthRoutes from "./utils/AuthRoutes.jsx";
 import { AuthProvider } from "./utils/AuthProvider.jsx"
 import PrivateRoutes from "./utils/PrivateRoutes.jsx";
 import RingsList from "./components/client/RingsList.jsx";
+import ViewRing from "./components/client/ViewRing.jsx";
+import { Home } from "./components/client/Home.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -36,6 +38,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           >
             <Route
               exact
+              path="" // Add :id to make it a dynamic route
+              element={<Home />}
+            />
+            <Route
+              exact
               path="configurator/:id" // Add :id to make it a dynamic route
               element={<Configurator />}
             />
@@ -48,6 +55,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               exact
               path="list-rings"
               element={<RingsList />} />
+            <Route
+              exact
+              path="view/:id"
+              element={<ViewRing />} />
           </Route>
         </Route>
 
