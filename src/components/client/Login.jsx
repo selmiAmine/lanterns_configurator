@@ -36,7 +36,7 @@ export default function Example() {
         console.log(res);
         localStorage.setItem("token", res.data.token.split(" ")[1]);
         login1(true);
-        navigate("/user/list-rings");
+        navigate("/user/");
         console.log('redirected')
       })
       .catch((err) => {
