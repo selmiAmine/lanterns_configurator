@@ -190,6 +190,8 @@ export const CustomizationProvider = (props) => {
   const [formDataContent, setFormDataContent] = useState(null);
 
   const [rings, setRings] = useState([]);
+  
+  const [ringsByOwner, setRingsByOwner] = useState([]);
 
   // Current ring
   const [currentRing, setCurrentRing] = useState(
@@ -266,6 +268,18 @@ export const CustomizationProvider = (props) => {
     }
   };
 
+  const fetchRingsByOwner = async (id) => {
+    try {
+      const ringData = await RingService.getRingByOwner(id);
+      // console.log("Fetched rings:", ringData); // Console log the fetched rings
+      setRingsByOwner(ringData); // Update the rings in the context state
+    } catch (error) {
+      console.error("Failed to fetch rings:", error);
+    }
+  };
+
+  const clearRingsByOwner = () => setRingsByOwner([]); // Function to clear the rings
+
   const setLayingPosition = () => {
     console.log(currentModelAttributes.position);
 
@@ -317,6 +331,17 @@ export const CustomizationProvider = (props) => {
 
   useEffect(() => {
     fetchRings();
+    // fetchRingsByOwner('671e2b93a39586b76ac84c33');
+  }, []);
+
+  useEffect(() => {
+
+    // const token = localStorage.getItem("token")
+    // const payloadBase64 = token.split(".")[1];
+    // const payload = JSON.parse(atob(payloadBase64));
+    // const userID = payload.id
+
+    // fetchRingsByOwner(payload.id);
   }, []);
 
 
@@ -386,7 +411,8 @@ export const CustomizationProvider = (props) => {
         fetchRing,
 
 
-        rings, fetchRings
+        rings, fetchRings,
+        fetchRingsByOwner, setRingsByOwner, ringsByOwner, clearRingsByOwner
 
       }}
     >
