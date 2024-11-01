@@ -14,7 +14,7 @@
 */
 import { StarIcon } from '@heroicons/react/20/solid'
 import { useCustomization } from '../../contexts/Customization'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const products = [
@@ -68,7 +68,32 @@ function classNames(...classes) {
 export default function RingsList() {
 
   const { rings } = useCustomization()
+  const navigate = useNavigate();
 
+
+
+  const redirectModel = (product) => {
+    // console.log('product id', productId)
+
+
+    const ownerId = product.ownerId
+
+    const token = localStorage.getItem("token")
+    const payloadBase64 = token.split(".")[1];
+    const payload = JSON.parse(atob(payloadBase64));
+    const userID = payload.id
+    console.log(payload)
+    console.log(userID)
+    console.log(ownerId)
+
+
+    // navigate("/user/view/"+productId);
+
+
+    if (userID == ownerId)
+      navigate("/user/configurator/" + product._id);
+    else navigate("/user/view/" + product._id);
+  }
 
   return (
     <div className="mt-4">
@@ -78,11 +103,16 @@ export default function RingsList() {
         <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
           {rings.map((product) => (
 
-            <Link
+
+
+            <div
+              onClick={() => { redirectModel(product) }}
+              key={product.id} className="group relative border-b border-r border-gray-200 p-4 sm:p-6">
+              {/* <Link
               to={`/user/configurator/${product._id}`} // Dynamic link to product configurator
               className='group relative border-b border-r border-gray-200 p-4 sm:p-6'
               key={product.id}
-            >
+            > */}
               {/* <div key={product.id} className="group relative border-b border-r border-gray-200 p-4 sm:p-6"> */}
               <div className={`aspect-h-1 aspect-w-1 overflow-hidden rounded-lg group-hover:shadow-lg transition-all duration-300 `}
                 style={{ backgroundColor: `${product.shape.options.color}33` }} // Add opacity (E6 is ~90%)
@@ -119,7 +149,10 @@ export default function RingsList() {
                 <p className="mt-4 text-base font-medium text-gray-900">{product.price} $ </p>
                 {/* </div>  */}
               </div>
-            </Link>
+              {/* </Link> */}
+            </div>
+
+
           ))}
         </div>
       </div>
